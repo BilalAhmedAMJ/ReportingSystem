@@ -1,0 +1,34 @@
+<?php $element = $this->element;
+      $options = $element->getOptions();
+
+      $options['label_col']=$options['label_col']?$options['label_col']:5;
+      $options['control_col']=$options['control_col']?$options['control_col']:5;
+
+      $label_col_class=sprintf("col-sm-%s col-xs-%s",$options['label_col'],$options['label_col']);
+      $control_col_class=sprintf("col-sm-%s  col-xs-%s",$options['control_col'],$options['control_col']);
+      
+      $checked=$element->getValue()?"checked":"";
+?>
+   <div class="column clearfix input-field-container report-input-simple">
+
+      <label class="<?=$label_col_class?>   input-lable" for="<?=$element->getName()?>">
+          <i class="fa fa-history report-history-btn" aria-hidden="true" data-question="<?=$element->getName()?>"></i>
+          <?=$element->getLabel()?>:
+      </label>
+
+        <div class="<?=$control_col_class?> " >
+        <label  style="font-weight: bolder"> 
+            
+            <?php $element->setAttribute('class','ace ace-switch ace-switch-8');?> 
+            <?=$this->formCheckbox($element)?>
+            
+            <!--            
+            <input id="<?=$element->getAttribute('id')?>" <?=$checked?>  name="<?=$element->getName()?>" value="<?=$element->getValue()?>" type="checkbox" class="ace ace-switch ace-switch-8">
+            -->
+            <span class="lbl middle"></span>
+        </label>      
+        </div>      
+   </div>
+
+
+

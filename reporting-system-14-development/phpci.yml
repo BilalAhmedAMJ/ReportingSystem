@@ -1,0 +1,39 @@
+build_settings:
+    #clone_depth: 1 # depth of 1 is a shallow clone, remove this line to clone entire repo
+    ignore:
+        - "vendor"
+        - "tests"
+    mysql:
+        host: "localhost"
+        user: "root"
+        pass: "mysql"
+
+setup:
+    mysql:
+        - "DROP DATABASE IF EXISTS test_amjc_reports;"
+        - "CREATE DATABASE test;"
+        - "GRANT ALL PRIVILEGES ON test.* TO test@'localhost' IDENTIFIED BY 'test';"
+    composer:
+        action: "install"
+
+test:
+    php_unit:
+        config:
+            - "module/Application/test/phpunit.xml"
+
+        directory:
+            - "module/Application/test/"
+        run_from: "module/Application/test/"
+        coverage: "module/Application/test/logs/coverage"
+    php_mess_detector:
+        allow_failures: true
+    php_code_sniffer:
+        standard: "PSR2"
+    php_cpd:
+        allow_failures: true
+    grunt:
+        task: "build"
+
+complete:
+    mysql:
+        - "DROP DATABASE IF EXISTS test;"

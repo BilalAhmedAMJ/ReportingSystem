@@ -1,0 +1,212 @@
+<?php 
+
+$height=$this->height?$this->height:300;
+
+$data = $this->data;
+
+$dept_name = $this->office->getDepartment()->getDepartmentName();
+
+$dept_code = $this->office->getDepartment()->getDepartmentCode();
+$branch = $this->office->getBranch()->getBranchName();
+
+$branch_type = $this->office->getBranch()->getBranchType();
+
+if($data['has_subordinates']){
+    $subordinate_total=count($data['subordinate']['last']);
+    $subordinate_outstanding=isset($data['subordinate']['status_last']['outstanding'])?$data['subordinate']['status_last']['outstanding']['y']:null;
+    $subordinate_verified=isset($data['subordinate']['status_last']['verified'])?$data['subordinate']['status_last']['verified']['y']:null;
+    if($subordinate_total>0){
+        $subordinate_outstanding_percent=round($subordinate_outstanding/$subordinate_total*100,0);
+        $subordinate_verified_percent=round($subordinate_verified/$subordinate_total*100,0);        
+    }else{
+        $subordinate_outstanding_percent=0;
+        $subordinate_verified_percent=0;        
+    }
+}
+
+
+//print_r($subordinate_outstanding_percent);
+///exit;   
+?>
+<div class="no-padding no-margin col-sm-12 align-center "  >
+    
+           <div class="infobox infobox-primary no-border no-padding" style="height:70px;width:16.666%!important;">
+             <form method="post">
+                 
+               <a class="btn btn-app btn-sm btn-sm2 btn-block  btn-primary" id="change_month_btn" style="padding:6px;">        
+                <i class="ace-icon fa fa-calendar "></i>
+                <?=$data['period_code']?>
+                </a>
+            
+            <div class="infobox-data-number primary align-center center bolder no-border no-padding no-margin" style="position:relative; z-index: 900">Change Month</div>
+            </form>
+           </div>      
+       
+       <div class="infobox   no-border no-padding" style="height:70px;width:25%!important;margin-left: 8%!important;">
+            <div id="office_reports_chart2" style="height: 80px;position: relative;top:-10px;left:-25px;">
+            </div>
+           <div class="infobox-data-number green center bolder no-border no-padding no-margin" style="left:-25px;top:-19px;position:relative; z-index: 900">Year-to-Date <?=(isset($data['year'])?$data['year']:'No Data')?>,<br/> <?="$dept_code $branch"?></div>
+       </div>      
+
+        <?php if ($data['has_subordinates']):?>
+         <div class="infobox infobox-blue2 no-border no-padding " style="height:60px;width:20%!important;" data-a="width:80px!important;">
+                <div class="infobox-progress" >
+                    <!-- #section:pages/dashboard.infobox.easypiechart -->
+                    <div class="easy-pie-chart percentage" data-percent="<?=$subordinate_verified_percent?>" data-size="60">                        
+                        <span class="percent"><?=$subordinate_verified>0?$subordinate_verified:0?></span>                        
+                    </div>
+                    <div class="infobox-data-number center bolder">Verified<br/>Subordinates</div>
+    
+                    <!-- /section:pages/dashboard.infobox.easypiechart -->
+                </div>    
+         </div>
+
+         <div class="infobox infobox-red  no-border no-padding align-center " style="margin-left:10px;height:60px;z-index: 1000!important;width:20%!important;" data-a="width:80px!important;">
+
+                <div class="infobox-progress">
+                    <!-- #section:pages/dashboard.infobox.easypiechart -->
+                    <div class="easy-pie-chart percentage" data-percent="<?=$subordinate_outstanding_percent?>" data-size="60">
+                        <span class="percent"><?=$subordinate_outstanding?></span>
+                    </div>
+                    <div class="infobox-data-number center bolder">Outstanding<br/>Subordinates</div>
+                    <!-- /section:pages/dashboard.infobox.easypiechart -->
+                </div>
+        </div>    
+        <?php endif?>
+</div>    
+<div class="no-padding no-margin col-sm-12 align-center "  >
+   <div class="space-4"></div>
+   <div class="infobox-blue2 info-title bigger-120 no-margin no-padding">
+       Reporting status for <?=$dept_name?>, <?=$branch_type?> <?=$branch ?>
+    </div>
+</div>
+
+<style>
+    
+    body.modal-open .datepicker {
+        z-index: 1200 !important;
+    }
+    .bootstrap-datetimepicker-widget 
+    {
+        z-index: 1200   !important;
+    }    
+    
+</style>
+<script >
+
+$(function () {
+    
+    
+        //Trafic and Task radial pie
+        $('.easy-pie-chart.percentage').each(function(){
+            var $box = $(this).closest('.infobox');
+            var barColor = $(this).data('color') || (!$box.hasClass('infobox-dark') ? $box.css('color') : 'rgba(255,255,255,0.95)');
+            var trackColor = barColor == 'rgba(255,255,255,0.95)' ? 'rgba(255,255,255,0.25)' : '#E2E2E2';
+            var size = parseInt($(this).data('size')) || 50;
+            $(this).easyPieChart({
+                barColor: barColor,
+                trackColor: trackColor,
+                scaleColor: false,
+                lineCap: 'butt',
+                size:'175',
+                lineWidth: parseInt(size/10),
+                animate: /msie\s*(8|7|6)/.test(navigator.userAgent.toLowerCase()) ? false : 1000,
+                size: size
+            });
+        });        
+
+         
+        $('.infobox').height('100px').css('padding-right','15px');
+    
+    
+      $('#office_reports_chart2').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            margin:[0,0,0,0],
+            spacing:[0,0,0,0],
+            style:{"fontSize":"6px"}
+        },
+        credits:false,
+        title: {
+            enabled:false,
+            text: ''
+        },
+        tooltip: {
+            pointFormat: '<b>{point.y}</b>'
+        },
+        // tooltip: {
+            // enabled:true,
+            // pointFormat: '{point.name}'
+        // },
+        plotOptions: {
+            pie: {
+                //allowPointSelect: false,
+                cursor: 'pointer',
+                //enableMouseTracking:false,
+                dataLabels: {
+                    enabled: false,
+                    //format: '<b>{point.name}</b>: {point.y}',
+                    format:'{point.name.substr(0,1)}',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                }
+            }
+        },
+        //colors:['#333333','#FEE188','#3A87AD','#82AF6F','#CC3300','#CCCCCC'],
+        series: [{
+            type: 'pie',
+            name: '',
+            data:<?=key_exists('own',$data)?json_encode(array_values($data['own']['status_ytd'])):array()?>
+            
+        }]
+    });
+    
+    
+
+    //Form to change month for dialog
+    $('#change_month_btn').on('click',function(){
+            bootbox.dialog({
+                title: "Change Month for Dashboard",
+                message: '<div class="row" id="period_code_dialog">  ' +
+                    '<div class="col-md-12"> ' +
+                    '<form class="form-horizontal" method="post" id="month_change_form" > ' +
+                    '<div class="form-group"> ' +
+                    '<label class="col-md-4 control-label" for="period_code">Select Month</label> ' +
+                    '<div class="col-md-4 input-group"> ' +
+                    '<input id="period_code" name="period_code" type="text" placeholder="" class="form-control input-md"> ' +
+                    '<span class="input-group-addon"><i class="fa fa-calendar bigger-100"></i></span>'+            
+                    '</div> ' +
+                    '</form> </div>  </div>',
+                buttons: {
+                   cancel: {
+                      label: "Cancel",
+                      className: "btn-sm btn-round",
+                   },
+                    success: {
+                        label: "Submit",
+                        className: "btn-primary btn-sm btn-round",
+                        callback: function () {
+                            $('#month_change_form').submit();
+                        }
+                    }
+                }
+              }
+            );
+        $('#month_change_form #period_code').datepicker({
+            format:'M-yyyy',
+            todayHighlight: false,
+            autoclose:true,
+            minViewMode:'months',
+        })
+        //show datepicker when clicking on the icon
+        .next().css('border','1px solid #6fb3e0').css('border-top-right-radius','4px!important').css('border-bottom-right-radius','4px!important').on(ace.click_event, function(){
+            $(this).prev().focus();
+        });    
+     });
+    
+});
+</script>
+

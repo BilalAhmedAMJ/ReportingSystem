@@ -1,0 +1,46 @@
+<!-- Test if the User is connected -->
+<?php if($this->zfcUserIdentity()): ?>
+        <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+            
+            <!-- no avitars
+            <img class="nav-user-photo" src='<?php echo $this->basePath() . "/assets/avatars/user.jpg"?>' alt="Jason's Photo" />
+            -->
+            <i class="ace-icon fa fa-user"></i>
+            <span class="user-info">
+                <small>Assalamu Alaikum,</small>
+                <!-- display the 'display name' of the user -->
+                <?php echo $this->zfcUserIdentity()->getDisplayname(); ?>
+            </span>
+
+            <i class="ace-icon fa fa-caret-down"></i>
+        </a>
+
+        <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">            
+            <li>
+                <a href="#page/home/ajax/profile.html">
+                    <i class="ace-icon fa fa-user"></i>
+                    Profile
+                </a>
+            </li>
+
+            <li class="divider"></li>
+
+            <li>
+                <a href="<?php echo $this->url('auth/logout'); ?>">
+                    <i class="ace-icon fa fa-power-off"></i>
+                    Logout
+                </a>
+            </li>
+        </ul>
+<?php else:?>
+        <a data-toggle="dropdown2" href="/login/login" class="dropdown-toggle2">
+            
+            <!-- no avitars
+            <img class="nav-user-photo" src='<?php echo $this->basePath() . "/assets/avatars/user.jpg"?>' alt="Jason's Photo" />
+            -->
+            <i class="ace-icon fa fa-user"></i>
+                Login
+        </a>
+<?php endif?>
+
+<!-- /section:basics/navbar.user_menu -->

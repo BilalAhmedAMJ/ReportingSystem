@@ -1,0 +1,30 @@
+<?php
+
+    $element=$this->element;
+    $read_only=$this->read_only;
+    $report=$this->report;
+#$this->report->getId();    
+    $element->setAttribute('id',uniqid($element->getAttribute('id')));
+    $display = $element->getAttribute('data-display');
+    $custom_javascript = $element->getAttribute('data-javascript');
+    
+    if($display){
+
+        echo $this->partial('/partial/form/'.$display.'.phtml',array('report'=>$report,'element'=>$element,'read_only'=>$read_only));       
+                  
+        //echo ('/partial/form/'.$display.'.phtml');       
+    } else {
+        echo $this->formElement($element);  
+    }
+?>
+
+<?php if ($custom_javascript):?>
+    <script>
+        $(function(){
+         var element_id = "<?=$element->getAttribute('id')?>"; 
+         
+         <?=$custom_javascript?>
+         
+        });
+    </script>
+<?php endif?>    

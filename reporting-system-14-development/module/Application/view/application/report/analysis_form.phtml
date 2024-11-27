@@ -1,0 +1,296 @@
+
+    <!--[if lte IE 8]>
+      <script src="../assets/js/excanvas.js"></script>
+    <![endif]-->
+    <script src="<?=$this->basePath()?>/assets/js/jquery-ui.custom.min.js"></script>
+    <script src="<?=$this->basePath()?>/assets/js/jquery.easypiechart.min.js"></script>
+    <script src="<?=$this->basePath()?>/assets/js/jquery.sparkline.min.js"></script>
+    <script src="<?=$this->basePath()?>/assets/js/flot/jquery.flot.min.js"></script>
+    <script src="<?=$this->basePath()?>/assets/js/flot/jquery.flot.pie.min.js"></script>
+    <script src="<?=$this->basePath()?>/assets/js/flot/jquery.flot.resize.min.js"></script>
+
+    <script src="<?=$this->basePath()?>/assets/js/datatables/jquery.datatables.min.js"></script>
+    <script src="<?=$this->basePath()?>/assets/js/datatables/jquery.datatables.bootstrap.min.js"></script>
+
+    <link type="text/css" rel="stylesheet" class="ajax-stylesheet" href='<?=$this->basePath() . "/assets/css/jquery.data-tables.css" ?>'>  
+
+
+    <script src="/js/highcharts.js"></script>
+
+    <style>
+        .profile-info-row .profile-info-name{
+            width:200px;
+        }
+        .table {
+            table-layout: fixed;
+            word-wrap: break-word;
+        }        
+    </style>
+
+<div class="row">
+    <div class="space-10"></div>
+</div>
+
+<div class="row responsive clearfix " >
+    
+<div class="col-sm-12 col-md-6 col-md-offset-3 ">
+ 
+        
+        <form class="form-horizontal" method="post" target="_blank">
+
+                <div class="widget-box  ">
+                    
+                    <div class="widget-header ">
+                                                
+                        <div class="widget-title title blue bigger-125 bolder">
+                            <span class="padding-8">Report Analysis</span>
+                        </div>
+                        
+                        <!--
+                        <div class="widget-toolbar pull-right no-border no-padding btn-group  btn-group-sm">
+                                <button class="btn  btn-round btn-sm btn-success btn-white" type="submit">
+                                    <i class="ace-icon fa fa-check bigger-110"></i>
+                                    Generate
+                                </button>
+                                <button class="btn btn-round btn-sm btn-danger btn-white" type="reset">
+                                    <i class="ace-icon fa fa-undo bigger-110"></i>
+                                    Reset
+                                </button>
+                       </div>
+                       -->
+                    </div>
+
+                    <div class="widget-body no-padding">
+                        <div class="widget-main  no-padding">
+                                    <div class="profile-user-info profile-user-info-striped width-100">
+                                        <div class="profile-info-row">
+                                            <div class="profile-info-name"> Office </div>
+                
+                                            <div class="profile-info-value">
+                                                <input class="select2-select" id="office" name="office" type="text"></input> 
+                                            </div>
+                                        </div>
+                
+                                        <div class="profile-info-row">
+                                            <div class="profile-info-name"> Year </div>
+                
+                                            <div class="profile-info-value">
+
+                                                
+                                                <input class="" name="year" type="text" value="<?=($this->form->get('year')->getValue())?$this->form->get('year')->getValue():((date('m')>6?date('Y'):date('Y')-1))?>" style="width:90%"></input>
+
+                                            </div>
+                                        </div>
+                
+                                        <div class="profile-info-row">
+                                            <div class="profile-info-name"> Branch </div>
+                
+                                            <div class="profile-info-value">
+                                                <input class="select2-select" id="branch" name="branch" type="text"></input>
+                                            </div>
+                                        </div>
+                
+                                        <div class="profile-info-row">
+                                            <div class="profile-info-name"> Status </div>
+                
+                                            <div class="profile-info-value">
+                                                
+                                                <select class="select2-select" id="report_status" name="report_status">
+                                                    
+                                                    <option value="completed,verified,received">All (except Draft)</option>
+                                                    <option value="verified,received">Verified or Received</option>
+                                                    <option value="draft,outstanding">Draft or Outstanding</option>
+                                                    <option value="completed">Complete</option>
+                                                    <option value="verified">Verified</option>
+                                                    <option value="received">Received</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="profile-info-row">
+                                            <div class="profile-info-name"> Display Office Names </div>
+                
+                                            <div class="profile-info-value">
+                                                <label style="vertical-align: middle!improtant">
+                                                   <?php $this->form->get('office_names')->setAttribute('class','ace ace-switch ace-switch-5  mpty btn-success');?> 
+                                                  <?=$this->formCheckbox($this->form->get('office_names'))?>
+                                                  <span class="lbl"></span>
+                                                 </label>
+                                            </div>
+                                        </div>
+               
+<!-- 
+                                        <div class="profile-info-row">
+                                            <div class="profile-info-name"> Show Sa`iqin Report </div>
+                
+                                            <div class="profile-info-value" >
+                                                <div >
+                                                <label>
+                                                   <?php $this->form->get('saiq_report')->setAttribute('class','ace ace-switch ace-switch-5  mpty btn-success');?> 
+                                                  <?=$this->formCheckbox($this->form->get('saiq_report'))?>
+                                                  <span class="lbl"></span>
+                                                 </label>
+                                                <span style="position: fixed">&nbsp;&nbsp;*Branch must be selected</span>
+                                                </div>                                                 
+                                            </div>
+                                        </div>
+-->
+                                      
+                                        <div class="profile-info-row">
+                                            <div class="profile-info-name"> Include Halqa and Sub Jama'at</div>
+                
+                                            <div class="profile-info-value" >
+                                                <div >
+                                                <label>
+                                                   <?php $this->form->get('include_halqa')->setAttribute('class','ace ace-switch ace-switch-5  mpty btn-success');?> 
+                                                  <?=$this->formCheckbox($this->form->get('include_halqa'))?>
+                                                  <span class="lbl"></span>
+                                                 </label>
+                                                <span style="position: fixed">&nbsp;&nbsp;**Only applies to large Jama'ats</span>
+                                                </div>                                                 
+                                            </div>
+                                        </div>
+                                        
+                                        <?php if($this->user->hasRole('national-secretary')){?>
+
+                                        <div class="profile-info-row">
+                                            <div class="profile-info-name">Tag Filter </div>
+                
+                                            <div class="profile-info-value" >
+                                                <div >
+                                                  <label>
+                                                  <span class="lbl">Overrides Office and Branch Selections</span>
+                                                 </label>
+                                                 <select class="select2-select" id="tag_filter" name="tag_filter[]" style="width: 90%"  multiple="multiple">
+                                                    <option value="all_imarat">All Imarat</option>
+                                                    <option value="large_jamaats">Large Jamaats</option>
+                                                    <option value="medium_jamaats">Medium Jamaats</option>
+                                                    <option value="small_jamaats">Small Jamaats</option>
+                                                </select>
+                                                </div>                                                 
+                                            </div>
+                                        </div>
+                                    <?php } ?>
+
+                                    <div class="profile-info-row">
+                                            <div class="profile-info-name"> Generate PDF </div>
+                
+                                            <div class="profile-info-value">
+                                                <input type="checkbox" name="report_pdf" value="yes" id="report_pdf" /> <label for="report_pdf"></label> &nbsp;&nbsp;
+                                                <select name="page_size">
+                                                    <option value="A0">A0</option>
+                                                    <option value="A1">A1</option>
+                                                    <option value="A2">A2</option>
+                                                    <option value="A3">A3</option>
+                                                    <option value="A4" selected>A4</option>
+                                                    <option value="A5">A5</option>
+                                                    <option value="A6">A6</option>
+                                                    <option value="A7">A7</option>
+                                                    <option value="A8">A8</option>
+                                                </select>
+                                                <select name="page_orientation">
+                                                    <option value="landscape" selected>Landscape</option>
+                                                    <option value="portrait">Portrait</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                    </div><!-- / Profile Tab-->                                  
+                                    <div class="widget-toolbox padding-6 clearfix align-center">
+                                        <div class=" padding-6 btn-group-del   ">
+                                            <button class="btn btn-round  btn-danger btn-white " type="reset">
+                                                <i class="ace-icon fa fa-undo bigger-110"></i>
+                                                Reset
+                                            </button>
+                                            <span class="space-24"></span>
+                                            <button class="btn  btn-round btn-success btn-white margin-2" type="submit">
+                                                <i class="ace-icon fa fa-check bigger-110"></i>
+                                                Generate
+                                            </button>
+                                            <input type="hidden" name="user_action" value="report"/>
+                                        </div>
+                                    </div>
+                        </div> <!-- /WidgetMain -->
+                    </div> <!-- WidgetBody-->
+                  </div> <!-- WidgetBox -->
+                        
+                </form>
+</div>    
+</div>
+<script>
+    
+    $(function(){
+        
+        CustomSelect2.createSimple({
+                placeholder:"All Offices, Click to Change",
+                url:'<?php echo $this->url("config/department-json")?>',
+                id:'id',
+                label:'department_name',
+                element:$('#office'),
+                data_target:'data',
+                initValLabel:true,
+                multiple:true
+        });
+
+
+        CustomSelect2.createSimple({
+                placeholder:"All Branches, Click to Change",
+                url:'<?=$this->url("config/user-branches")?>?filter=all',
+                id:'id',
+                label:'branch_name',
+                element:$('#branch'),
+                data_target:'data',
+                initValLabel:true,
+                multiple:true
+        });
+        
+        $('#report_status').select2({minimumResultsForSearch: Infinity,width:'90%'});
+        
+        <?php if($this->user->hasRole('national-secretary')){ ?>
+            $('#tag_filter').select2();
+        <?php } ?>
+        <?php
+            //set values
+            if($this->form){
+                if($this->form->get('report_status')->getValue()){
+                    echo '$("#report_status").select2("val","'.$this->form->get('report_status')->getValue().'");';
+                }
+                        
+                if($this->table['branches'] && $this->form->get('branch')->getValue()){
+                    $data=array();
+                    foreach ($this->table['branches'] as $branch) {
+                        $data[]=array('id'=>$branch->getId(),'text'=>$branch->getBranchName());
+                    }
+                    echo '$("#branch").select2("data",'.json_encode($data).');';
+                }
+
+                if($this->table['departments'] && $this->form->get('office')->getValue()){
+                    $data=array();
+                    foreach ($this->table['departments'] as $dept) {
+                        $data[]=array('id'=>$dept['id'],'text'=>$dept['department_name']);
+                    }
+                    echo '$("#office").select2("data",'.json_encode($data).');';
+                }
+
+            }
+                    
+        ?>
+        
+        //$('#reports-table-c').parent().ace_scroll({horizontal: true,mouseWheelLock:false});
+        
+        // $('#reports-table').wrap("<div class='dataTables_borderWrap' />").dataTable({
+        // sScrollX: "100%",
+        // bScrollCollapse: true,
+        // bAutoWidth: false,//for better responsiveness
+        // bSort:false    
+        // // aoColumns:{
+        // // bSortable:false,bSortable:false,bSortable:false,bSortable:false,bSortable:false,bSortable:false,bSortable:false,
+        // // bSortable:false,bSortable:false,bSortable:false,bSortable:false,bSortable:false,bSortable:false
+        // // }
+        // });
+       
+    });
+    
+    
+</script>
+

@@ -1,0 +1,1 @@
+<img src="/images/spacer.gif" width="1" height="385">

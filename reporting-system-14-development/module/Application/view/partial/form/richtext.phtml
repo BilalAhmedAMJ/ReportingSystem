@@ -1,0 +1,78 @@
+<?php
+    $element = $this->element; 
+    $yes_no = ($element->getAttribute('data-qtype')=='MEMO_YES_NO') ; 
+    $hide_collapse  = ($yes_no)?'hidden':''; 
+    $expand =  ! ($element->getAttribute('data-is-child')); #expand only if element is not a child 
+
+    $height  = $element->getAttribute('data-display-height');
+    if(!($height)){
+        $height=$yes_no?'75':'200'; 
+    }
+    $yes_no_checked = ( $yes_no && $element->getValue())?' checked ':'';
+    $init_collapsed  = ($yes_no && !$element->getValue())?'collapsed':''; 
+?>
+  
+      <div class="col-sm-12 <?=$expand?'no-padding':''?>">
+
+                <div class="widget-box  <?=$init_collapsed?> report-input-richtext">
+                    
+                    <div class="widget-header widget-header-small  align-middle"  > 
+                        <h5 class="widget-title blue bigger bolder">   
+                            <?=$element->getLabel()?>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-history report-history-btn" aria-hidden="true" data-question="<?=$element->getName()?>"></i>                         
+
+                        </h5>
+
+                        <div class=" widget-toolbar ">                        
+
+                            <?php if($yes_no):?>
+                            <label  style="font-weight: bolder">             
+                                <input id="<?=$element->getAttribute('id')?>" <?=$yes_no_checked?> name="<?=$element->getName()?>"  type="checkbox" class=" no-margin ace ace-switch ace-switch-8 widget-collapse-switch" />
+                                <span class="lbl middle"></span>
+                            </label>      
+                                <a href="#"  data-action="collapse" class=" <?=$hide_collapse?> hide widget-box-collapse-anchor" id="<?=$element->getAttribute('id')?>_switch">
+                                    <i class="ace-icon fa fa-chevron-up"></i>
+                                </a>
+                            <?php else:?>
+                                <a href="#"  data-action="collapse" class=" <?=$hide_collapse?>  widget-box-collapse-anchor" id="<?=$element->getAttribute('id')?>_switch">
+                                    <i class="ace-icon fa fa-chevron-up"></i>
+                                </a>
+                                
+                            <?php endif?>                            
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+          
+                           <!-- input type="hidden" class="hidden richtext-textarea " id="<?=$element->getName()?>" name="<?=$element->getName()?>" /-->
+<?php
+   $request = $this->getHelperPluginManager()->getServiceLocator()->get('Application')->getMvcEvent()->getRequest();
+   $view = $request->getQuery('view');
+   $tag='textarea';
+   $class='ckeditor hidden ';
+   $loading="<div class='editor_loading'> <img src='{$this->basePath()}/assets/img/loading.gif'/> Loading ... </div>";
+   $max_height="max-height: <?=$height?>px;";
+   if($view && $view=='print'){
+       $tag='div';
+       $class=' reset ';
+       $loading='';
+       $max_height='';
+   }
+?>          
+                            
+                            <?=$loading?>
+                            <<?=$tag?> id="<?=$element->getName()?>" name="<?=$element->getName()?>" class=" <?=$class?> richtext-content light-border " style="<?=$max_height?>">
+                               
+                               <?=$element->getValue()?>
+                               
+                           </<?=$tag?>>
+                        </div>
+
+                        </div>
+                        </div>
+
+      </div>
+      
+   

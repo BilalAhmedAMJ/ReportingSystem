@@ -1,0 +1,90 @@
+<?php
+require_once getcwd()."/vendor/koolreport/core/autoload.php";
+use \koolreport\widgets\koolphp\Table;
+use \koolreport\widgets\google\PieChart;
+if( isset($this->processedData) ) {
+
+function make_link($data, $question='', $jamaat='', $category=''){
+    return '<a class="dtl_member_report" data-question="'.$question.'" data-jamaat="'.$jamaat.'" data-category="'.$category.'" href="#">'.$data.'</a>';
+}
+?>
+
+<div style="margin:50px; 0">
+<div style="padding:0 30px">
+
+
+  <div class="row">
+    <div class="col-md-6">
+        No. of `Amila members submitted report: <?=($this->additionalInfo['amila_members_submitted']+$this->additionalInfo['amila_members_not_assigned_but_submitted'])?>
+    </div>
+    <div class="col-md-6 text-right">
+        <a class="back-button" href="#">Back</a>
+    </div>    
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+        No. of `Amila members answered: <?php
+        if( isset($this->category) && !empty($this->category) ) {
+            echo " &nbsp;( {$this->category} )&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+        }        
+        
+        $totals = [];
+        foreach ($this->headers as $key => $val) {
+            if( $key != 'branch_name' ) {
+                $totals[] = "{$val}: ".make_link($this->processedDataSum[$key]);
+            }
+        }
+        echo implode(' | ', $totals);
+        ?>
+    </div>
+  </div>
+
+
+<br />
+    <div class="row"></div>
+    <?php
+    Table::create(array(
+        "dataSource" =>  function() {
+                            $arr[] = array_values($this->headers);
+                            foreach ($this->processedData as $key => $value) {
+                                $_r = [];
+                                $questions = $value;
+                                unset($questions['branch_id']); unset($questions['branch_name']);
+                                foreach ($this->headers as $key => $val) {
+                                    if( $key == 'branch_name' ) {
+                                        $_r[] = make_link($value[$key], implode('|', array_keys($questions)), $value['branch_id'], $this->category);
+                                    }
+                                    else {
+                                        $_r[] = make_link($value[$key], $key, $value['branch_id'], $this->category);
+                                    }
+                                }
+                                $arr[] = $_r;
+                            }
+                            return $arr;
+                        }
+    )); ?>
+    </div>
+
+    <?php
+    /*
+    foreach ($this->headers as $key => $val) {
+        if( $key != 'branch_name' ) {
+            PieChart::create(array(
+                "title"=>$val,
+                "dataSource"=>$this->processedData,
+                "columns"=>array(
+                    "branch_name",
+                    "{$key}"=>array(
+                        "type"=>"number"
+                    )
+                )
+            ));            
+        }
+    }
+    */
+    ?>
+</div>
+ 
+
+<?php }?>

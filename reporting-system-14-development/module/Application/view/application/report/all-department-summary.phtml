@@ -1,0 +1,163 @@
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <!--[if lte IE 8]>
+      <script src="../assets/js/excanvas.js"></script>
+    <![endif]-->
+    <script src="<?=$this->basePath()?>/assets/js/jquery-ui.custom.min.js"></script>
+    <script src="<?=$this->basePath()?>/assets/js/freeze-table.js"></script>
+    <style>
+        .profile-info-row .profile-info-name{
+            width:200px;
+        }
+        .table {
+            table-layout: fixed;
+            word-wrap: break-word;
+        }        
+    </style>
+<div class="row">
+    <div class="space-10"></div>
+</div>
+<div class="row responsive clearfix " >
+    
+<div class="col-sm-12 col-md-6 col-md-offset-3 ">
+ 
+        
+        <form class="form-horizontal" id="report-form" method="post" action="/report/all-department-summary-process" >
+                <div class="widget-box  ">
+                    
+                    <div class="widget-header ">
+                                                
+                        <div class="widget-title title blue bigger-125 bolder">
+                            <span class="padding-8">All Departments Summary</span>
+                        </div>
+                    </div>
+                    <div class="widget-body no-padding">
+                        <div class="widget-main  no-padding">
+                                    <div class="profile-user-info profile-user-info-striped width-100">     
+                                                   
+                                        <div class="profile-info-row">
+                                            <div class="profile-info-name"> From </div>
+                
+                                            <div class="profile-info-value">
+                                                
+                                                <input class="" name="period_from" type="text" value="" style="width:90%" placeholder="<?=date('Y')?>-<?=date('m')?>"></input>
+                                            </div>
+                                        </div>
+
+                                        <div class="profile-info-row">
+                                            <div class="profile-info-name"> To </div>
+                
+                                            <div class="profile-info-value">
+                                                
+                                                <input class="" name="period_to" type="text" value="" style="width:90%" placeholder="<?=date('Y')?>-<?=date('m')?>"></input>
+                                            </div>
+                                        </div>
+                           
+                
+                                        <div class="profile-info-row">
+                                            <div class="profile-info-name"> Branch </div>
+                
+                                            <div class="profile-info-value">
+                                                <input class="select2-select" id="branch" name="branch" type="text"></input>
+                                            </div>
+                                        </div>
+                
+                                        <div class="profile-info-row">
+                                            <div class="profile-info-name"> Status </div>
+                
+                                            <div class="profile-info-value">
+                                                
+                                                <select class="select2-select" id="report_status" name="report_status">
+                                                    
+                                                    <option value="completed,verified,received">All (except Draft)</option>
+                                                    <option value="verified,received">Verified or Received</option>
+                                                    <option value="draft,outstanding">Draft or Outstanding</option>
+                                                    <option value="completed">Complete</option>
+                                                    <option value="verified">Verified</option>
+                                                    <option value="received">Received</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="profile-info-row">
+                                            <div class="profile-info-name"> Generate PDF </div>
+                
+                                            <div class="profile-info-value">
+                                                <input type="checkbox" name="report_pdf" value="yes" id="report_pdf" /> <label for="report_pdf"></label> &nbsp;&nbsp;
+                                                <select name="page_size">
+                                                    <option value="A0">A0</option>
+                                                    <option value="A1">A1</option>
+                                                    <option value="A2" selected>A2</option>
+                                                    <option value="A3">A3</option>
+                                                    <option value="A4">A4</option>
+                                                    <option value="A5">A5</option>
+                                                    <option value="A6">A6</option>
+                                                    <option value="A7">A7</option>
+                                                    <option value="A8">A8</option>
+                                                </select>
+                                                <select name="page_orientation">
+                                                    <option value="landscape" selected>Landscape</option>
+                                                    <option value="portrait">Portrait</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        
+                                    </div><!-- / Profile Tab-->                                  
+                                    <div class="widget-toolbox padding-6 clearfix align-center">
+                                        <div class=" padding-6 btn-group-del   ">
+                                            <button class="btn btn-round  btn-danger btn-white " type="reset">
+                                                <i class="ace-icon fa fa-undo bigger-110"></i>
+                                                Reset
+                                            </button>
+                                            <span class="space-24"></span>
+                                            <button id="summary_report" class="btn  btn-round btn-success btn-white margin-2" type="submit" formtarget="_blank">
+                                                <i class="ace-icon fa fa-check bigger-110"></i>
+                                                Summary Report
+                                            </button>
+                                            <span class="space-24"></span>
+                                            <!-- <button id="detail_report" class="btn  btn-round btn-success btn-white margin-2" type="button">
+                                                <i class="ace-icon fa fa-check bigger-110"></i>
+                                                Detail Report
+                                            </button> -->
+                                            <input type="hidden" name="user_action" value="report"/>
+                                        </div>
+                                    </div>
+                        </div> <!-- /WidgetMain -->
+                    </div> <!-- WidgetBody-->
+                  </div> <!-- WidgetBox -->
+                        
+                </form>
+</div>    
+</div>
+<div class="report-content-1"></div>
+<script>
+    
+    $(function(){
+        CustomSelect2.createSimple({
+                placeholder:"All Offices, Click to Change",
+                url:'<?php echo $this->url("config/department-json")?>',
+                id:'id',
+                label:'department_name',
+                element:$('#office'),
+                data_target:'data',
+                initValLabel:true,
+                multiple:true
+        });
+        //$('#office').val(26);
+        CustomSelect2.createSimple({
+                placeholder:"All Branches, Click to Change",
+                url:'<?=$this->url("config/user-branches")?>?filter=all',
+                id:'id',
+                label:'branch_name',
+                element:$('#branch'),
+                data_target:'data',
+                initValLabel:true,
+                multiple:true
+        });
+        
+        $('#report_status').select2({minimumResultsForSearch: Infinity,width:'90%'});
+        $('#report_month').select2({minimumResultsForSearch: Infinity,width:'90%'});
+       
+    });
+    
+    
+</script>

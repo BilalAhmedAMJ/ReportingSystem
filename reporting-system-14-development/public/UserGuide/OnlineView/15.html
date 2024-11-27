@@ -1,0 +1,238 @@
+<!DOCTYPE html >
+<html lang="en">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+<meta charset="utf-8" />
+</head>
+
+<body style="margin: 0;">
+
+<div id="jpedal" style="overflow: hidden; position:relative; width: 935px; height: 1210px;">
+
+<!-- Begin shared CSS values -->
+<style type="text/css" >
+.t {
+	position: absolute;
+	-webkit-transform-origin: top left;
+	-moz-transform-origin: top left;
+	-o-transform-origin: top left;
+	-ms-transform-origin: top left;
+	-webkit-transform: scale(0.25);
+	-moz-transform: scale(0.25);
+	-o-transform: scale(0.25);
+	-ms-transform: scale(0.25);
+	z-index: 2;
+	position:absolute;
+	white-space:nowrap;
+	overflow:visible;
+}
+</style>
+<!-- End shared CSS values -->
+
+<!-- Begin shared JS -->
+<script type="text/javascript">
+
+// Ensure that we're not replacing any onload events
+function addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			if (oldonload) {
+				oldonload();
+			}
+			func();
+		}
+	}
+}
+addLoadEvent(function(){load15();});
+
+function adjustWordSpacing(widths) {
+    var i, allLinesDone = false;
+    var isDone = [];
+    var currentSpacing = [];
+    var elements = [];
+    
+    // Initialise arrays
+    for (i = 0; i < widths.length; i++) {
+        elements[i] = document.getElementById(widths[i][0]);
+        elements[i].style.wordSpacing = '0px';//Required if rerunning
+    }
+    for (i = 0; i < widths.length; i++) {
+        if (isIE) widths[i][1] = widths[i][1] * 4;
+        currentSpacing[i] = Math.floor((widths[i][1] - elements[i].offsetWidth) / elements[i].innerHTML.match(/\s.|&nbsp;./g).length);//min
+        if (isIE) currentSpacing[i] = Math.floor(currentSpacing[i] / 4);
+        isDone[i] = false;
+    }
+    
+    while (!allLinesDone) {
+        // Add each adjustment to the render queue without forcing a render
+        for (i = 0; i < widths.length; i++) {
+            if (!isDone[i]) {
+                elements[i].style.wordSpacing = currentSpacing[i] + 'px';
+            }            
+        }
+        
+        allLinesDone = true;
+        // If elements still need to be wider, add 1 to the word spacing
+        for (i = 0; i < widths.length; i++) {
+            if (!isDone[i] && currentSpacing[i] < 160) {
+                if (elements[i].offsetWidth >= widths[i][1]) {
+                    isDone[i] = true;
+                } else {
+                    currentSpacing[i]++;
+                    allLinesDone = false;
+                }
+            }
+        }
+    }
+    
+    for (i = 0; i < widths.length; i++) {
+        elements[i].style.wordSpacing = (currentSpacing[i] - 1) + 'px';
+    }
+}
+
+</script>
+<!-- End shared JS -->
+
+
+<!-- Begin inline CSS -->
+<style type="text/css" >
+
+#t1_15{left:103px;top:89px;}
+#t2_15{left:103px;top:868px;}
+#t3_15{left:752px;top:868px;}
+#t4_15{left:799px;top:868px;}
+#t5_15{left:421px;top:131px;}
+#t6_15{left:478px;top:131px;}
+#t7_15{left:552px;top:131px;}
+#t8_15{left:698px;top:401px;}
+#t9_15{left:791px;top:401px;}
+#ta_15{left:825px;top:401px;}
+#tb_15{left:698px;top:425px;}
+#tc_15{left:698px;top:449px;}
+#td_15{left:698px;top:472px;}
+#te_15{left:698px;top:606px;}
+#tf_15{left:751px;top:606px;}
+#tg_15{left:790px;top:606px;}
+#th_15{left:698px;top:630px;}
+#ti_15{left:732px;top:630px;}
+#tj_15{left:787px;top:630px;}
+#tk_15{left:828px;top:630px;}
+#tl_15{left:698px;top:653px;}
+#tm_15{left:726px;top:653px;}
+#tn_15{left:780px;top:653px;}
+#to_15{left:698px;top:677px;}
+
+.s5_15{
+	FONT-SIZE: 67px;
+	FONT-FAMILY: ABCDEE-Calibri-Bold15;
+	color: rgb(0,0,0);
+}
+
+.s1_15{
+	FONT-SIZE: 85px;
+	FONT-FAMILY: ABCDEE-Calibri-Bold15;
+	color: rgb(0,0,0);
+}
+
+.s4_15{
+	FONT-SIZE: 67px;
+	FONT-FAMILY: ABCDEE-Calibri15;
+	color: rgb(0,0,0);
+}
+
+.s3_15{
+	FONT-SIZE: 73px;
+	FONT-FAMILY: ABCDEE-Calibri-Bold15;
+	color: rgb(0,0,0);
+}
+
+.s2_15{
+	FONT-SIZE: 73px;
+	FONT-FAMILY: ABCDEE-Calibri15;
+	color: rgb(0,0,0);
+}
+
+</style>
+<!-- End inline CSS -->
+
+<!-- Begin embedded font definitions -->
+<style id="fonts15" type="text/css" >
+
+@font-face {
+	font-family: ABCDEE-Calibri15;
+	src :url("15/fonts/ABCDEE-Calibri.woff") format("woff");
+}
+
+@font-face {
+	font-family: ABCDEE-Calibri-Bold15;
+	src :url("15/fonts/ABCDEE-Calibri-Bold.woff") format("woff");
+}
+
+</style>
+<!-- End embedded font definitions -->
+
+<!-- Begin text definitions (Positioned/styled in CSS) -->
+<div id="t1_15" class="t s1_15">Edit Office Bearers Info</div>
+<div id="t2_15" class="t s2_15">Once approved by the National General Secretary’s office, the status will be marked as </div>
+<div id="t3_15" class="t s3_15">Active</div>
+<div id="t4_15" class="t s2_15">. </div>
+<div id="t5_15" class="t s4_15">Click on </div>
+<div id="t6_15" class="t s5_15">Edit Users</div>
+<div id="t7_15" class="t s4_15">in the drop down list</div>
+<div id="t8_15" class="t s4_15">Click on the </div>
+<div id="t9_15" class="t s5_15">Edit</div>
+<div id="ta_15" class="t s4_15">button to </div>
+<div id="tb_15" class="t s4_15">modify the information of </div>
+<div id="tc_15" class="t s4_15">the Office Bearer on the </div>
+<div id="td_15" class="t s4_15">popup screen</div>
+<div id="te_15" class="t s4_15">Once </div>
+<div id="tf_15" class="t s4_15">the </div>
+<div id="tg_15" class="t s4_15">changes </div>
+<div id="th_15" class="t s4_15">are </div>
+<div id="ti_15" class="t s4_15">made, </div>
+<div id="tj_15" class="t s4_15">click </div>
+<div id="tk_15" class="t s4_15">on </div>
+<div id="tl_15" class="t s4_15">the </div>
+<div id="tm_15" class="t s5_15">Submit</div>
+<div id="tn_15" class="t s4_15">button to </div>
+<div id="to_15" class="t s4_15">save the changes.</div>
+
+<!-- End text definitions -->
+
+<!-- Begin page background -->
+<div id="pg15Overlay" style="width:100%; height:100%; position:absolute; z-index:1; background-color:rgba(0,0,0,0); -webkit-user-select: none;"></div>
+<div id="pg15"><object width="935" height="1210" data="15/15.svg" type="image/svg+xml" id="pdf15" style="width:935px; height:1210px; background-color:white; -moz-transform:scale(1); z-index: 0;"></object></div>
+<!-- End page background -->
+
+<!-- Begin page loading JS -->
+<script id="ld15" type="text/javascript">
+
+var isIE = false;
+var f15 = [['t1_15',821],['t2_15',2577],['t5_15',211],['t6_15',279],['t7_15',566],['t8_15',343],['ta_15',271],['tb_15',776],['tc_15',777],['td_15',373],['tn_15',261],['to_15',484]];
+function load15(){
+	var timeout = 100;
+	if (navigator.userAgent.match(/iPhone|iPad|iPod|Android/i)) timeout = 500;
+	setTimeout(function() {adjustWordSpacing(f15);},timeout);
+}
+</script>
+<!--[if lt IE 9]><script type="text/javascript">
+isIE = true;
+
+var divCount = 25;
+for (var i = 1; i < divCount; i++) {
+    var div = document.getElementById("t" + i.toString(36) + "_15");
+    if (div !== null) {
+        div.style.top = (div.offsetTop * 4) + "px";
+        div.style.left = (div.offsetLeft * 4) + "px";
+        div.style.zoom = "25%";
+    }
+}
+</script><![endif]-->
+<!-- End page loading JS -->
+
+</div>
+</body>
+</html>

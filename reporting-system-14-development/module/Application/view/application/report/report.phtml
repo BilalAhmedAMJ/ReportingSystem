@@ -1,0 +1,831 @@
+<script src="<?=$this->basePath()?>/assets/js/ckeditor/ckeditor.js" ></script>
+<script src="<?=$this->basePath()?>/assets/js/ckeditor/adapters/jquery.js"></script>
+<style>
+.field-icon-r{ color: #d6d6d6; }
+.field-icon-r-grid{ color: #b3b1b1;    right: auto;}
+table.analysis-table2 input { border: none; }
+table.analysis-table2 { width: 100%;  border-collapse: separate;  border-spacing: 0px;  border: solid #0000004a 1px; }
+table.analysis-table2 thead tr {  text-align: center; font-weight: normal;  border-left: solid #0000004a 1px;  padding: 2px; }
+table.analysis-table2 thead tr th {background: #e2f2fb;text-align: center;font-weight: normal;border-left: solid #0000004a 1px;border-radius: 0px;padding: 2px;}
+table.analysis-table2 tbody tr, table.analysis-table2 tbody tr td {text-align: center;border-left: solid #0000004a 1px;border-top: solid #0000004a 1px;padding: 2px;}
+table.analysis-table2 tbody tr td:first-child, table.analysis-table2 thead tr th:first-child {  border-left: none; }
+table.analysis-table2 thead tr { background-color: #e6f5ff; }
+table.analysis-table2 thead tr th:first-child { border-radius: 5px 0 0 0 !important; }
+
+.report-input-simple:hover .report-history-btn{    display: block; position: absolute; right: 0; top: 2px; box-shadow: -3px 4px 4px 0px rgb(0 0 0 / 10%);}
+.report-input-simple .report-history-btn{display: none; color: #438eb9; padding: 4px; background: #E7E7E7; border: 1px solid #8c8787; border-radius: 5px; cursor: pointer;}
+
+.report-input-richtext:hover .report-history-btn{    display: contents; box-shadow: -3px 4px 4px 0px rgb(0 0 0 / 10%);}
+.report-input-richtext .report-history-btn{display: none; color: #438eb9; padding: 4px; background: #E7E7E7; border: 1px solid #8c8787; border-radius: 5px; cursor: pointer;}
+
+.swal2-popup-custom { width: 850px; }
+
+</style>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<?php include __DIR__.'/../../partial/grid_includes.phtml' ?>
+
+
+<?php
+
+  $report = $this->report; 
+  $report_config_details = $report->getReportConfig()->getConfigArray();
+  
+  //default config applies to a report unless we have a special config for branch level of owning branch
+  $branch_level=$report->getBranch()->getBranchLevel();
+  $config_level='Default';
+  if(key_exists($branch_level,$report_config_details['report_flow'])){
+      $config_level=$branch_level;
+  }
+  
+  $current_status_config=$report_config_details['report_flow'][$config_level][$report->getStatus()];
+    
+  
+  $next_status = $current_status_config['next_status'];
+  $prev_status = key_exists('prev_status', $current_status_config)?$current_status_config['prev_status']:false;
+  $next_status_submit = key_exists('next_status_submit',$current_status_config)?$current_status_config['next_status_submit']:'Submit Report';
+  
+  $no_submit = (empty($next_status))?' disabled="true" ':'';
+  
+  $read_only= ! ($this->canEdit);
+  $force_update = ($this->canForceUpdateReports);
+
+ 
+ 
+  $user = $report->getUserCompleted();
+  if(!$user){
+      $user=$report->getUserCreated();
+  }
+  $preparedBy='';
+  $submittedBy=$report->getSubmittedByName(); 
+  if(!empty($submittedBy) ){
+      $preparedBy=$report->getSubmittedByName();
+  }elseif($user){
+      $preparedBy=$user->getDisplayName();
+  }
+?>
+
+<!--
+<?php
+  echo "READ_ONLY=[".$read_only."]";
+  echo "FORCE_UPDATE=[".$force_update."]";
+?>
+-->
+
+<form  name="report_edit_form" id="report_edit_form" class="form-horizontal" role="form" enctype="multipart/form-data" method="post" action="<?=$this->url('report/report')?>" data-description="Report " >
+
+<div class="row clearfix">
+<div class="col-sm-12 col-md-12 no-margin no-padding report-panel ">
+    <div class="col-sm-9">
+            <span class="col-sm-12 title bolder blue bigger-150">
+                Department of  
+                <?=$report->getDepartment()->getDepartmentName()?>
+                &ndash; Monthly Report
+            </span>
+            
+            <span class="col-sm-12 space-4"></span>
+    </div>
+
+    <div class="col-sm-9 col-xs-12 ">
+    <div class="col-sm-12 no-padding  col-xs-12  no-margin bigger-120" >
+        <div class="col-sm-12 col-xs-12  no-padding no-margin" >
+            <label class="col-sm-2 col-xs-6 input-lable"><?=$report->getBranch()->getBranchType()?>: </label>
+            <span class="col-sm-5 col-xs-6 label label-xlg label-light field-holder "><?=$report->getBranch()->getBranchName()?></span>
+            <label class="col-sm-2 col-xs-6 input-lable">Report Month: </label>
+            <span class="col-sm-3 col-xs-6 label label-xlg label-light field-holder "><?=$report->getPeriodFrom()->getPeriodCode()?></span> 
+        </div>
+        <div class="space-6 col-sm-12 col-xs-12 "></div>
+        <div class="col-sm-12 no-padding no-margin">
+            <label class="col-sm-2  col-xs-6 input-lable">Prepared By: </label>
+            <span class="col-sm-5 col-xs-6 label label-xlg label-light field-holder "><?=$preparedBy?></span>
+                        
+            <label class="col-sm-2 col-xs-6 input-lable"> Status: </label>
+            <span class="col-sm-3 col-xs-6 label label-xlg label-light field-holder ">
+                <?=$this->config('report_status',$report->getStatus())?> 
+                <?php
+                if( $this->config('report_status',$report->getStatus()) == 'Verified' ) {
+                    echo '@ ' . $report->getDateVerified()->format('Y-m-d');
+                }
+                ?>
+            </span>
+        </div>
+        <div class="space-6 col-sm-12"></div>   
+        <?php if( isset($child_branches['title']) && isset($child_branches['count']) ) {?>
+        <div class="col-sm-12 col-xs-12  no-padding no-margin" >
+            <label class="col-sm-2 col-xs-6 input-lable"><?=$child_branches['title']?>: </label>
+            <span class="col-sm-5 col-xs-6 label label-xlg label-light field-holder "><?=$child_branches['count']?></span>
+        </div>     
+        <div class="space-6 col-sm-12"></div>   
+        <?php } ?>
+    </div>    
+    
+    
+        
+    <div class="widget-box col-xs-12  col-sm-12 no-border ">
+
+<!--
+        <div class="widget-header">
+            <div class="widget-toolbar">                
+                 <button class="btn btn-bold btn-primary btn-toolbar  btn-sm bigger  " type="submit">
+                    <i class="ace-icon fa fa-floppy-o "></i>
+                    Save
+                </button>
+                 <button class="btn btn-bold btn-yellow btn-toolbar    btn-sm bigger " type="reset">
+                    <i class="ace-icon fa fa-undo "></i>
+                    Undo
+                </button>
+            </div>
+        </div> 
+-->
+          
+        <div class="widget-body ">
+
+        <?php if ( $this->layout != 'print'):?>
+            <!-- Buttons top-->
+          <div class="widget-header widget-header-small no-padding no-margin default-widget-header-border" >
+          <div class="navbar-default toolbar no-padding no-margin nav navbar-form padding-8 clearfix" style="border-bottom: 1px;display:table;width:100%" >
+
+          <div style="display:table-row;width:100%">
+              
+         <div class="toolbar align-left  align-left" style="display:table-cell;width:20%">                       
+         <button type="submit" class="btn  btn-primary btn-white  btn-round btn-sm margin-4 submit-btn" value="save" name="save">
+            <i class="ace-icon fa fa-floppy-o"></i>
+
+            <?php if ( $force_update || ! $read_only):?>
+            <span class="bigger-110">Save as <?=$this->config('report_status',$report->getStatus())?></span>
+            <?php else:?>
+            <span class="bigger-110">Save</span>
+            <?php endif?>
+        </button>
+        </div>
+
+        <div class="toolbar align-center  align-center" style="display:table-cell;width:40%">                       
+        <a  class="btn btn-success  btn-white  btn-round btn-sm margin-4 back-to-reports" value="back" name="back-to-reports" id="back-to-reports"
+            href="<?=$this->url('report')?>">
+            <i class="ace-icon fa fa-"></i>
+            <i class="ace-icon fa ace fa-arrow-left"></i>
+            <span class="bigger-110">Back</span>
+        </a>
+        <a href="<?=$this->url('report/report')?>?report_id=<?=$report->getId()?>&view=print" target="_blank" class="print-report btn btn-success  btn-white  btn-round btn-sm margin-4 ">
+            Print
+            <i class="fa fa-print icon ace-icon"></i>
+        </a>
+        
+        <?php if ($this->canDelete || $this->sysadmin):?>
+        <button  type="submit"  class="  btn btn-danger btn-white btn-round btn-sm margin-4 delete-btn submit-btn" value="delete" name="submit">
+            <i class="ace-icon fa fa-trash-o icon-cross"></i>
+            <span class="bigger-110">Delete</span>
+        </button>
+        <?php endif?>
+        
+        <?php if($this->canReturn || $this->sysadmin ):?>
+
+        <a href="#modal-form" role="button" class="  btn btn-warning btn-white  btn-round btn-sm margin-4 return-btn " data-toggle="modal">
+            <i class="ace-icon fa fa-"></i>
+            <span class="bigger-110">Return</span>
+            <i class="ace-icon fa fa-undo"></i>
+        </a>
+      
+        <?php endif?>
+        
+        </div>
+
+         <div class="toolbar align-right  align-right" style="display:table-cell;width:34%">                       
+
+        <button  type="submit"  class="  btn btn-success btn-white  btn-round btn-sm margin-4 submit-btn" value="submit" name="submit">
+            <i class="ace-icon fa fa-"></i>
+            <?php if (! $read_only):?>
+            <span class="bigger-110"><?=$report->replaceTokens($next_status_submit)?></span>
+            <?php else:?>
+            <span class="bigger-110">Submit</span>
+            <?php endif?>
+            <i class="ace-icon fa fa-sign-in icon-on-right"></i>
+        </button>
+        
+        </div>
+      </div>  
+
+
+         </div>
+         </div>
+      <?php endif?>   
+            
+          <div class="widget-main no-padding no-margin form-body" style="background-color:#FFFFFF!important">
+            
+            <div class="col-sm-12 main-question-row no-margin no-padding">
+
+            </div>
+            
+            <?php
+            #$bg='#ddddff';
+            $grid_questions=array();//THIS IS UGLY TODO FIXME
+            $hidden_elements=array();
+            $dialog_elements=array();
+            foreach ($form as $element) {
+                    
+                $options = $element->getOptions();
+                
+                if(key_exists('show_in_dialog', $options) && $options['show_in_dialog']){
+                    $dialog_elements[]=$element;
+                    if(empty($element->getValue())){
+                        continue;
+                    }
+                }
+                
+                $is_not_hidden = $element->getAttribute('data-qtype') &&  
+                                 ( !$element->getAttributes('type') 
+                                   ||  $element->getAttribute('type')!=='hidden'
+                                 );
+                                 
+                if($is_not_hidden){
+                    //THIS IS UGLY TODO FIXME
+                    if($element->getAttribute('data-qtype')=='GRID'){
+                        if(in_array($element->getAttribute('data-question_id'), $grid_questions)){
+                            //This is hac to deal with design flaw that loads multiple answers in separate components
+                            //for grid questions that creates multiple grids 
+                            continue;
+                        }else{
+                            $grid_questions[]=$element->getAttribute('data-question_id');
+                        }
+                    }        
+                        
+                    //Regular code
+                    echo "<div class='col-sm-12 space-6'></div>\n";
+                    $row_class='main-question-row';                    
+                }else{
+                    $row_class='main-question-row-hidden';
+                    //add all hiden elements to diaplog form as well
+                    $hidden_elements[]=$element;
+                }
+                //only display Q_150_1    
+                //if($element->getName()!='Q_150_1'){ continue;}
+                
+                echo "<div class='col-sm-12 {$row_class} no-margin no-padding' >\n";
+                                                
+                echo $this->partial('/partial/form/formrow.phtml',array('element'=>$element,'read_only'=>$read_only,'report'=>$report));                                 
+                    
+                if( $is_not_hidden){
+                   //echo "<div class='col-sm-12 space-6'></div>\n<hr class='col-sm-12 clearfix no-padding no-margin' style='border-top:solid 1px lightgrey;height:1px;width:100%;margin-top:2px;margin-bottom:8px;'></hr>";  
+                }
+                echo "</div>\n";              
+                //if(!($element->getAttributes('type')) || $element->getAttribute('type')!=='hidden'){
+            }
+            
+            ?>                          
+              
+          </div><!-- //MAIN Form Body -->             
+
+
+      <?php if ( $this->layout != 'print'):?>
+          <!-- Buttons bottom-->  
+          <div class="col-sm-12 no-padding no-margin" style="padding-top: 15px!important">
+          <div class="widget-header widget-header-small no-padding no-margin default-widget-header-border" style="display:table;width:100%" >
+
+          <div style="display:table-row;width:100%">
+              
+         <div class="toolbar align-left  align-left" style="display:table-cell;width:33%">                       
+         <button  type="submit"  class="btn  btn-primary btn-white  btn-round btn-sm margin-4 submit-btn" value="save" name="save">
+            <i class="ace-icon fa fa-floppy-o"></i>
+
+            <?php if ( $force_update || ! $read_only):?>
+            <span class="bigger-110">Save as <?=$this->config('report_status',$report->getStatus())?></span>
+            <?php else:?>
+            <span class="bigger-110">Save</span>
+            <?php endif?>
+        </button>
+        </div>
+
+         <div class="toolbar align-center  align-center" style="display:table-cell;width:33%">                       
+        <a  class="btn btn-success  btn-white  btn-round btn-sm margin-4 back-to-reports " value="back" name="back-to-reports" id="back-to-reports"
+            href="<?=$this->url('report')?>">
+            <i class="ace-icon fa fa-"></i>
+            <i class="ace-icon fa ace fa-arrow-left"></i>
+            <span class="bigger-110">Back to Reports</span>
+        </a>
+        <a href="<?=$this->url('report/report')?>?report_id=<?=$report->getId()?>&view=print" target="_blank" class="print-report btn btn-success  btn-white  btn-round btn-sm margin-4 ">
+            Print
+            <i class="fa fa-print icon ace-icon"></i>
+        </a>
+        </div>
+
+         <div class="toolbar align-right  align-right" style="display:table-cell;width:34%">                       
+
+        <button  type="submit"  class="  btn btn-success btn-white  btn-round btn-sm margin-4 submit-btn" value="submit" name="submit">
+            <i class="ace-icon fa fa-"></i>
+            <?php if (! $read_only):?>
+            <span class="bigger-110"><?=$report->replaceTokens($next_status_submit)?></span>
+            <?php else:?>
+            <span class="bigger-110">Submit</span>
+            <?php endif?>
+            <i class="ace-icon fa fa-sign-in icon-on-right"></i>
+        </button>
+        </div>
+      </div>  
+
+         </div>
+         </div>
+    <?php endif?>   
+         
+                             
+    </div><!-- //Widget body -->
+
+    </div><!-- //Widget box for form -->
+
+    
+    </div> <!-- Report section -->
+    
+    <?php if ( $this->layout != 'print'):?>
+    
+    <div class="col-sm-3 col-xs-12 pull-right">        
+                <!-- start tabs -->
+                <div class="tabbable " >
+                    <ul class="nav nav-tabs" id="deptinfo">
+                        <li class="active-no hide">
+                            <a data-toggle="tab" href="#guidelines">Guidelines</a>
+                        </li>
+
+                        <li class="active">
+                            <a data-toggle="tab" href="#rules">Rules TJ</a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content" style="padding:0px!important">
+                        
+                        <div id="guidelines" class="tab-pane in active-no hide">
+                            <div>
+                               <?=$report->getDepartment()->getGuidelines()?>
+                            </div>
+                        </div>
+
+                        <div id="rules" class="tab-pane in active">
+                            <div class="no-padding no-margin">
+                            <?=$report->getDepartment()->getRules()?>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>        
+        
+                <!-- end tabs -->
+    </div>
+
+    <?php endif?>        
+
+</div><!-- //main single col layout -->
+</div><!-- //row -->    
+
+</form>
+
+
+<div id="modal-form" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    &times;
+                </button>
+                <h4 class="blue bigger">Please provide feedback for the reporting user</h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <form  name="report_dialog_form" id="report_dialog_form" class="form-horizontal2" role="form" enctype="multipart/form-data" method="post" action="<?=$this->url('report/report')?>" data-description="Report Dialog" >
+                    
+                    <?php foreach ($hidden_elements as $element) {                        
+                        echo $this->partial('/partial/form/formrow.phtml',array('element'=>$element,'read_only'=>$read_only,'report'=>$report));
+                    }//$row_class='main-question-row-hidden';
+                    ?>    
+                        
+                       <?php foreach ($dialog_elements as $element) {
+                        
+                            $row_class='main-question-row';                    
+                
+                            echo "<div class='col-sm-12 main-question-row no-margin no-padding' >\n";
+                                                
+                            echo $this->partial('/partial/form/formrow.phtml',array('element'=>$element,'read_only'=>$read_only,'report'=>$report));                                 
+                    
+                            echo "</div>\n";
+                       
+                       }?>
+                   
+                    
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-sm" data-dismiss="modal">
+                    <i class="ace-icon fa fa-times"></i>
+                    Cancel
+                </button>
+
+                <button type="submit"  class="  btn btn-primary btn-sm margin-4 submit-btn" value="back" name="submit" >
+                    <i class="ace-icon fa fa-check"></i>
+                    Submit!
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+                                        
+<div class="space-20"></div>
+
+<script>
+
+    function preSaveAction(event){
+       //event.preventDefault();
+       var btn=event.currentTarget;
+       var ua = btn.form.user_action;
+
+                
+       ua.value=btn.value;
+
+	   if($('.richtext-div').size()>0){
+	        $('.richtext-div').each(function(e){
+	                var div = $(this);
+	                var input = div.siblings('.richtext-textarea');
+	                input.val(div.html().trim());
+	        });
+	   }
+	   
+	   //when deleting report submit user_action and report_id
+
+	   if(ua.value=='delete'){
+	       btn.form.user_action.disabled=false;
+	       btn.form.report_id.disabled=false;
+	   }
+	   if(btn.form.report_id.disabled){
+              btn.form.report_id.disabled=false;
+	   }
+	   
+       //return true;
+       //console.log('Done  Presave ' );
+       //console.log(btn.form.report_id[0]);
+       //console.log(btn.form.report_id[0]);
+       //event.preventDefault();
+       return true;
+       //return false;
+    }
+    
+
+    
+    function createAdvancedFields(){
+        
+        //Create Date Pickers
+        $('.date-picker').datepicker({
+           autoclose: true,
+           todayHighlight: false,
+           //startDate:"<?=$report->getPeriodFrom()->getPeriodStart()->format('Y/m/d')?>",
+           endDate:"<?=$report->getPeriodTo()->getPeriodEnd()->format('Y/m/d')?>",
+           defaultDate:"<?=$report->getPeriodFrom()->getPeriodStart()->format('Y/m/d')?>"
+        })
+        //show datepicker when clicking on the icon
+        .next().css('border','1px solid #6fb3e0').css('border-top-right-radius','4px!important').css('border-bottom-right-radius','4px!important').on(ace.click_event, function(){
+            $(this).prev().focus();
+        });
+
+
+        //create ckeditor
+        $('.ckeditor').each(function(){ReportForms.ckeditor($(this));});
+        
+        //create rich text editors
+        
+        //when adding more answers to a question we need to remove old toolbar
+        $('.richtext-div').siblings('.wysiwyg-toolbar').remove();
+        
+        $('.richtext-div').ace_wysiwyg({
+        height:'100px',
+        toolbar:
+        [
+            {name:'font',className:'btn-info btn-round btn-sm btn-white'},
+            null,
+            {name:'fontSize',className:'btn-info btn-round btn-white'},
+            null,
+            {name:'bold', className:'btn-info btn-round btn-white'},
+            {name:'italic', className:'btn-info btn-round btn-white'},
+            //{name:'strikethrough', className:'btn-info btn-round btn-white'},
+            {name:'underline', className:'btn-info btn-round btn-white'},
+            null,
+            {name:'insertunorderedlist', className:'btn-success btn-round  btn-white'},
+            {name:'insertorderedlist', className:'btn-success btn-round  btn-white'},
+            {name:'outdent', className:'btn-purple btn-round btn-white'},
+            {name:'indent', className:'btn-purple btn-round btn-white'},
+            null,
+           
+            {name:'createLink', className:'btn-pink btn-round btn-white'},
+            {name:'unlink', className:'btn-pink btn-round btn-white'},
+            null,
+            {name:'insertImage', className:'btn-success btn-round btn-white'},
+            null,
+            {name:'foreColor',className:'btn-round btn-white'},
+            null,
+            {name:'undo', className:'btn-grey btn-round btn-white'},
+            {name:'redo', className:'btn-grey btn-round btn-white'}
+        ],
+        'wysiwyg': {
+            //fileUploadError: showErrorAlert
+            hotKeys: {} //disable hotkeys
+            
+        }
+      }).prev().css('background-color','#e1e1e1');
+      
+    <?php if($this->layout!='print'):?>
+      //imageResize for WebKit
+      imageResizeForWebkit();
+    <?php endif?>
+      
+    }//createAdvanceFields function
+    
+
+
+    $(function(){
+        
+        ///create advance controls when layput is not printing
+        <?php if($this->layout!='print'):?>
+            createAdvancedFields();
+        <?php endif?>
+        /***
+        //handle form onsubmit event to send the wysiwyg's content to server        
+        $('#report_edit_form').submit(function(){            
+            //put the editor's html content inside the hidden input to be sent to server
+
+            $('.richtext-div' , this).each(function(e){
+                    var div = this;
+                    var input = div.closest('.richtext-textarea');
+                    input.val(div.html());
+            });
+            return true;
+        });
+        
+        $('#report_edit_form').on('reset', function() {
+            //put input value to the editor's html 
+            $('.richtext-div' , this).each(function(){
+                    var div = this;
+                    var input = div.closest('.richtext-textarea');
+                    div.html(input.val());
+            });
+        });        
+        ***/
+
+      //add collaps action to onclick of yes_no rich text editors
+      $('.widget-collapse-switch').each(function(){
+          var elem=$(this);
+          elem.on('click',function(e){                              
+             $(this).parent().parent().find('.widget-box-collapse-anchor').click();                    
+          });
+      });
+        
+
+    $('.report-history-btn').click(function(e){
+        e.preventDefault();
+
+        var quesstion_id = $(this).data('question').split("_")[1];
+        var reprot_id = <?=$report->getId()?>;
+
+        Swal.fire({
+            title: 'Please wait ...',
+            html: 'Generating 6 month history.',
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            onBeforeOpen: () => {Swal.showLoading() }
+        })
+
+        $.ajax({
+                url: '/report/history?report_id='+reprot_id+'&question_id='+quesstion_id,
+                data: $('#report-form').serialize(),
+                success: function(response,status,xhr) {
+                    console.log(response)
+                    Swal.fire({
+                        title: false,
+                        html: response,
+                        allowOutsideClick: false,
+                        showConfirmButton: true,
+                        customClass: "swal2-popup-custom"
+                    })
+                },
+                error:function(xhr,status,error){
+                    console.log('ERROR : '+error+' Status'+status);
+                    //console.log(xhr);
+                }
+            });        
+    });
+    
+    $('.add-more-btn',this).each(function(){
+        var btn = $(this);
+        btn.on('click',function(e){
+            
+            //stop default propagation of event
+            e.preventDefault();
+            
+            var question_details_name=btn.data('question-details');
+            var details = $('#'+question_details_name+':last').clone();
+            
+
+            //Change ID of new details container
+            var parts = details.attr('id').split('_');
+            var count=$('input[id^=Q_'+parts[1]+'_').size()+1;//
+            parts[2]=count;
+            details.attr('id',parts.join('_'));
+            
+            //remove ckeditor if exists, as we will recreate it
+            details.find('textarea').siblings('.cke').remove();
+            
+            //Change ID for all children of details
+            $(details).find('input,textarea,select,div,span,a,label',this).each(function(){
+                var elem=$(this);
+                //empty field
+                if(elem.val) { elem.val(''); }
+                //empty rich text boxes
+                if(elem.hasClass(' richtext-textarea') || elem.hasClass('richtext-div')) { elem.text(''); }
+                //empty file attachments
+                if(elem.find('.files-attached').size()>0 ) { elem.find('.files-attached').html(''); }
+                
+                //update id/for if exists
+                ['for','id','name'].forEach(function(attr) {
+                    if(elem.attr(attr) && elem.attr(attr).indexOf('_')>0){
+                        parts=elem.attr(attr).split('_');
+                        parts[2]=count;//increment last answer number
+                        //console.log(parts.join('_')); 
+                        elem.attr(attr,parts.join('_'));
+                    }
+                });
+             
+             if(elem.attr('checked')) { 
+                 elem.prop('checked',true); 
+                 elem.val('1');
+                 elem.attr('value','1');
+                 //console.log(['Updated checkbox',elem]); 
+             }
+             if(elem.attr('type') && elem.attr('type')=='file'){
+                 
+                 setTimeout(function(){ 
+                     var cell_parent = elem.closest('.file-attachment-cell');                 
+                     elem.appendTo(cell_parent);
+                     elem.siblings().remove();                 
+                     ReportForms.file_input(elem);
+                 }, 100);
+             }
+               
+
+            });//for each field in detail
+            //fix ckeditor, remove additional elements now
+            
+            //Get title
+            var title=btn.parent().parent().find('div.complex-question-title > span').html();
+            var details_container = $('<div class="col-sm-12 no-padding no-margin"><div class="col-sm-12 space-102"></div><div class="widget-title"><span style="padding: 6px;" class="pull-left bigger-120 bolder  blue lighter ">'+title+' '+count+'</span>');
+            details_container.append(details);
+            //Add details section
+            $('#'+btn.data('question-details')+':last').parent().append($(details_container));
+            
+            
+            //re-create advanced fields
+            createAdvancedFields();
+            
+            //post answers with answerNumber to add new answers to report
+            parts = details.attr('id').split('_');
+            
+            //notify user that we have added
+            jQuery.gritter.add({
+			   	title: 'A new section for '+title+' is added!',
+			    //text: 'A new section for '+title+' is added!',
+			    //image: 'path/to/image',
+			    sticky: false,
+			    time: 3000,
+			    class_name: 'gritter-success gritter-light '
+		});
+ 
+            return false;
+        })
+    });//add-more-btn handler
+    
+    
+    //fix input style on window resize 
+    resizeInputs();
+    $(window).resize(function() {
+        resizeInputs();        
+    });
+    
+    
+    $('.submit-btn').on('click',preSaveAction);    
+    
+    
+    //Report is readonly, disable contrls
+    <?php if( !($force_update) && $read_only ):?>
+    $('#report_edit_form').find('input, button, textarea, select, a').attr('disabled', true);
+    
+    $('#report_edit_form').find('.delete-btn').attr('disabled', false);
+    $('#report_edit_form').find('.return-btn').attr('disabled', false);
+    
+    $('.richtext-div').attr('contenteditable',false);
+    //enable back t reports 
+    $('.back-to-reports, .print-report').attr('disabled', false);
+    <?php endif?>
+    
+     
+});//questions setup script
+        
+    function resizeInputs(){
+        var contentSize=$(".page-content").width();
+        var xlargeInputField = 100 + $('.input-xlarge').width(); 
+        if($('.input-xlarge').length >0 && contentSize < xlargeInputField ){
+            $('.input-xlarge').addClass('input-large').removeClass('input-xlarge');
+        }                 
+    }
+    function showErrorAlert (reason, detail) {
+        var msg='';
+        if (reason==='unsupported-file-type') { msg = "Unsupported format " +detail; }
+        else {
+            //console.log("error uploading file", reason, detail);
+        }
+        $('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>'+ 
+         '<strong>File upload error</strong> '+msg+' </div>').prependTo('#alerts');
+    }
+    
+    
+//Add validation to the form    
+ $(function(){
+
+    $("form").submit(function() {
+        if( !$('#report_edit_form').valid() ) {
+            if( $('#report_edit_form').validate().errorList.length ) {
+                var msg = $('[for='+$($('#report_edit_form').validate().errorList[0].element).attr('name')).html().trim();
+                msg += '<b>' + $('#report_edit_form').validate().errorList[0].message + '</b>';
+            }
+            else {
+                msg = 'Please fix the error (s)'
+            }
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                html: msg,
+                allowOutsideClick: false
+            })
+            $($('#report_edit_form').validate().errorList[0].element).focus();
+            return false;
+        }
+
+        Swal.fire({
+            title: 'Please wait ...',
+            html: 'Report submission in process.',
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            onBeforeOpen: () => {Swal.showLoading() }
+        })
+        // submit more than once return false
+        $(this).submit(function() {
+            return false;
+        });
+        // submit once return true
+        return true;
+    });
+    
+    $('#report_edit_form').validate({
+    	
+            errorElement: 'div',
+            errorClass: 'help-block',
+            focusInvalid: true,
+            
+            highlight: function (e) {
+                $(e).closest('.input-field-container').removeClass('has-info').addClass('has-error');
+            },
+    
+            success: function (e) {
+                $(e).closest('.input-field-container').removeClass('has-error');//.addClass('has-info');
+                $(e).remove();
+            },
+            invalidHandler: function(form, validator) {
+                validator.errorList[0].element.focus();
+            },
+            errorPlacement: function (error, element) {
+                if(element.is('input[type=checkbox]') || element.is('input[type=radio]')) {
+                    var controls = element.closest('div[class*="col-"]');
+                    if(controls.find(':checkbox,:radio').length > 1) controls.append(error);
+                    else error.insertAfter(element.nextAll('.lbl:eq(0)').eq(0));
+                }
+                else if(element.is('.select2')) {
+                    error.insertAfter(element.siblings('[class*="select2-container"]:eq(0)'));
+                }
+                else if(element.is('.chosen-select')) {
+                    error.insertAfter(element.siblings('[class*="chosen-container"]:eq(0)'));
+                }
+                else error.insertAfter(element.parent());
+            },
+    
+            //submitHandler: function (form) {},
+            //invalidHandler: function (form) {}
+    });//form validation setup
+    //validaiton rules    
+    addValidationRules();     
+ });   
+ 
+ function addValidationRules(){
+     
+     if($('input[data-qtype="NUMBER"]').size()>0){
+        $('input[data-qtype="NUMBER"]').each(function(){ $(this).rules('add',{digits:true,messages:{digits:'Must be a number'}});});
+     }
+     if($('input[data-qtype="DATE"]').size()>0){
+         $('input[data-qtype="DATE"]').each(function(){ $(this).rules('add',{date: true,messages:{digits:'Invalid date'}});});
+     }
+     //console.log('Done with addValidationRules');
+ }
+ 
+</script>

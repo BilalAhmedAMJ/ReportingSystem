@@ -1,0 +1,426 @@
+<?php
+    $this->headLink()
+        ->appendStylesheet($this->basePath() . '/assets/css/select2.css');
+  
+    $this->headScript()->appendFile( $this->basePath() . '/assets/js/select2.min.js','text/javascript',array());
+    $this->headScript()->appendFile( $this->basePath() . '/js/custom.select2.js','text/javascript',array());
+
+    $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/js-sha3/0.8.0/sha3.min.js');
+    
+?>
+
+<?php   
+  $form=$this->form->get('election');
+	$submit_label='Create';
+	$user_action='create_election';
+	$form_action='election/create';
+		
+	if($this->user_action=='submit'){
+		$submit_label='Submit Results';
+		$user_action='submit';
+		$form_action='election/submit';
+	}
+?>
+
+<form class="form-horizontal" role="form" id="election_results_form" method="post" action="<?php echo $this->url($form_action) ?>"  name="election_results_form" >
+
+    <input id="branch_label" name="branch_label" type="hidden" value="<?=$this->branch_label?>"></input>
+	<input type="hidden"  name="election_id" value="<?=$form->get('election_id')->getValue()?>"/>
+	<input type="hidden"  name="id" value="<?=$form->get('id')->getValue()?>"/>
+	<!-- fieldset contained election id -->
+	<input type="hidden" name="user_action" value="<?=$user_action?>"/>
+    
+    <?=$this->formHidden($form->get('election_type')) ?>
+    
+
+<div class="row">
+<div class="col-xs-12 col-lg-12 " >
+
+    <!-- use widget box for collapsable feature, however, applying panel, panel-default to the container so we can get ronded corners
+         also note that we need to remove padding from container that will be added by panel classes
+         as well as remove border from widget box
+         --> 
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 panel panel-default widget-container-col no-padding" > <!-- userinfo --> 
+    <div class="widget-box no-border" id="user_info_widget_box">
+        <div class="widget-header widget-header-small  ">
+            <h3 class="widget-title smaller"><?=$this->form->getLabel() ?></h3>
+            <div class="widget-toolbar">
+
+            <div class="btn-group">
+                <?php if($user_action != 'submit'):?>
+                <a class="btn btn-info btn-group" href="<?=$this->url($form_action) ?>">
+                    <i class="ace-icon fa fa-arrow-left bigger-110"></i>
+                    Back
+                </a>
+                <?php endif ?>
+                <button class="btn btn-info btn-group" type="submit">
+                    <i class="ace-icon fa fa-check bigger-110"></i>
+                    <?=$submit_label?>
+                </button>
+                
+                <button class="btn btn-group" type="reset">
+                    <i class="ace-icon fa fa-undo bigger-110"></i>
+                    Reset
+                </button>
+
+				<!-- For submit only  -->
+				<?php if($user_action=='submit'):?>
+                <a href="<?=$this->url('election/result')?>?id=<?=$this->election->getId()?>" class="btn btn-group btn-success" >
+                    <i class="ace-icon fa fa-sign-in icon-on-right"></i>
+                    Open
+				</a>
+				<?php endif ?>				
+
+            </div>
+
+
+            </div>
+        </div>
+        
+        <div class="widget-body widget-main no-margin-bottom no-padding-bottom">    
+
+		<?php if($this->errors && is_array($this->errors) && ( $errors[0]['error']>0  || $errors[0]['warning'] >0 ) ):?>
+			
+			<?php /*print_r(['<pre>',$this->errors])*/ ?>
+				
+			<div class="col-sm-12 alert alert-danger no-padding no-margin " style="" id="result_form_DetailsArea">
+				<span class="alert-danger">There are <?=$errors[0]['error']?> error(s) and <?=$errors[0]['warning']?> warning(s) in election report
+					<?php if($errors[0]['error']>0):?>
+					<br/>
+					You need to fix all errors before submitting report</span>
+			        <a href="<?=$this->url('election/result')?>?id=<?=$this->election->getId()?>" class="print-report btn btn-primary  btn-white  btn-round btn-sm margin-4 ">
+				        Open Election Report
+				        <i class="fa fa-form icon ace-icon"></i>
+				    </a>
+					<?php endif?>
+				<ul class="alert">
+				<?php foreach($this->errors as $error): ?>
+					<?php if($error['type']=='summary') {
+						if(key_exists('message', $error) && ($error['error']>0|| $error['warning']>0))
+							echo $error['message'];
+						continue;
+					 } ?>									
+					<?php $type= ($error['type']=='error'?'alert-danger':'alert-warning');?>
+					<li class=" <?=$type?> alert-dismissable"><?=$error['message']?></li>
+				<?php endforeach?>			
+				</ul>
+			</div>
+			<div class="col-sm-12 space-6"></div>
+		<?php endif?>
+		
+		<!-- FormBody -->
+		<div class="col-sm-12 "> 
+			
+
+		   <div class="col-sm-6 no-padding no-margin">
+           <div class="form-group">
+              <label class="col-sm-6 control-label no-padding-right" for="period_from">Election Term: </label>
+              <div class="col-sm-6">
+                <?=$this->formElement($form->get('election_term')) ?>
+              </div>
+           </div>
+		  </div>
+		  
+		  <div class="col-sm-6 no-padding no-margin">
+
+           <div class="form-group">
+              <label class="col-sm-6 control-label no-padding-right" for="department">Male Chanda Payers: </label>
+              <div class="col-sm-6">
+                <?=$this->formElement($form->get('chanda_payers')) ?>
+              </div>
+           </div>
+
+		  </div>
+		  <div class="col-sm-6 no-padding no-margin">
+           <div class="form-group">
+              <label class="col-sm-6 control-label no-padding-right" for="department">Election Call: </label>
+              <div class="col-sm-6">
+                <?=$this->formElement($form->get('election_call')) ?>
+              </div>
+           </div>
+		  </div>
+		  <div class="col-sm-6 no-padding no-margin">
+           <div class="form-group">
+              <label class="col-sm-6 control-label no-padding-right" for="department">Defaulters: </label>
+              <div class="col-sm-6">
+                <?=$this->formElement($form->get('defaulters')) ?>
+              </div>
+           </div>
+		  </div>
+		  
+		  <div class="col-sm-6 no-padding no-margin">
+           <div class="form-group">
+              <label class="col-sm-6 control-label no-padding-right" for="department"><?=$this->branch_label?>: </label>
+              <div class="col-sm-6">
+                <?=$this->formElement($form->get('branch_id')) ?>
+              </div>
+           </div>
+		  </div>
+		  <div class="col-sm-6 no-padding no-margin">
+           <div class="form-group">
+              <label class="col-sm-6 control-label no-padding-right" for="department">Eligible Voters Present: </label>
+              <div class="col-sm-6">
+                <?=$this->formElement($form->get('eligible_voters_present')) ?>
+              </div>
+           </div>
+		  </div>
+
+
+		<!-- ShuraAdditions -->
+
+
+		  <?php if($form->get('election_type')->getValue()=='shura' || $form->get('election_type')->getValue()=='majlis_intikhab'): ?>
+		  	
+          <div class="col-sm-6 no-padding no-margin">
+           <div class="form-group">
+              <label class="col-sm-6 control-label no-padding-right" for="department">Moosi under 18 (Male + Female): </label>
+              <div class="col-sm-6">
+                   <?=$this->formElement($form->get('under_eighteen_wassayat')) ?>
+              </div>
+           </div>
+          </div>
+
+		  <div class="col-sm-6 no-padding no-margin">
+           <div class="form-group">
+              <label class="col-sm-6 control-label no-padding-right" for="department">Female Chanda Payers: </label>
+              <div class="col-sm-6">
+                   <?=$this->formElement($form->get('lajna_payers')) ?>
+              </div>
+           </div>
+          </div>
+          
+		  <?php if($form->get('election_type')->getValue()=='shura'):?> 
+          <div class="col-sm-6 no-padding no-margin">
+           <div class="form-group">
+              <label class="col-sm-6 control-label no-padding-right" for="department">Allowed Delegates: </label>
+              <div class="col-sm-6">
+                   <?=$this->formElement($form->get('allowed_delegates')) ?>
+              </div>
+           </div>
+          </div>
+		  <?php endif?>
+		  
+          <?php endif ?>
+
+		<!-- /ShuraAdditions -->
+
+		<!-- MajlisIntikhabAdditions -->
+
+		  <?php if( $form->get('election_type')->getValue()=='majlis_intikhab'): ?>
+
+          <div class="col-sm-6 no-padding no-margin">
+           <div class="form-group">
+              <label class="col-sm-6 control-label no-padding-right" for="department">Allowed Majlis Intikhab Members: </label>
+              <div class="col-sm-6">
+                   <?=$this->formElement($form->get('allowed_electors')) ?>
+              </div>
+           </div>
+          </div>
+
+          <div class="col-sm-6 no-padding no-margin">
+           <div class="form-group">
+              <label class="col-sm-6 control-label no-padding-right" for="department">Over 60 Payers: </label>
+              <div class="col-sm-6">
+                   <?=$this->formElement($form->get('over_60_payers')) ?>
+              </div>
+           </div>
+          </div>
+
+          <?php endif ?>
+
+		<!-- /MajlisIntikhabAdditions -->
+          <div class="col-sm-6 no-padding no-margin">
+           <div class="form-group">
+              <label class="col-sm-6 control-label no-padding-right" for="department">Date of Election: </label>
+              <div class="col-sm-6">
+			        <div class="input-group  col-xs-2">
+			           <?=$this->formElement($form->get('election_date')) ?>
+			            <span class="input-group-addon">
+			                <i class="fa fa-calendar bigger-100"></i>
+			            </span>
+			        </div>
+              </div>
+           </div>
+		  </div>
+		  
+		  <div class="col-sm-6 no-padding no-margin">
+           <div class="form-group">
+              <label class="col-sm-6 control-label no-padding-right" for="department">Presided By: </label>
+              <div class="col-sm-6">
+                <?=$this->formElement($form->get('presided_by')) ?>
+              </div>
+           </div>
+           </div>
+                      
+           <div class="col-sm-6 no-padding no-margin">
+           <div class="form-group">
+              <label class="col-sm-6 control-label no-padding-right" for="department">Election Location: </label>
+              <div class="col-sm-6">
+                <?=$this->formElement($form->get('election_location')) ?>
+              </div>
+           </div>
+           </div>
+
+          <div class="col-sm-6 no-padding no-margin">
+           <div class="form-group ">
+              <label class="col-sm-6 control-label no-padding-right" for="department">Status: </label>
+              <div class="col-sm-6">
+                <span style="width:200px" class="col-sm-5 col-xs-6 label label-xlg label-light field-holder ">
+                    <?php if( isset($election) ):?>                        
+                        <?=ucfirst($election->getElectionStatus()) ?>
+                    <?php else: ?>
+                        N/A
+                    <?php endif ?>     
+                </span>
+              </div>
+           </div>
+          </div>
+			
+		</div> 
+		<!-- / FormBody -->	
+
+		<!-- For submit only  -->
+		<?php if($user_action=='submit'):?>
+		<div class="col-sm-12">
+
+		   <div class="col-sm-6 no-padding no-margin">
+           <div class="form-group ">
+              <label class="col-sm-6 control-label no-padding-right" for="department">First Witness Name: </label>
+              <div class="col-sm-6">
+                <?=$this->formElement($form->get('witness_name_one')) ?>
+              </div>
+           </div>
+		   </div><div class="col-sm-6 no-padding no-margin">	
+           <div class="form-group ">
+              <label class="col-sm-6 control-label no-padding-right" for="department">First Witness Phone Number: </label>
+              <div class="col-sm-6">
+                <?=$this->formElement($form->get('witness_phone_one')) ?>
+              </div>
+           </div>
+           </div><div class="col-sm-6 no-padding no-margin">
+           <div class="form-group ">
+              <label class="col-sm-6 control-label no-padding-right" for="department">Second Witness Name: </label>
+              <div class="col-sm-6">
+                <?=$this->formElement($form->get('witness_name_two')) ?>
+              </div>
+           </div>
+			</div><div class="col-sm-6 no-padding no-margin">
+           <div class="form-group ">
+              <label class="col-sm-6 control-label no-padding-right" for="department">Second Witness Phone Number: </label>
+              <div class="col-sm-6">
+                <?=$this->formElement($form->get('witness_phone_two')) ?>
+              </div>
+           </div>
+			</div>
+					  
+		  <div class="col-sm-6 no-padding no-margin">
+           <div class="form-group  ">
+              <label class="col-sm-6 control-label no-padding-right" for="department">Comments of Presiding officer: </label>
+              <div class="col-sm-6">
+                <?=$this->formElement($form->get('presiding_officer_comments')) ?>
+              </div>
+           </div>
+           </div>
+           
+           <div class="col-sm-12 no-padding no-margin"></div>
+           
+           <div class="col-sm-6 no-padding no-margin">           
+           <div class="form-group ">
+              <label class="col-sm-6 control-label no-padding-right" for="department">Report was completed and confirmed to match hard copy results sent by (print your name): </label>
+              <div class="col-sm-6">
+                <?=$this->formElement($form->get('completed_by_name')) ?>
+              </div>
+           </div>
+		  </div>
+		  <div class="col-sm-6 no-padding no-margin">
+           <div class="form-group ">
+              <label class="col-sm-6 control-label no-padding-right" for="department">Your Phone Number: </label>
+              <div class="col-sm-6">
+                <?=$this->formElement($form->get('completed_by_number')) ?>
+              </div>
+           </div>
+           </div>
+
+           </div>
+		 <?php endif ?>
+		 <!-- /for submit only -->
+		
+			<!-- Widget bottom toolbar -->
+
+	        <div class="widget-header2 widget-header-small  ">
+
+            <div class="widget-toolbar " style="float: left">
+
+            <div class="btn-group">
+                <?php if($user_action != 'submit'):?>
+                <a class="btn btn-info btn-group" href="<?=$this->url($form_action) ?>">
+                    <i class="ace-icon fa fa-arrow-left bigger-110"></i>
+                    Back
+                </a>
+                <?php endif ?>
+                <button class="btn btn-info btn-group" type="submit">
+                    <i class="ace-icon fa fa-check bigger-110"></i>
+                    <?=$submit_label?>
+                </button>
+                
+                <button class="btn btn-group" type="reset">
+                    <i class="ace-icon fa fa-undo bigger-110"></i>
+                    Reset
+                </button>
+
+				<!-- For submit only  -->
+				<?php if($user_action=='submit'):?>
+
+                <a href="<?=$this->url('election/result')?>?id=<?=$this->election->getId()?>" class="btn btn-group btn-success" >
+                    <i class="ace-icon fa fa-sign-in icon-on-right"></i>
+                    Open
+				</a>
+				<?php endif ?>				
+            </div>
+
+
+            </div>
+        </div>
+           
+        </div> <!-- /widget -->
+ 
+    </div> 
+    </div> <!-- / userinfo --> 
+
+ </div>
+
+</div> <!-- /row -->
+
+<!-- form-actions -->
+<div class="widget-container-col col-xs-10 col-sm-10 col-md-12 col-lg-10 col-xl-8">
+    
+</div>
+<!-- / form-actions -->
+</form>
+
+<script>
+
+    $(function(){
+
+        //Create Date Pickers
+        $('.date-picker').datepicker({
+           autoclose: true,
+           todayHighlight: true,
+	           
+        })
+        //show datepicker when clicking on the icon
+        .next().css('border','1px solid #6fb3e0').css('border-top-right-radius','4px!important').css('border-bottom-right-radius','4px!important').on(ace.click_event, function(){
+            $(this).prev().focus();
+        });
+      
+      	$('select').attr('autocomplete','off').select2({
+        	width:'200px',
+        	minimumResultsForSearch: 10,
+        });
+        
+        <?php if ($this->read_only): ?>                                         
+		$('#election_results_form').find('select, input,button,textarea').attr('disabled','disabled');
+        <?php endif ?> 
+    });
+    
+</script>

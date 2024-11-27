@@ -1,0 +1,287 @@
+<script src="https://bossanova.uk/jexcel/v4/jexcel.js"></script>
+<script src="https://bossanova.uk/jsuites/v3/jsuites.js"></script>
+<link rel="stylesheet" href="https://bossanova.uk/jsuites/v3/jsuites.css" type="text/css" />
+<link rel="stylesheet" href="https://bossanova.uk/jexcel/v4/jexcel.css" type="text/css" />
+ 
+<div id="spreadsheet"></div>
+ 
+<script>
+jexcel(document.getElementById('spreadsheet'), {
+    data: null,
+    minDimensions: [20,50000],
+    tableOverflow: true,
+    lazyLoading: true,
+    tableWidth: '600px',
+    freezeColumns: 2
+});
+</script
+<?php
+die;    
+//echo '<pre>'; print_r($this->processedData); die;
+require_once getcwd() . "/vendor/koolreport/core/autoload.php";
+
+use \koolreport\widgets\koolphp\Table;
+use \koolreport\widgets\google\PieChart;
+
+if (isset($this->processedData)) {
+
+    function make_link($data, $question = '', $category = '')
+    {
+        return '<a class="dtl_report" data-question="' . $question . '" data-category="' . $category . '" href="#">' . $data . '</a>';
+    }
+?>
+
+    <div style="margin:50px;">
+        <div style="padding:0 30px">
+
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Prayers Data</h2> <br/>
+            </div>
+        </div>
+
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <h1>Breakdown of Survey</h1>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>Daily Prayers</h3>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    No. of `Amila members submitted report and answered: <?= $this->data['data']['prayers']['data-for'] ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    No. of `Amila members submitted report but didn't answered: <?= $this->data['data']['prayers']['blank'] ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    `Amila members didn't submit report: <?= $this->additionalInfo['amila_members_not_assigned'] ?>
+                </div>
+            </div>
+
+
+            <br />
+            <div class="row"></div>
+            <?php
+            Table::create(array(
+                "dataSource" =>  function () {
+                    $arr[] = array_values($this->sections[0]['header']);
+                    foreach ($this->processedData[0] as $key => $value) {
+                        $arr[] = array(
+                            make_link($value['category'], 'prayers', $value['category']),
+                            make_link($value['Daily Prayers'], 'prayers', $value['category'])
+                        );
+                    }
+                    return $arr;
+                }
+            )); ?>
+        </div>
+
+        <?php
+        PieChart::create(array(
+            "title" => "Daily Prayers",
+            "dataSource" => $this->processedData[0],
+            "columns" => array(
+                "category",
+                "Daily Prayers" => array(
+                    "type" => "number"
+                )
+            )
+        ));
+
+        ?>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+    <div style="margin:50px;">
+        <div style="padding:0 30px">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>Fajr Prayer, Maghrib / Isha Prayer and Recitation of Holy Qur`an</h3>
+                </div>
+            </div>        
+
+
+
+            <div class="row">
+                <div class="col-md-6"></div>
+                <div class="col-md-2">Fajr</div>
+                <div class="col-md-2">Maghrib / Isha</div>
+                <div class="col-md-2">Qur`an</div>
+                <div class="col-md-2">Nawafil</div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">No. of `Amila members submitted report and answered:</div>
+                <div class="col-md-2"><?= $this->data['data']['fajr']['data-for'] ?></div>
+                <div class="col-md-2"><?= $this->data['data']['maghrib_isha']['data-for'] ?></div>
+                <div class="col-md-2"><?= $this->data['data']['quran']['data-for'] ?></div>
+                <div class="col-md-2"><?= $this->data['data']['nawafil']['data-for'] ?></div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">No. of `Amila members submitted report but didn't answered:</div>
+                <div class="col-md-2"><?= $this->data['data']['fajr']['blank'] ?></div>
+                <div class="col-md-2"><?= $this->data['data']['maghrib_isha']['blank'] ?></div>
+                <div class="col-md-2"><?= $this->data['data']['quran']['blank'] ?></div>
+                <div class="col-md-2"><?= $this->data['data']['nawafil']['blank'] ?></div>
+            </div>
+          
+            
+            <br />
+            <div class="row"></div>
+            <?php
+            Table::create(array(
+                "dataSource" =>  function () {
+                    $arr[] = array_values($this->sections[1]['header']);
+                    foreach ($this->processedData[1] as $key => $value) {
+                        $arr[] = array(
+                            make_link($value['category'], 'fajr|maghrib_isha|quran|nawafil', $value['category']),
+                            make_link($value['Fajr'], 'fajr', $value['category']),
+                            make_link($value['Maghrib / Isha'], 'maghrib_isha', $value['category']),
+                            make_link($value['Qur`an'], 'quran', $value['category'])
+                        );
+                    }
+                    return $arr;
+                }
+            )); ?>
+        </div>
+
+        <?php
+        PieChart::create(array(
+            "title" => "Fajr Prayer",
+            "dataSource" => $this->processedData[1],
+            "columns" => array(
+                "category",
+                "Fajr" => array(
+                    "type" => "number"
+                )
+            )
+        ));
+
+        PieChart::create(array(
+            "title" => "Maghrib / Isha",
+            "dataSource" => $this->processedData[1],
+            "columns" => array(
+                "category",
+                "Maghrib / Isha" => array(
+                    "type" => "number"
+                )
+            )
+        ));
+
+        PieChart::create(array(
+            "title" => "Qur`an",
+            "dataSource" => $this->processedData[1],
+            "columns" => array(
+                "category",
+                "Qur`an" => array(
+                    "type" => "number"
+                )
+            )
+        ));
+        ?>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+    <div style="margin:50px;">
+        <div style="padding:0 30px">
+
+
+
+        <div class="row">
+                <div class="col-md-12">
+                    <h3>Friday Prayers and Friday Sermons</h3>
+                </div>
+            </div>  
+
+            <div class="row">
+                <div class="col-md-6"></div>
+                <div class="col-md-3">Friday Prayers</div>
+                <div class="col-md-3">Friday Sermons</div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">No. of `Amila members submitted report and answered:</div>
+                <div class="col-md-3"><?= $this->data['data']['friday_prayer']['data-for'] ?></div>
+                <div class="col-md-3"><?= $this->data['data']['friday_sermon']['data-for'] ?></div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">No. of `Amila members submitted report but did't answered:</div>
+                <div class="col-md-3"><?= $this->data['data']['friday_prayer']['blank'] ?></div>
+                <div class="col-md-3"><?= $this->data['data']['friday_sermon']['blank'] ?></div>
+            </div>            
+
+
+            <br />
+            <div class="row"></div>
+            <?php
+            Table::create(array(
+                "dataSource" =>  function () {
+
+                    $arr[] = array_values($this->sections[2]['header']);
+                    foreach ($this->processedData[2] as $key => $value) {
+                        $arr[] = array(
+                            make_link($value['category'], 'friday_prayer|friday_sermon', $value['category']),
+                            make_link($value['Friday Prayer'], 'friday_prayer', $value['category']),
+                            make_link($value['Friday Sermon'], 'friday_sermon', $value['category'])
+                        );
+                        //$arr[$key] = array_values($value);
+                    }
+                    return $arr;
+                }
+            )); ?>
+        </div>
+
+        <?php
+        PieChart::create(array(
+            "title" => "Friday Prayer",
+            "dataSource" => $this->processedData[2],
+            "columns" => array(
+                "category",
+                "Friday Prayer" => array(
+                    "type" => "number"
+                )
+            )
+        ));
+
+        PieChart::create(array(
+            "title" => "Friday Sermon",
+            "dataSource" => $this->processedData[2],
+            "columns" => array(
+                "category",
+                "Friday Sermon" => array(
+                    "type" => "number"
+                )
+            )
+        ));
+        ?>
+    </div>
+
+<?php } ?>

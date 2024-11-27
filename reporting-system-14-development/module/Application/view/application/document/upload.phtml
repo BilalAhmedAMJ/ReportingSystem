@@ -1,0 +1,691 @@
+<link href="<?=$this->basePath().'/assets/css/fuelux.min.css'?>" rel="stylesheet">
+
+<script src="<?=$this->basePath()?>/assets/js/fuelux/fuelux.wizard.min.js"></script>
+
+<h2 class="header blue title col-xs-12">
+    Upload Documents    
+</h2>
+
+<div class="widget-body col-xs-12">
+
+
+  <div id="form-wizard"><!-- wrap step list and step panes -->
+    
+    <!-- step list -->
+    <ul class="steps wizard-steps">
+
+       <li data-step="1" class="active">
+          <span class="step">1</span>
+          <span class="title">Step1</span>
+       </li>
+
+       <li data-step="2">
+          <span class="step">2</span>
+          <span class="title">Step2</span>
+       </li>
+
+       <li data-step="3">
+          <span class="step">3</span>
+          <span class="title">Step3</span>
+       </li>
+
+    </ul>
+    
+    <!-- Place holder for validation messages-->
+    <div class="hide" id="messages">
+        <div class="alert alert-danger alert-dismissible-delete" role="alert" id="err_msg_template">
+          <!-- <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          -->
+          <div><strong>Error! </strong></div>
+          <ul id="err_msg_body"></ul>
+        </div>
+    </div>
+    <div class="hr"></div>
+    
+    <!-- step panes -->
+    <div class="step-content">
+      <form id="upload_document_form" enctype="multipart/form-data" method="post" action="<?=$this->url('document/upload')?>">
+      <input type="hidden" name="response_type" value="json" class="hide"/>  
+      <div class="step-pane active" data-step="1">
+        <!-- step 1 -->
+        
+            <h3 class="lighter block green">Select Document(s) to be uploaded</h3>
+
+                <input  type="file" name="documents[]" multiple />
+                                    
+      </div>
+   
+      <div class="step-pane" data-step="2">         
+        <!-- step 2 -->
+        <h3 class="lighter block green">Document Access Rules</h3>
+        <div class="col-md-6 sm-12">
+        <div class="form-group2 no-padding">
+
+            <label class="control-label2 col-xs-12 col-sm-5 no-padding-right bolder">Document Type</label>
+
+            <div class="col-xs-12 col-sm-7 align-left">
+                <input name="document_type" id="document_type" class="select2 input-small"  />
+            </div>
+        </div>
+
+        <div class="space-10 col-sm-12"></div>
+
+        <div class="form-group2 no-padding">
+
+            <label class="control-label2 col-xs-12 col-sm-5 no-padding-right bolder">Access Rule</label>
+
+            <div class="col-xs-12 col-sm-7 align-left">
+                <input name="access_rule" id="access_rule" class="select2 input-small"  />
+            </div>
+        </div>
+
+        <div class="space-10 col-sm-12"></div>
+        <div class="form-group2">
+
+            <label class="control-label2 col-xs-12 col-sm-5 no-padding-right bolder">Expiry Date</label>
+
+            <div class="col-xs-4 col-sm-7">
+                    <div class="input-group input-small">
+                        <input name="expiry_date" id="expiry_date" type="input" class="ace input-large date-picker  form-date-style " />
+                        <span class="input-group-addon">
+                            <i class="fa fa-calendar bigger-100"></i>
+                        </span>
+                    </div>
+            </div>
+            
+        </div>
+        </div><!-- col 1 input fields -->
+        <div class="col-md-6 sm-12">
+        <div class="form-group2 no-padding user-type-select">
+
+            <label class="control-label2 col-xs-12 col-sm-5 no-padding-right bolder">User Type</label>
+
+            <div class="col-xs-12 col-sm-7 align-left">
+                <input name="user_type" id="user_type" class="select2 input-small"  />
+            </div>
+        </div>
+
+        <div class="space-10 col-sm-12"></div>
+
+        <div class="form-group2 no-padding jamaat-halqa-select">
+
+            <label class="control-label2 col-xs-12 col-sm-5 no-padding-right bolder">Jama`at / Halqa</label>
+
+            <div class="col-xs-12 col-sm-7 align-left">
+                <input name="jamaat_halqa" id="jamaat_halqa" class="select2 input-small"  />
+            </div>
+        </div>
+
+        </div><!-- col 2 inoput fields -->
+        
+        <div class="space-10 col-sm-12"></div>
+
+      </div><!-- Step 2-->
+
+      <div class="step-pane" data-step="3">
+        <!-- step 3 -->
+                <DIV class="col-xs-12 col-sm-12">
+                <h3 class="lighter block green">Review Document(s) to be uploaded</h3>
+                
+                    <div class="form-group2 no-padding">
+
+                        <label class="control-label2 col-xs-12 col-sm-3 no-padding-right bolder">Document(s) to Upload</label>
+
+                        <div class="col-xs-12 col-sm-6 ace-file-input ace-file-multiple">
+                            <span class=" ace-file-container hide-placeholder selected" id="files-to-upload" style="cursor: text!important"></span>                           
+                        </div>
+                    </div>
+                    <div class="space-10 col-sm-12"></div>
+
+                    <div class="form-group2 no-padding">
+
+                        <label class="control-label2 col-xs-12 col-sm-3 no-padding-right bolder">Document Type</label>
+
+                        <div class="col-xs-12 col-sm-6 ace-file-input ace-file-multiple">
+                            
+                                <div class=" ace-file-container hide-placeholder selected">
+                                    <span id="document_type2"  class=" ace-file-name " style="cursor: text!important">
+                                        
+                                    </span>
+                                </div>
+                            
+                        </div>
+                    </div>
+                    <div class="space-10 col-sm-12"></div>
+
+                    <div class="form-group2 no-padding">
+
+                        <label class="control-label2 col-xs-12 col-sm-3 no-padding-right bolder">Document Access Rule</label>
+
+                        <div class="col-xs-12 col-sm-6 ace-file-input ace-file-multiple" >
+                            
+                                <div class=" ace-file-container hide-placeholder selected " >
+                                    <span id="access_rule2"  class=" ace-file-name " style="cursor: text!important">
+                                        
+                                    </span>
+                                </div>
+                            
+                        </div>
+                    </div>
+                    <div class="space-10 col-sm-12"></div>
+                    <div class="form-group2 no-padding">
+
+                        <label class="control-label2 col-xs-12 col-sm-3 no-padding-right bolder">User Type</label>
+
+                        <div class="col-xs-12 col-sm-6 ace-file-input ace-file-multiple" >
+                            
+                                <div class=" ace-file-container hide-placeholder selected " >
+                                    <span id="user_type2"  class=" ace-file-name " style="cursor: text!important">
+                                        
+                                    </span>
+                                </div>
+                            
+                        </div>
+                    </div>
+                    <div class="space-10 col-sm-12"></div>
+                    <div class="form-group2 no-padding">
+
+                        <label class="control-label2 col-xs-12 col-sm-3 no-padding-right bolder">Jama`at / Halqa</label>
+
+                        <div class="col-xs-12 col-sm-6 ace-file-input ace-file-multiple" >
+                            
+                                <div class=" ace-file-container hide-placeholder selected " >
+                                    <span id="jamaat_halqa2"  class=" ace-file-name " style="cursor: text!important">
+                                        
+                                    </span>
+                                </div>
+                            
+                        </div>
+                    </div>
+                    <div class="space-10 col-sm-12"></div>
+
+                    <div class="form-group2 no-padding">
+
+                        <label class="control-label2 col-xs-12 col-sm-3 no-padding-right bolder">Document Expiry</label>
+
+                        <div class="col-xs-12 col-sm-6 ace-file-input ace-file-multiple">
+                            
+                                <div class=" ace-file-container hide-placeholder selected">
+                                    <span id="expiry_date2"  class=" ace-file-name " style="cursor: text!important">
+                                        
+                                    </span>
+                                </div>
+                            
+                        </div>
+                    </div>
+                    <div class="space-10 col-sm-12"></div>
+                </DIV>
+
+      </div> <!-- Step 3-->
+
+   </div> <!-- Step container -->
+   </form>
+ 
+ </div><!-- Form wizard-->
+
+<div class="space-10 col-sm-12 hr"></div>
+ 
+ <div class="wizard-actions col-sm-12">
+  <button class="btn-prev btn">
+    <i class="ace-icon fa fa-arrow-left"></i> Prev
+  </button>
+  <button class="btn-next btn btn-success" data-last="Finish ">
+    Next <i class="ace-icon fa fa-arrow-right icon-on-right"></i>
+  </button>
+</div>
+
+
+
+</div>
+
+
+  
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+
+
+
+/**
+ <b>Wizard</b>. A wrapper for FuelUX wizard element.
+ It's just a wrapper so you still need to include FuelUX wizard script first.
+*/
+(function($ , undefined) {
+    $.fn.aceWizard = $.fn.ace_wizard_2 = function(options) {
+
+        this.each(function() {
+            var $this = $(this);
+            $this.wizard();
+            
+            if(ace.vars['old_ie']) $this.find('ul.steps > li').last().addClass('last-child');
+
+            var buttons = (options && options['buttons']) ? $(options['buttons']) : $this.siblings('.wizard-actions').eq(0);
+            var $wizard = $this.data('fu.wizard');
+            $wizard.$prevBtn.remove();
+            $wizard.$nextBtn.remove();
+            
+            $wizard.$prevBtn = buttons.find('.btn-prev').eq(0).on(ace.click_event,  function(){
+                $wizard.previous();
+            }).attr('disabled', 'disabled');
+            $wizard.$nextBtn = buttons.find('.btn-next').eq(0).on(ace.click_event,  function(){
+                $wizard.next();
+            }).removeAttr('disabled');
+            $wizard.nextText = $wizard.$nextBtn.text();
+            
+            var step = options && ((options.selectedItem && options.selectedItem.step) || options.step);
+            if(step) {
+                $wizard.currentStep = step;
+                $wizard.setState();
+            }
+        });
+
+        return this;
+    }
+
+})(window.jQuery);
+;
+
+
+function upload_files(){
+
+        //form upload
+        var $form = $('#upload_document_form');
+        var ie_timeout = null;//a time for old browsers uploading via iframe
+        var file_input = $form.find('input[type=file]');
+        var upload_in_progress = false;
+
+        var files = file_input.data('ace_input_files');
+        if( !files || files.length == 0 ) return false;//no files selected
+                            
+        var deferred ;
+        if( "FormData" in window ) {
+            //for modern browsers that support FormData and uploading files via ajax
+            //we can do >>> var formData_object = new FormData($form[0]);
+            //but IE10 has a problem with that and throws an exception
+            //and also browser adds and uploads all selected files, not the filtered ones.
+            //and drag&dropped files won't be uploaded as well
+            
+            //so we change it to the following to upload only our filtered files
+            //and to bypass IE10's error
+            //and to include drag&dropped files as well
+            formData_object = new FormData();//create empty FormData object
+            
+            //serialize our form (which excludes file inputs)
+            $.each($form.serializeArray(), function(i, item) {
+                //add them one by one to our FormData 
+                formData_object.append(item.name, item.value);                          
+            });
+            //and then add files
+            $form.find('input[type=file]').each(function(){
+                var field_name = $(this).attr('name');
+                //for fields with "multiple" file support, field name should be something like `myfile[]`
+
+                var files = $(this).data('ace_input_files');               
+                if(files && files.length > 0) {
+                    for(var f = 0; f < files.length; f++) {
+                        formData_object.append(field_name, files[f]);
+                    }
+                }
+            });
+
+
+            upload_in_progress = true;
+            file_input.ace_file_input('loading', true);
+            
+            deferred = $.ajax({
+                        url: $form.attr('action'),
+                       type: $form.attr('method'),
+                processData: false,//important
+                contentType: false,//important
+                   dataType: 'json',
+                       data: formData_object
+                
+                // ,
+                // xhr: function() {
+                    // var req = $.ajaxSettings.xhr();
+                    // if (req && req.upload) {
+                        // req.upload.addEventListener('progress', function(e) {
+                            // if(e.lengthComputable) {    
+                                // var done = e.loaded || e.position, total = e.total || e.totalSize;
+                                // var percent = parseInt((done/total)*100) + '%';
+                                // //percentage of uploaded file
+                            // }
+                        // }, false);
+                    // }
+                    // return req;
+                // },
+                // beforeSend : function() {
+                // },
+                // success : function() {
+                // }
+            })
+
+        }
+        else {
+            //for older browsers that don't support FormData and uploading files via ajax
+            //we use an iframe to upload the form(file) without leaving the page
+console.log('submitting as iframe :( ');
+            deferred = new $.Deferred //create a custom deferred object
+            
+            var temporary_iframe_id = 'temporary-iframe-'+(new Date()).getTime()+'-'+(parseInt(Math.random()*1000));
+            var temp_iframe = 
+                    $('<iframe id="'+temporary_iframe_id+'" name="'+temporary_iframe_id+'" \
+                    frameborder="0" width="0" height="0" src="about:blank"\
+                    style="position:absolute; z-index:-1; visibility: hidden;"></iframe>')
+                    .insertAfter($form)
+
+            $form.append('<input type="hidden" name="temporary-iframe-id" value="'+temporary_iframe_id+'" />');
+            
+            temp_iframe.data('deferrer' , deferred);
+            //we save the deferred object to the iframe and in our server side response
+            //we use "temporary-iframe-id" to access iframe and its deferred object
+            
+            $form.attr({
+                          method: 'POST',
+                         enctype: 'multipart/form-data',
+                          target: temporary_iframe_id //important
+                        });
+
+            upload_in_progress = true;
+            file_input.ace_file_input('loading', true);//display an overlay with loading icon
+            $form.get(0).submit();
+            
+            
+            //if we don't receive a response after 30 seconds, let's declare it as failed!
+            ie_timeout = setTimeout(function(){
+                ie_timeout = null;
+                temp_iframe.attr('src', 'about:blank').remove();
+                deferred.reject({'status':'fail', 'message':'Timeout!'});
+            } , 30000);
+        }
+
+
+        ////////////////////////////
+        //deferred callbacks, triggered by both ajax and iframe solution
+        deferred
+        .done(function(result) {//success
+            //format of `result` is optional and sent by server
+            //in this example, it's an array of multiple results for multiple uploaded files
+            var message = '<div class="bigger-110">Files were uploaded, see below for details</div><pre>';
+
+            for(var i = 0; i < result.files.length; i++) {                                                
+                if(result['files'][i]['status'] && result['files'][i]['status'] == 'error') {
+                    message += "File not saved. " + result.message + "\n";
+                }
+                else {
+                    message += result['files'][i]['title']+ " : File(s) successfully saved. \n"
+                }
+                message += "\n";
+            }
+            message +='</pre>';
+             
+            bootbox.dialog({
+                title:"Document Uploaded Successfully",
+                message: message, 
+                buttons: {
+                    "success" : {
+                        "label" : "OK",
+                        "className" : "btn-sm btn-primary",
+                        callback: function() {
+                            location.reload();
+                        }
+                    }
+                },
+                onEscape: function() {
+                    location.reload();
+                },
+
+            });//message box
+
+            
+        })
+        .fail(function(result) {//failure
+            //console.log(['Error in uploading files : ',result]);             
+            bootbox.dialog({
+                title:"Error During Document Upload",
+                message: result, 
+                buttons: {
+                    "success" : {
+                        "label" : "OK",
+                        "className" : "btn-sm btn-primary",
+                        callback: function() {
+                            //location.reload();
+                        }
+                    }
+                },
+                onEscape: function() {
+                    location.reload();
+                },
+
+            });//message box
+        })
+        .always(function() {//called on both success and failure
+            if(ie_timeout) clearTimeout(ie_timeout)
+            ie_timeout = null;
+            upload_in_progress = false;
+            file_input.ace_file_input('loading', false);
+            jsUtils.hidePleaseWait();
+        });
+
+
+    jsUtils.showPleaseWait();
+    deferred.promise();    
+} // file_upload
+
+
+
+
+    var scripts = [null,
+                        "<?=$this->basePath()?>/assets/js/jquery.validate.min.js",
+                        "<?=$this->basePath()?>/assets/js/additional-methods.min.js",
+                        "<?=$this->basePath()?>/assets/js/bootbox.min.js",
+                        "<?=$this->basePath()?>/assets/js/jquery.maskedinput.min.js",
+                        "<?=$this->basePath()?>/assets/js/select2.min.js", null]
+                        
+   ace.load_ajax_scripts(scripts, function() {
+      //inline scripts related to this page
+     jQuery(function($) {
+        
+        //form upload
+        var $form = $('#upload_document_form');
+        //you can have multiple files, or a file input with "multiple" attribute
+        var file_input = $form.find('input[type=file]');
+        var upload_in_progress = false;
+
+        var document_upload_types = <?=json_encode($this->document_upload_types,true)?>
+
+        $form.on('submit', function(e) {
+            e.preventDefault();            
+        });
+
+        file_input.ace_file_input({
+            style : 'well',
+            btn_choose : 'Drop files here or click',
+            btn_change: null,
+            no_icon:'ace-icon fa  fa-folder-open',//fa-cloud-upload
+            droppable: true,
+            thumbnail: 'medium',
+            
+            //maxSize: 20971520,//bytes //20 MB
+            //allowExt: ["jpeg", "jpg", "png", "gif",'pdf','doc','xlsx','xls','docx','ppt','pptx'],
+            //allowMime: ["image/jpg", "image/jpeg", "image/png", "image/gif",'application/pdf',],
+
+            before_remove: function() {
+                if(upload_in_progress)
+                    return false;//if we are in the middle of uploading a file, don't allow resetting file input
+                return true;
+            },
+
+            preview_error: function(filename , code) {
+                //code = 1 means file load error
+                //code = 2 image load error (possibly file is not an image)
+                //code = 3 preview failed
+            }
+        });    
+        
+        //when "reset" button of form is hit, file field will be reset, but the custom UI won't
+        //so you should reset the ui on your own
+        $form.on('reset', function() {
+            $(this).find('input[type=file]').ace_file_input('reset_input_ui');
+        });
+
+
+
+         $('.date-picker').datepicker({
+           autoclose: true,
+           todayHighlight: false,
+           format:'dd-MM-yy',
+        })
+        //show datepicker when clicking on the icon
+        .next().css('border','1px solid #6fb3e0').css('border-top-right-radius','4px!important').css('border-bottom-right-radius','4px!important').on(ace.click_event, function(){
+            $(this).prev().focus();
+        });
+
+      var $doc_rules = CustomSelect2.createSimple({
+                placeholder:"Select Access Rule",
+                url:'<?php echo $this->url("config/config-value-for-user")?>?config_item=document_rules',
+                id:'value',
+                label:'label',
+                element:$('#access_rule'),
+                data_target:'document_rules',
+                initValLabel:true,
+                multiple:true,
+        });
+
+        CustomSelect2.createSimple({
+                placeholder:"Select User Type",
+                url:'<?php echo $this->url("config/department-json")?>',
+                id:'id',
+                label:'department_name',
+                element:$('#user_type'),
+                data_target:'data',
+                initValLabel:true,
+                multiple:true,
+        });
+    
+        var $doc_type = CustomSelect2.createSimple({
+                placeholder:"Select Document Type",
+                url:'<?php echo $this->url("config/config-value-for-user")?>?config_item=document_type',
+                id:'id',
+                label:'label',
+                element:$('#document_type'),
+                data_target:'document_type',
+                initValLabel:true,
+                multiple:false,
+        });
+       
+       $doc_type.change(function(){
+           var $this = $(this);
+
+           <?php if($this->zfcUserIdentity()->hasRole('admin-upload-documents')):?>
+           $doc_rules.select2('data',{id: "4", text: "President/GS/Mal/Muhasib"});
+           <?php else: ?> 
+           var target_types = ['election_lists','tajnid_lists','mal_report','system_data'];
+           if($.inArray($this.val(),target_types)){
+               $doc_rules.select2('data',{id: "4", text: "President/GS/Mal/Muhasib"});
+           }
+           <?php endif ?>
+       }); 
+       var jamaat_halqa = CustomSelect2.createSimple({
+                placeholder:"Select Jamaat / Halqa",
+                url:'<?php echo $this->url("config/user-branches")?>?filter=all',
+                id:'id',
+                label:'branch_name',
+                element:$('#jamaat_halqa'),
+                data_target:'data',
+                initValLabel:true,
+                multiple:false,
+        });
+
+        var get_multi_select_text=function(selecter){
+            var result='';
+            var selections = $(selecter).select2('data');
+            if(selections && selections.length>0){
+                for(var i in selections)
+                    result = result + (result==''?'':', ')+selections[i].text;
+            }
+            return result;            
+        }
+        var validate = function(){
+            
+        }    
+        //prevent form submission
+        $('#form-wizard').ace_wizard_2(
+            //wizard options
+            
+        ).on('actionclicked.fu.wizard' , function(e, info){
+            
+            var valid=true;
+            var messages='';
+            if(info && info.direction!='previous' && info.step == 1){
+                var files = file_input.data('ace_input_files');
+                if( !files || files.length == 0 ){                                        
+                   messages += '<li>You need to select at least one file to continue uploading</li>';
+                   valid=false;
+                 }
+            }
+            if(info && info.direction!='previous' && info.step == 2) {
+                if(! $('#document_type').select2('data')){
+                   messages += '<li>Document type is a required field</li>';
+                   valid=false;
+                }
+                if($('#access_rule').select2('data').length < 1){
+                   messages += '<li>You need to select at least one access rule</li>';
+                   valid=false;
+                }
+                <?php if($this->zfcUserIdentity()->hasRole('admin-upload-documents') &&
+                        !$this->zfcUserIdentity()->hasRole('sys-admin')):?>
+                if($('#document_type').val() && (! $('#jamaat_halqa').select2('data') ) ){
+                   messages += '<li>You need to select at least one Jama`at or Halqa for Election Lists</li>';
+                   valid=false;
+                }
+                <?php endif?>
+
+            }
+            if(!valid){
+               e.preventDefault();
+               console.log('Validation errors '+messages);
+               $('#err_msg_body').html(messages);
+               $('#messages').removeClass('hide');               
+            }else{
+               $('#err_msg_body').html('');
+               $('#messages').addClass('hide');               
+            }
+        })//onActionClicked
+        .on('changed.fu.wizard' , function(e, info){
+             
+                        
+            if(info && info.step == 2) {
+                //if(!$('#validation-form').valid()) return false;
+            }
+            if(info && info.step == 3){
+                $('#files-to-upload').html($('.ace-file-container').html()).css('cursor','pointer');
+                $('#document_type').select2('data')  && $('#document_type2').html($('#document_type').select2('data').text);
+                //$('#access_rule').select2('data') && $('#access_rule2').html($('#access_rule').select2('data').text);
+                
+                $('#access_rule2').html(get_multi_select_text('#access_rule'));
+                
+                $('#jamaat_halqa2').html($('#jamaat_halqa').select2('data').text);
+                $('#user_type2').html(get_multi_select_text('#user_type'));
+                
+                if($('#expiry_date').val() && $('#expiry_date').val()!=''){
+                    $('#expiry_date2').html($('#expiry_date').val());
+                }
+                else{
+                    var date = new Date();
+                    date.setDate(date.getDate()+30);//add 30 days to today to get default expiry
+                    $('#expiry_date').val($.datepicker.formatDate('dd-MM-yy',date));
+                    $('#expiry_date2').html($('#expiry_date').val());                    
+                }
+            }
+            
+        })//on changed
+        .on('finished.fu.wizard', function(e) {
+           
+           upload_files();
+           
+          });//onFinished
+          // End form-wizard
+          
+     })//JQuery
+   });//auto_load
+</script>

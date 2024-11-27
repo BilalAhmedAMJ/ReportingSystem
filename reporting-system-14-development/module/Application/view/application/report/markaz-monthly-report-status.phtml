@@ -1,0 +1,146 @@
+<style>
+body {
+    background-color: #FFF;
+    min-height: 100%;
+    padding-bottom: 0;
+    font-family: 'helvetica';
+    font-size: 13px;
+    color: #393939;
+}
+.report_status  { border-collapse: collapse;}
+.report_status th {text-align: center; padding: 0 10px; background-color: #d0d0d0;}
+.report_status td {text-align: center; white-space: nowrap;}
+.report_status tr:hover {background-color: #d0d0d0;}
+.branch_name {text-align: left !important; padding: 0 10px;}
+.data-Yes {color: #3936d2; font-weight: bold; }
+.data-No { color: #000000;}
+.detail-Yes {color: #3936d2; font-weight: bold; padding: 0 10px; white-space: nowrap;}
+.detail-No { color: #000000; padding: 0 10px; white-space: nowrap;}
+.report_status_container {clear: both;}
+</style>
+
+<div class="col-sm-12 align-center center center-block" style="max-width: 1400px!important">
+    <table border="0" width="100%">
+        <tr>
+            <td align="left" nowrap><img src="<?=$this->basePath()?>/img/topbar-left.png" height="45"></td>
+            <td align="left"><img src="<?=$this->basePath()?>/img/bismillah.png" ></td>
+        </tr>   
+        <tr>
+            <td colspan="2">&nbsp;</td>
+        </tr>                                  
+        <tr>
+            <td align="left" nowrap><b>Date:&nbsp;</b><?php echo date("Y-m-d"); ?></td>
+            <td align="left">&nbsp;</td>
+        </tr>
+    </table>
+</div>
+<br />
+<div class="report_status_container">
+<br />
+<?php if( isset($this->data) && count($this->data) ) { ?>
+<table class="report_status" border="1">
+<thead>
+<tr>
+    <th>Branch</th>
+    <?php 
+    $colspan = isset($this->post_data['show_detail']) && $this->post_data['show_detail'] == 'yes' ? ' colspan="2" ' : '';
+    if( in_array('all', $this->post_data['month']) ) {
+        $starting_month = "{$this->post_data['year']}-07-01";
+        for( $i=0; $i<12; $i++ ) {
+            echo '<th '.$colspan.'>' . date('M-Y', strtotime($starting_month)) . '</th>';
+            $starting_month = date('Y-m-d', strtotime($starting_month.' +1 MONTH'));
+        }
+    } 
+    else {
+        foreach($this->post_data['month'] as $selected_month) {
+            if( $selected_month >= 7 ) {
+                $starting_month = "{$this->post_data['year']}-{$selected_month}-01";
+            }
+            else {
+                $starting_month = ($this->post_data['year']+1)."-{$selected_month}-01";
+            }
+            echo '<th'.$colspan.'>' . date('M-Y', strtotime($starting_month)) . '</th>';
+        }
+    }
+    ?>   
+    <?php if( in_array('all', $this->post_data['month']) ) { ?><th>Total months target achieved</th><?php } ?>
+</tr>
+<?php if( isset($this->post_data['show_detail']) && $this->post_data['show_detail'] == 'yes' ) { ?>
+    <tr>
+        <th>&nbsp;</td>
+        <?php 
+        if( in_array('all', $this->post_data['month']) ) {
+            $starting_month = "{$this->post_data['year']}-07-01";
+            for( $i=0; $i<12; $i++ ) {
+                $month = date('M-Y', strtotime($starting_month));
+                echo '<th>80%</th>';
+                echo '<th>Detail</th>';
+
+                $starting_month = date('Y-m-d', strtotime($starting_month.' +1 MONTH'));
+            } 
+        }
+        else {
+            echo '<th>80%</th>';
+            echo '<th>Detail</th>';
+        }
+        ?>   
+        <?php if( in_array('all', $this->post_data['month']) ) { ?><th>&nbsp;</td><?php } ?>
+    </tr>
+<?php } ?>
+</thead>
+<tbody>
+    <?php
+    function generateHTML($data_val, $post_data, $starting_month) {
+        $month = date('M-Y', strtotime($starting_month));
+        echo '<td><span class="data-'.$data_val["{$month}-achieved"].'">'.$data_val["{$month}-achieved"].'</span></td>';
+        if( isset($post_data['show_detail']) && $post_data['show_detail'] == 'yes' ) {
+            if( !isset($data_val["{$month}-achieved"]) || $data_val["{$month}-achieved"] === '' ) {
+                echo '  <td>&nbsp;</td>';
+            }
+            else {
+                $data_val["{$month}-received"] = empty($data_val["{$month}-received"]) ? 0 : $data_val["{$month}-received"];
+                $data_val["{$month}-percent"] = empty($data_val["{$month}-percent"]) ? 0 : $data_val["{$month}-percent"];
+                $data = $data_val["{$month}-received"] . '/' . $data_val["{$month}-required"] . ' (' . $data_val["{$month}-percent"]  . '%)';
+                echo '<td ><span class="detail-'.$data_val["{$month}-achieved"].'">'.$data.'</span></td>';
+            }
+        }
+    }
+    $largeBranches = $smallBranches = false;
+    $colspan = isset($this->post_data['show_detail']) && $this->post_data['show_detail'] == 'yes' ? ' colspan="26" ' : ' colspan="14" ';
+    ?>
+    <?php foreach($this->data as $data_val) { ?>
+
+        <?php if($data_val['level'] == 'Large Jama`at' && $largeBranches === false) { ?><tr><th <?=$colspan?>>Large Jama`at</th></tr><?php $largeBranches = true; } ?>
+
+        <?php if($data_val['level'] == 'Jama`at' && $smallBranches === false) { ?><tr><th <?=$colspan?>>Jama`at</th></tr><?php $smallBranches = true; } ?>
+
+        <tr>
+            <td class="branch_name"><?=$data_val['branch_name']?></td>
+            <?php 
+            if( in_array('all', $this->post_data['month']) ) {
+                $starting_month = "{$this->post_data['year']}-07-01";
+                for( $i=0; $i<12; $i++ ) {
+                    generateHTML($data_val, $this->post_data, $starting_month);
+                    $starting_month = date('Y-m-d', strtotime($starting_month.' +1 MONTH'));
+                } 
+            }
+            else {
+                foreach($this->post_data['month'] as $selected_month) {
+                    if( $selected_month >= 7 ) {
+                        $starting_month = "{$this->post_data['year']}-{$selected_month}-01";
+                    }
+                    else {
+                        $starting_month = ($this->post_data['year']+1)."-{$selected_month}-01";
+                    }
+                    generateHTML($data_val, $this->post_data, $starting_month);
+                }
+            }
+            ?>   
+            <?php if( in_array('all', $this->post_data['month']) ) { ?><td><?=$data_val['total_achieved']?></td><?php } ?>
+        </tr>
+    <?php } ?>
+ </tbody>
+</table>
+<?php } ?>
+</div>
+<br /><br /><br />

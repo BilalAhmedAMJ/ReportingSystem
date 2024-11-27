@@ -1,0 +1,67 @@
+<?php include __DIR__.'/../../partial/grid_includes.phtml' ?>
+
+<?php
+    $this->headLink()
+        ->appendStylesheet($this->basePath() . '/assets/css/select2.css');
+  
+    $this->headScript()->appendFile( $this->basePath() . '/assets/js/select2.min.js','text/javascript',array());
+    $this->headScript()->appendFile( $this->basePath() . '/js/custom.select2.js','text/javascript',array());
+
+?>
+<form name="update_request" id="update_request" action="/office-assignment/request" method="post">
+    <input type="hidden" name="request_id"  />
+</form>
+
+<table id="reports_grid"></table>
+<div id="reports_pager"></div>
+
+<script>
+    function submitForm(target){
+//        alert('submitForm');
+//        var row=CommonDataGrid.getRowDataFromClick(target);
+        document.location.href='/office-assignment/request?request_id='+row['id'];
+    };
+
+$(document).ready(function(){
+    
+    
+    var actionsFunction=function ( cellvalue, options, rowObject ){
+//        setTimeout(function(){console.log($('#requests_grid .ui-inline-edit').length)},1000);
+        var clickCode="$('#update_request :input').val('"+rowObject['id']+"');$('#update_request').submit();";
+        return '<div title="Edit selected row" id="jEditButton_'+rowObject['id']+'"  onclick="'+clickCode+'" style="float:left;cursor:pointer;" class="ui-pg-div ui-inline-edit"  onmouseover="jQuery(this).addClass(\'ui-state-hover\');" onmouseout="jQuery(this).removeClass(\'ui-state-hover\')"><span class="ui-icon ace-icon fa fa-edit bigger-140"></span></div>';
+    };
+                                
+    SimpleDataGrid.create({'grid_selector':'#reports_grid','pager_selector':'#reports_pager',
+                         'url':'<?php echo $this->url("report/list") ?>/json',
+                        // 'editurl': '<?php echo $this->url("report/list") ?>/json', //"/dummy.html",//nothing is saved
+                          'gridTitle':'<?php echo $this->translate('Reports')?>',
+                          'dataRoot':'data',
+                          'editable':false,
+                          'rowNum':25,
+                          'paginator':true,
+                          'paginator_records':'records',
+                          'paginator_total':'total',
+                          'colModel':[
+                            {index:'id',name:'id',label:'Id',sorttype:"int",hidden:true},
+                            {index:'period_from.period_start',name:'period_from.period_code',label:'Month'},
+                            {index:'user_completed.display_name',name:'user_completed.display_name',label:'Prepared By',},
+                            {index:'branch.branch_name',name:'branch.branch_name',label:'Branch'},
+                            {index:'department.department_name',name:'department.department_name',label:'Department'},
+                            {index:'status',name:'status',label:'Status',editable:false}
+                           ,{
+                            name: 'actions',
+                            index: 'actions',
+                            width: 30,
+                            editable: false,
+                            search:false,
+                            label:' ',
+                            formatter:actionsFunction
+                        }
+                          ]
+                          });
+                          
+        
+        
+
+});    
+</script>

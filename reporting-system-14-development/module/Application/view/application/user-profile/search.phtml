@@ -1,0 +1,73 @@
+<?php include __DIR__.'/../../partial/grid_includes.phtml' ?>
+
+<div class="row">
+<form class="form-horizontal" role="form" id="update-enc-field" method="post" action="<?php echo $this->url("user-profile/search") ?>"  >
+
+<div class="row">
+    <div class="col-xs-12 col-lg-12 " >
+
+          <label class="col-sm-2 control-label no-padding-right" for="full_name">Search:</label>
+          <div class="col-sm-3">
+            <input type="text" class="form-control input-xlarge" placeholder="" id="query" name="query"  required="true" value="<?=$data?$data['query']:''?>"></input>
+          </div>
+          <div class="col-sm-4">
+                <button class="button btn btn-primary btn-round btn-white" id='load_btn' type="button">Load</button>
+          </div>
+   </div>
+</div>
+
+       <input type="hidden"  class="hidden" name="oper" value="load" id="oper" />
+
+</form>
+
+</div>
+
+
+<div class="row">
+<div class="col-xs-12">
+        
+
+<table id="users_grid"></table>
+<div id="users_pager"></div>
+<script>
+
+$(document).ready(function(){
+    var doSearch  = function(){ 
+           jQuery('#users_grid').setGridParam({url: '<?=$this->url("user-profile/search") ?>/json',mtype:'post',postData:{'query':$('#query').val()}, dataType: 'json'});
+                       
+           setTimeout(function(){jQuery('#users_grid').trigger('reloadGrid')},100);
+     };
+    jQuery("#load_btn").click( doSearch); 
+    jQuery("#query").bind('enterKey', doSearch); 
+
+    SimpleDataGrid.create({'grid_selector':'#users_grid','pager_selector':'#users_pager',
+                          'url':'<?php echo $this->url("user-profile/search") ?>/json',
+                          'gridTitle':'Users List',
+                          'rowNum':25,
+                          'height':350,
+                          'mtype':'post',
+                          'postparams':{'query':"<?=(key_exists('query',$this->data))?$data['query']:''?>"},
+                          'dataRoot':'data',
+                          'colModel':[
+                            {index:'id',name:'id',label:'Id',sorttype:"int"},
+                            {index:'username_id',name:'username_id',label:'User Name'},
+                            {index:'display_name',name:'display_name',label:'Full Name'},
+                            {index:'email_address',name:'email_address',label:'Email'},
+                            {index:'membership_code',name:'membership_code',label:'Member Code'},
+                            {index:'office_titles',name:'office_titles',label:'Offices', formatter:function(cellvalue, options, rowObject){ return '<pre>'+cellvalue+'</pre>';}}
+                          ]
+                          });
+
+
+});  
+     
+</script>
+</div>
+<div class="col-xs-12">
+        <?php if($this->queryString){
+            echo "<h5>Searched for</h5> <pre>{$this->data['query']}</pre><pre>$this->queryString</pre>"; 
+        }?>
+    
+</div>
+</div>
+

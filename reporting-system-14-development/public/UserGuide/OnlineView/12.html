@@ -1,0 +1,266 @@
+<!DOCTYPE html >
+<html lang="en">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+<meta charset="utf-8" />
+</head>
+
+<body style="margin: 0;">
+
+<div id="jpedal" style="overflow: hidden; position:relative; width: 935px; height: 1210px;">
+
+<!-- Begin shared CSS values -->
+<style type="text/css" >
+.t {
+	position: absolute;
+	-webkit-transform-origin: top left;
+	-moz-transform-origin: top left;
+	-o-transform-origin: top left;
+	-ms-transform-origin: top left;
+	-webkit-transform: scale(0.25);
+	-moz-transform: scale(0.25);
+	-o-transform: scale(0.25);
+	-ms-transform: scale(0.25);
+	z-index: 2;
+	position:absolute;
+	white-space:nowrap;
+	overflow:visible;
+}
+</style>
+<!-- End shared CSS values -->
+
+<!-- Begin shared JS -->
+<script type="text/javascript">
+
+// Ensure that we're not replacing any onload events
+function addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			if (oldonload) {
+				oldonload();
+			}
+			func();
+		}
+	}
+}
+addLoadEvent(function(){load12();});
+
+function adjustWordSpacing(widths) {
+    var i, allLinesDone = false;
+    var isDone = [];
+    var currentSpacing = [];
+    var elements = [];
+    
+    // Initialise arrays
+    for (i = 0; i < widths.length; i++) {
+        elements[i] = document.getElementById(widths[i][0]);
+        elements[i].style.wordSpacing = '0px';//Required if rerunning
+    }
+    for (i = 0; i < widths.length; i++) {
+        if (isIE) widths[i][1] = widths[i][1] * 4;
+        currentSpacing[i] = Math.floor((widths[i][1] - elements[i].offsetWidth) / elements[i].innerHTML.match(/\s.|&nbsp;./g).length);//min
+        if (isIE) currentSpacing[i] = Math.floor(currentSpacing[i] / 4);
+        isDone[i] = false;
+    }
+    
+    while (!allLinesDone) {
+        // Add each adjustment to the render queue without forcing a render
+        for (i = 0; i < widths.length; i++) {
+            if (!isDone[i]) {
+                elements[i].style.wordSpacing = currentSpacing[i] + 'px';
+            }            
+        }
+        
+        allLinesDone = true;
+        // If elements still need to be wider, add 1 to the word spacing
+        for (i = 0; i < widths.length; i++) {
+            if (!isDone[i] && currentSpacing[i] < 160) {
+                if (elements[i].offsetWidth >= widths[i][1]) {
+                    isDone[i] = true;
+                } else {
+                    currentSpacing[i]++;
+                    allLinesDone = false;
+                }
+            }
+        }
+    }
+    
+    for (i = 0; i < widths.length; i++) {
+        elements[i].style.wordSpacing = (currentSpacing[i] - 1) + 'px';
+    }
+}
+
+</script>
+<!-- End shared JS -->
+
+
+<!-- Begin inline CSS -->
+<style type="text/css" >
+
+#t1_12{left:103px;top:88px;}
+#t2_12{left:103px;top:142px;}
+#t3_12{left:339px;top:142px;}
+#t4_12{left:465px;top:142px;}
+#t5_12{left:557px;top:142px;}
+#t6_12{left:643px;top:142px;}
+#t7_12{left:103px;top:181px;}
+#t8_12{left:619px;top:502px;}
+#t9_12{left:647px;top:502px;}
+#ta_12{left:690px;top:502px;}
+#tb_12{left:776px;top:502px;}
+#tc_12{left:647px;top:523px;}
+#td_12{left:673px;top:523px;}
+#te_12{left:744px;top:523px;}
+#tf_12{left:619px;top:543px;}
+#tg_12{left:647px;top:543px;}
+#th_12{left:647px;top:564px;}
+#ti_12{left:775px;top:564px;}
+#tj_12{left:619px;top:584px;}
+#tk_12{left:647px;top:584px;}
+#tl_12{left:690px;top:584px;}
+#tm_12{left:797px;top:584px;}
+#tn_12{left:647px;top:605px;}
+#to_12{left:619px;top:625px;}
+#tp_12{left:647px;top:625px;}
+#tq_12{left:690px;top:625px;}
+#tr_12{left:821px;top:625px;}
+#ts_12{left:647px;top:646px;}
+#tt_12{left:619px;top:666px;}
+#tu_12{left:647px;top:666px;}
+#tv_12{left:730px;top:666px;}
+#tw_12{left:767px;top:666px;}
+#tx_12{left:732px;top:306px;}
+#ty_12{left:749px;top:306px;}
+#tz_12{left:792px;top:306px;}
+#t10_12{left:732px;top:329px;}
+#t11_12{left:732px;top:353px;}
+#t12_12{left:782px;top:353px;}
+#t13_12{left:658px;top:853px;}
+#t14_12{left:658px;top:877px;}
+#t15_12{left:658px;top:901px;}
+
+.s2_12{
+	FONT-SIZE: 67px;
+	FONT-FAMILY: ABCDEE-Calibri12;
+	color: rgb(0,0,0);
+}
+
+.s1_12{
+	FONT-SIZE: 110px;
+	FONT-FAMILY: ABCDEE-Calibri-Bold12;
+	color: rgb(0,112,192);
+}
+
+.s4_12{
+	FONT-SIZE: 85px;
+	FONT-FAMILY: ABCDEE-Calibri-Bold12;
+	color: rgb(0,0,0);
+}
+
+.s3_12{
+	FONT-SIZE: 67px;
+	FONT-FAMILY: ABCDEE-Calibri-Bold12;
+	color: rgb(0,0,0);
+}
+
+</style>
+<!-- End inline CSS -->
+
+<!-- Begin embedded font definitions -->
+<style id="fonts12" type="text/css" >
+
+@font-face {
+	font-family: ABCDEE-Calibri12;
+	src :url("12/fonts/ABCDEE-Calibri.woff") format("woff");
+}
+
+@font-face {
+	font-family: ABCDEE-Calibri-Bold12;
+	src :url("12/fonts/ABCDEE-Calibri-Bold.woff") format("woff");
+}
+
+</style>
+<!-- End embedded font definitions -->
+
+<!-- Begin text definitions (Positioned/styled in CSS) -->
+<div id="t1_12" class="t s1_12">PASSWORD</div>
+<div id="t2_12" class="t s2_12">The following section explains the </div>
+<div id="t3_12" class="t s3_12">Password Change</div>
+<div id="t4_12" class="t s2_12">option in the </div>
+<div id="t5_12" class="t s3_12">User Profile</div>
+<div id="t6_12" class="t s2_12">menu:</div>
+<div id="t7_12" class="t s4_12">Change Your Password </div>
+<div id="t8_12" class="t s3_12">2.</div>
+<div id="t9_12" class="t s2_12">In the </div>
+<div id="ta_12" class="t s3_12">User Profile</div>
+<div id="tb_12" class="t s2_12">section click on </div>
+<div id="tc_12" class="t s2_12">the </div>
+<div id="td_12" class="t s3_12">Password</div>
+<div id="te_12" class="t s2_12">tab. </div>
+<div id="tf_12" class="t s3_12">3.</div>
+<div id="tg_12" class="t s2_12">Type in the current password in the </div>
+<div id="th_12" class="t s3_12">Current Password</div>
+<div id="ti_12" class="t s2_12">field. </div>
+<div id="tj_12" class="t s3_12">4.</div>
+<div id="tk_12" class="t s2_12">In the </div>
+<div id="tl_12" class="t s3_12">New Password</div>
+<div id="tm_12" class="t s2_12">field, enter </div>
+<div id="tn_12" class="t s2_12">the new password. </div>
+<div id="to_12" class="t s3_12">5.</div>
+<div id="tp_12" class="t s2_12">In the </div>
+<div id="tq_12" class="t s3_12">Confirm Password</div>
+<div id="tr_12" class="t s2_12">field, re-</div>
+<div id="ts_12" class="t s2_12">enter the new password. </div>
+<div id="tt_12" class="t s3_12">6.</div>
+<div id="tu_12" class="t s2_12">Click on the </div>
+<div id="tv_12" class="t s3_12">Save</div>
+<div id="tw_12" class="t s2_12">button. </div>
+<div id="tx_12" class="t s3_12">1.</div>
+<div id="ty_12" class="t s2_12">In the </div>
+<div id="tz_12" class="t s3_12">Home</div>
+<div id="t10_12" class="t s2_12">window click on the </div>
+<div id="t11_12" class="t s3_12">Profile</div>
+<div id="t12_12" class="t s2_12">icon. </div>
+<div id="t13_12" class="t s2_12">Once the new password is </div>
+<div id="t14_12" class="t s2_12">saved, a confirmation </div>
+<div id="t15_12" class="t s2_12">message will be displayed. </div>
+
+<!-- End text definitions -->
+
+<!-- Begin page background -->
+<div id="pg12Overlay" style="width:100%; height:100%; position:absolute; z-index:1; background-color:rgba(0,0,0,0); -webkit-user-select: none;"></div>
+<div id="pg12"><object width="935" height="1210" data="12/12.svg" type="image/svg+xml" id="pdf12" style="width:935px; height:1210px; background-color:white; -moz-transform:scale(1); z-index: 0;"></object></div>
+<!-- End page background -->
+
+<!-- Begin page loading JS -->
+<script id="ld12" type="text/javascript">
+
+var isIE = false;
+var f12 = [['t2_12',925],['t3_12',490],['t4_12',351],['t5_12',327],['t7_12',810],['t9_12',158],['ta_12',327],['tb_12',415],['tg_12',972],['th_12',497],['tk_12',158],['tl_12',412],['tm_12',300],['tn_12',517],['tp_12',158],['tq_12',508],['tr_12',229],['ts_12',681],['tu_12',318],['ty_12',158],['t10_12',543],['t13_12',714],['t14_12',590],['t15_12',721]];
+function load12(){
+	var timeout = 100;
+	if (navigator.userAgent.match(/iPhone|iPad|iPod|Android/i)) timeout = 500;
+	setTimeout(function() {adjustWordSpacing(f12);},timeout);
+}
+</script>
+<!--[if lt IE 9]><script type="text/javascript">
+isIE = true;
+
+var divCount = 42;
+for (var i = 1; i < divCount; i++) {
+    var div = document.getElementById("t" + i.toString(36) + "_12");
+    if (div !== null) {
+        div.style.top = (div.offsetTop * 4) + "px";
+        div.style.left = (div.offsetLeft * 4) + "px";
+        div.style.zoom = "25%";
+    }
+}
+</script><![endif]-->
+<!-- End page loading JS -->
+
+</div>
+</body>
+</html>

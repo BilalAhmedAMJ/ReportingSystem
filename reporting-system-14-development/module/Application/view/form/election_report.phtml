@@ -1,0 +1,89 @@
+<?php
+
+return array(
+    'hydrator'  => 'Zend\Stdlib\Hydrator\ArraySerializable'
+    ,'name'		=> 'election_report'    
+    ,'type'		=> 'Fieldset'
+    ,'simple_specs'=>array(
+    
+        'election_report_id'=>array(
+        
+            'type'=>'Hidden'
+  
+		),
+		
+        'election_id'=>array(
+        
+            'type'=>'Hidden'
+        
+		),
+
+        'department_id'=>array(
+        
+            'type'=>'Hidden'
+        
+		),
+
+        'department_name'=>array(        
+            'type'=>'Text',
+            'label'=>'Department',
+            'attributes' => array('readonly' => 'true')    
+		),
+
+        'eligible_voters_present'=>array(        
+            'type'=>'Number',
+            'label'=>'Eligible Voters',
+            'class'=>'form-input-style input-small'
+		),
+		
+        'not_applicable'=>array(        
+            'type'=>'Checkbox',
+            'label'=>'Not Applicable',
+            'class'=>'form-input-style ',
+            'style'=>'width:20px!important;height:20px!important',
+            'id'=>'election_report_not_applicable'    
+		),
+		
+		
+        'report_status'=>array(        
+            'type'=>'Text',
+            'label'=>'Report Status'    
+		),
+		
+        'comments'=>array(        
+            'type'=>'TextArea',
+            'label'=>'Comments',
+            'style'=>'width:100%',    
+		),
+		
+        'warnings_acknowledged'=>array(
+            'type'=>'Checkbox',            
+            'style'=>'width:20px!important;height:20px!important',
+            
+        ),
+
+        'need_introduction'=>array(
+            'type'=>'Checkbox',
+            'required'=>'required',
+            'style'=>'width:20px!important;height:20px!important',
+        )
+		   
+    )//end simple_spec
+        
+    // Configuration to pass on to
+    // Zend\InputFilter\Factory::createInputFilter()
+    ,'input_filter' => array(
+        /* ... */
+        'type' => 'Zend\InputFilter\InputFilter',
+        'election_date' => array(
+            'name' => 'election_date',
+            'required' => true,
+            'validators' => array(
+                    array(
+                        'name' => 'not_empty',
+                    ),
+            )
+        )//not-empty
+    )
+);
+        

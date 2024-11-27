@@ -1,0 +1,253 @@
+<h1 class="title header-color-blue2">
+    Compose Message
+</h1>
+
+<div class="tabbable no-border no-padding">
+
+     <ul id="inbox-tabs" class="inbox-tabs nav nav-tabs tab-size-bigger tab-space-1">
+         
+            <div id="id-message-new-navbar" class=" message-navbar clearfix" style="border-color:#D6E1EA!important">
+                
+                        
+                        <div class="btn-group">
+                            <button type="button" data-toggle="dropdown" class="btn btn-sm btn-white btn-primary btn-round dropdown-toggle">
+                                <i class="ace-icon fa fa-bars bigger-125"></i>
+                                <span class="bigger-110">Template</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-light dropdown-caret"> 
+                                 <li><a>Report Reminder</a></li>  
+                                 <li><a>Reminder after duedate</a></li>  
+                                 <li><a>Meeting Reminder</a></li>  
+                        </div>
+                        
+                        <button type="button" class="btn btn-sm btn-white btn-primary btn-round">
+                            <i class="ace-icon fa fa-floppy-o bigger-125"></i>
+                            <span class="bigger-110">Save Draft</span>
+                        </button>
+    
+                        <button type="button" class="btn btn-sm btn-white btn-primary btn-round">
+                            <i class="ace-icon fa fa-times bigger-125 orange2"></i>
+                            <span class="bigger-110">Discard</span>
+                        </button>
+
+                
+                
+                    <div class="messagebar-item-left">
+                        <span class="inline btn-send-message">
+                            <button type="button" class="btn btn-sm btn-primary no-border btn-white btn-round" onclick="location.href='<?=$this->url('message/inbox')?>'">
+                                <i class="ace-icon fa fa-arrow-left icon-on-left"></i>
+                                <span class="bigger-110">Mailbox</span>    
+                            </button>
+                        </span>
+                    </div>
+    
+                    <div class="messagebar-item-right">
+                        <span class="inline btn-send-message">
+                            <button type="button" class="btn btn-sm btn-primary no-border btn-white btn-round">
+                                <i class="menu-icon fa fa-send-o"></i>
+                                <span class="bigger-110">Send</span>
+    
+                        </button>
+                        </span>
+                    </div>
+                
+            </div>
+     </ul>
+    <div class="tab-content no-border no-padding">
+        <form id="id-message-form" class="form-horizontal message-form col-xs-12 no-border no-padding">
+            <!-- #section:pages/inbox.compose -->
+           <div class="space-10"></div>
+            <div>
+                <div class="form-group">
+                    
+                    <label class="col-sm-2 control-label " for="form-field-recipient">Recipient:</label>
+
+                    <div class="col-sm-3 ">
+                        
+                            <div class="form-group2 no-padding input-icon ">                
+                                
+                                <input name="access_rule" id="access_rule" class="select2 input-small"  placeholder="Level"/>
+                                
+                            </div> 
+                            <div class="form-group2 no-padding ">                
+                               
+                                <input name="user_type" id="user_type" class="select2 input-small"  placeholder="Type"/>
+                                
+                            </div>
+                        
+                    </div>
+                </div>
+
+                <div class="hr hr-18 dotted"></div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label " for="form-field-subject">Subject:</label>
+
+                    <div class="col-sm-6 col-xs-12">
+                        <div class="input-icon block col-xs-12 no-padding">
+                            <input maxlength="100" type="text" class="col-xs-12" name="subject" id="form-field-subject" placeholder="Subject" />
+                            <i class="ace-icon fa fa-comment-o"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hr hr-18 dotted no-margin-bottom"></div>
+
+                <div class="form-group no-margin no-padding">
+                    <!--
+                    <label class="col-sm-2 control-label no-padding-right">
+                        <span class="inline space-24 hidden-480"></span>
+                        Message:
+                    </label>
+                    -->
+                    <!-- #section:plugins/editor.wysiwyg -->
+                    <div class="col-sm-12  no-margin no-padding">
+                        <div class="wysiwyg-editor" id="compose-editor" style="min-height:350px"></div>
+                    </div>
+
+                    <!-- /section:plugins/editor.wysiwyg -->
+                </div>
+
+                <div class="hr hr-18 dotted no-margin"></div>
+
+                <!--
+                <div class="form-group no-margin-bottom">
+                    <label class="col-sm-2 control-label no-padding-right">Attachments:</label>
+
+                    <div class="col-sm-10">
+                        <div id="form-attachments">
+                            < ! -- #section:custom/file-input -- >
+                            <input type="file" name="attachment[]" />
+
+                            < ! -- /section:custom/file-input -- >
+                        </div>
+                    </div>
+                </div>
+
+                <div class="align-right">
+                    <button id="id-add-attachment" type="button" class="btn btn-sm btn-danger">
+                        <i class="ace-icon fa fa-paperclip bigger-140"></i>
+                        Add Attachment
+                    </button>
+                </div>
+                <div class="space"></div>
+                -->    
+            </div>
+
+            <!-- /section:pages/inbox.compose -->
+        </form>
+    </div>
+</div>
+
+
+<script>
+    var form_initialized = false;
+    $(function() {
+        
+      CustomSelect2.createSimple({
+                placeholder:"User Level",
+                url:'<?php echo $this->url("config/config-value")?>?config_item=document_rules',
+                id:'id',
+                label:'label',
+                element:$('#access_rule'),
+                data_target:'document_rules',
+                initValLabel:true,
+                multiple:true,
+        });
+
+        CustomSelect2.createSimple({
+                placeholder:"User Type",
+                url:'<?php echo $this->url("config/department-json")?>',
+                id:'id',
+                label:'department_name',
+                element:$('#user_type'),
+                data_target:'data',
+                initValLabel:true,
+                multiple:true,
+        });
+        
+        
+            if(form_initialized) return;
+            form_initialized = true;
+            
+            // var height = jQuery(window).height()-$('.message-form .wysiwyg-editor').parent().position().top*3;
+            // $('.message-form .wysiwyg-editor').css('min-height',height+'px');
+            
+            //intialize wysiwyg editor
+            $('.message-form .wysiwyg-editor').ace_wysiwyg({
+                 toolbar:
+        [
+            {name:'font',className:'btn-info btn-round btn-sm btn-white'},
+            null,
+            {name:'fontSize',className:'btn-info btn-round btn-white'},
+            null,
+            {name:'bold', className:'btn-info btn-round btn-white'},
+            {name:'italic', className:'btn-info btn-round btn-white'},
+            //{name:'strikethrough', className:'btn-info btn-round btn-white'},
+            {name:'underline', className:'btn-info btn-round btn-white'},
+            null,
+            {name:'insertunorderedlist', className:'btn-success btn-round  btn-white'},
+            {name:'insertorderedlist', className:'btn-success btn-round  btn-white'},
+            {name:'outdent', className:'btn-purple btn-round btn-white'},
+            {name:'indent', className:'btn-purple btn-round btn-white'},
+            null,
+            /*
+            {name:'justifyleft', className:'btn-primary btn-round btn-white'},
+            {name:'justifycenter', className:'btn-primary btn-round'},
+            {name:'justifyright', className:'btn-primary btn-round'},
+            {name:'justifyfull', className:'btn-inverse btn-round'},
+            null,
+            */
+            {name:'createLink', className:'btn-pink btn-round btn-white'},
+            {name:'unlink', className:'btn-pink btn-round btn-white'},
+            null,
+            {name:'insertImage', className:'btn-success btn-round btn-white'},
+            null,
+            {name:'foreColor',className:'btn-round btn-white'},
+            null,
+            {name:'undo', className:'btn-grey btn-round btn-white'},
+            {name:'redo', className:'btn-grey btn-round btn-white'},
+        ],
+        'wysiwyg': {
+            //fileUploadError: showErrorAlert
+            hotKeys: {} //disable hotkeys
+            
+        }
+      }).prev().css('background-color','#e1e1e1');
+    
+    
+    
+            //file input
+            $('.message-form input[type=file]').ace_file_input()
+            .closest('.ace-file-input')
+            .addClass('width-90 inline')
+            .wrap('<div class="form-group file-input-container"><div class="col-sm-7"></div></div>');
+    
+            //Add Attachment
+            //the button to add a new file input
+            $('#id-add-attachment')
+            .on('click', function(){
+                var file = $('<input type="file" name="attachment[]" />').appendTo('#form-attachments');
+                file.ace_file_input();
+                
+                file.closest('.ace-file-input')
+                .addClass('width-90 inline')
+                .wrap('<div class="form-group file-input-container"><div class="col-sm-7"></div></div>')
+                .parent().append('<div class="action-buttons pull-right col-xs-1">\
+                    <a href="#" data-action="delete" class="middle">\
+                        <i class="ace-icon fa fa-trash-o red bigger-130 middle"></i>\
+                    </a>\
+                </div>')
+                .find('a[data-action=delete]').on('click', function(e){
+                    //the button that removes the newly inserted file input
+                    e.preventDefault();
+                    $(this).closest('.file-input-container').hide(300, function(){ $(this).remove() });
+                });
+            });
+        } //initialize_form
+        
+        
+        
+    );
+    
+</script>

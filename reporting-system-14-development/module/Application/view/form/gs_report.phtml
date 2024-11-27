@@ -1,0 +1,49 @@
+<?php
+
+return array(
+    'hydrator'  => 'Zend\Stdlib\Hydrator\ArraySerializable'
+    
+    ,'simple_specs'=>array(
+            
+        'year_from'=>array(
+            'type'=>'Text',
+            'value'=>date('Y'),
+        )
+        ,'month_from'=>array(
+            'type'=>'Text',
+            'value'=>date('m'),
+        )
+        ,'year_to'=>array(
+            'type'=>'Text',
+            'value'=>date('Y'),
+        )
+        ,'month_to'=>array(
+            'type'=>'Text',
+            'value'=>date('m'),
+        )
+        ,'branch'=>array(
+            'type'=>'Text',
+            'value'=>'All',
+        )
+        ,'report_status'=>array(
+            'type'=>'Text',
+            'value'=>'All',
+        )
+    )//end simple_spec
+        
+    // Configuration to pass on to
+    // Zend\InputFilter\Factory::createInputFilter()
+    // ,'input_filter' => array(
+    //     /* ... */
+    //     'type' => 'Zend\InputFilter\InputFilter',
+    //     'office' => array(
+    //         'name' => 'office',
+    //         'required' => true,
+    //         'validators' => array(
+    //             array(
+    //                 'name' => 'not_empty',
+    //             ),
+    //         )
+    //     )//not-empty
+    // )
+);

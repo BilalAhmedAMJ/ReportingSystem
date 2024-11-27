@@ -1,0 +1,36 @@
+<?php
+    $value = preg_replace('/\~ \*(.*)\*/','\1',$this->value);
+    $value = preg_replace('/\= (.*)/','\1',$value);
+    
+    
+?>
+
+<?php
+
+?>
+<input class="" id="input_<?=$this->id?>" name="toolbarFilters[<?=$this->id?>]" value="<?=$value?>" type="text"></input> 
+<script>
+    $(function(){
+       CustomSelect2.createSimple({
+            placeholder:"Select ...",
+            url:'<?=$this->url?>',
+            id:'<?=$this->index?>',
+            label:'<?=$this->label?>',
+            element:$('#input_<?=$this->id?>'),
+            data_target:'<?=isset($this->data_target)?$this->data_target:"data"?>',
+            //createSearchChoice:<?=($this->createSearchChoice)?$this->createSearchChoice:'""'?>
+            
+        });
+        
+        <?php if(!isset($this->prevent_submit) || (!$this->prevent_submit)):?>
+            $('#input_<?=$this->id?>').change(function(){
+                document.forms["form_<?=$this->gridId?>"].submit();
+            });
+        <?php endif ?>
+
+        //console.log('#input_<?=$this->id?>'+' = '+'<?=$value?>');    
+
+    });
+    
+            
+</script>

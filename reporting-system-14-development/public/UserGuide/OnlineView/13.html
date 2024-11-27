@@ -1,0 +1,238 @@
+<!DOCTYPE html >
+<html lang="en">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+<meta charset="utf-8" />
+</head>
+
+<body style="margin: 0;">
+
+<div id="jpedal" style="overflow: hidden; position:relative; width: 935px; height: 1210px;">
+
+<!-- Begin shared CSS values -->
+<style type="text/css" >
+.t {
+	position: absolute;
+	-webkit-transform-origin: top left;
+	-moz-transform-origin: top left;
+	-o-transform-origin: top left;
+	-ms-transform-origin: top left;
+	-webkit-transform: scale(0.25);
+	-moz-transform: scale(0.25);
+	-o-transform: scale(0.25);
+	-ms-transform: scale(0.25);
+	z-index: 2;
+	position:absolute;
+	white-space:nowrap;
+	overflow:visible;
+}
+</style>
+<!-- End shared CSS values -->
+
+<!-- Begin shared JS -->
+<script type="text/javascript">
+
+// Ensure that we're not replacing any onload events
+function addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			if (oldonload) {
+				oldonload();
+			}
+			func();
+		}
+	}
+}
+addLoadEvent(function(){load13();});
+
+function adjustWordSpacing(widths) {
+    var i, allLinesDone = false;
+    var isDone = [];
+    var currentSpacing = [];
+    var elements = [];
+    
+    // Initialise arrays
+    for (i = 0; i < widths.length; i++) {
+        elements[i] = document.getElementById(widths[i][0]);
+        elements[i].style.wordSpacing = '0px';//Required if rerunning
+    }
+    for (i = 0; i < widths.length; i++) {
+        if (isIE) widths[i][1] = widths[i][1] * 4;
+        currentSpacing[i] = Math.floor((widths[i][1] - elements[i].offsetWidth) / elements[i].innerHTML.match(/\s.|&nbsp;./g).length);//min
+        if (isIE) currentSpacing[i] = Math.floor(currentSpacing[i] / 4);
+        isDone[i] = false;
+    }
+    
+    while (!allLinesDone) {
+        // Add each adjustment to the render queue without forcing a render
+        for (i = 0; i < widths.length; i++) {
+            if (!isDone[i]) {
+                elements[i].style.wordSpacing = currentSpacing[i] + 'px';
+            }            
+        }
+        
+        allLinesDone = true;
+        // If elements still need to be wider, add 1 to the word spacing
+        for (i = 0; i < widths.length; i++) {
+            if (!isDone[i] && currentSpacing[i] < 160) {
+                if (elements[i].offsetWidth >= widths[i][1]) {
+                    isDone[i] = true;
+                } else {
+                    currentSpacing[i]++;
+                    allLinesDone = false;
+                }
+            }
+        }
+    }
+    
+    for (i = 0; i < widths.length; i++) {
+        elements[i].style.wordSpacing = (currentSpacing[i] - 1) + 'px';
+    }
+}
+
+</script>
+<!-- End shared JS -->
+
+
+<!-- Begin inline CSS -->
+<style type="text/css" >
+
+#t1_13{left:103px;top:88px;}
+#t2_13{left:559px;top:299px;}
+#t3_13{left:587px;top:299px;}
+#t4_13{left:637px;top:299px;}
+#t5_13{left:729px;top:299px;}
+#t6_13{left:587px;top:323px;}
+#t7_13{left:707px;top:323px;}
+#t8_13{left:587px;top:347px;}
+#t9_13{left:559px;top:554px;}
+#ta_13{left:587px;top:554px;}
+#tb_13{left:667px;top:554px;}
+#tc_13{left:738px;top:554px;}
+#td_13{left:746px;top:554px;}
+#te_13{left:789px;top:554px;}
+#tf_13{left:587px;top:578px;}
+#tg_13{left:587px;top:601px;}
+#th_13{left:690px;top:601px;}
+#ti_13{left:559px;top:625px;}
+#tj_13{left:587px;top:625px;}
+#tk_13{left:670px;top:625px;}
+#tl_13{left:724px;top:625px;}
+#tm_13{left:559px;top:649px;}
+#tn_13{left:587px;top:649px;}
+#to_13{left:587px;top:672px;}
+#tp_13{left:587px;top:696px;}
+#tq_13{left:498px;top:856px;}
+#tr_13{left:526px;top:856px;}
+#ts_13{left:609px;top:856px;}
+#tt_13{left:723px;top:856px;}
+#tu_13{left:526px;top:880px;}
+
+.s3_13{
+	FONT-SIZE: 67px;
+	FONT-FAMILY: ABCDEE-Calibri13;
+	color: rgb(0,0,0);
+}
+
+.s1_13{
+	FONT-SIZE: 110px;
+	FONT-FAMILY: ABCDEE-Calibri-Bold13;
+	color: rgb(0,112,192);
+}
+
+.s2_13{
+	FONT-SIZE: 67px;
+	FONT-FAMILY: ABCDEE-Calibri-Bold13;
+	color: rgb(0,0,0);
+}
+
+</style>
+<!-- End inline CSS -->
+
+<!-- Begin embedded font definitions -->
+<style id="fonts13" type="text/css" >
+
+@font-face {
+	font-family: ABCDEE-Calibri13;
+	src :url("13/fonts/ABCDEE-Calibri.woff") format("woff");
+}
+
+@font-face {
+	font-family: ABCDEE-Calibri-Bold13;
+	src :url("13/fonts/ABCDEE-Calibri-Bold.woff") format("woff");
+}
+
+</style>
+<!-- End embedded font definitions -->
+
+<!-- Begin text definitions (Positioned/styled in CSS) -->
+<div id="t1_13" class="t s1_13">PASSWORD RECOVERY</div>
+<div id="t2_13" class="t s2_13">1.</div>
+<div id="t3_13" class="t s3_13">On the </div>
+<div id="t4_13" class="t s2_13">Login Screen</div>
+<div id="t5_13" class="t s3_13">click on the </div>
+<div id="t6_13" class="t s2_13">Forgot Password</div>
+<div id="t7_13" class="t s3_13">link to be redirected </div>
+<div id="t8_13" class="t s3_13">to the next page.  </div>
+<div id="t9_13" class="t s2_13">2.</div>
+<div id="ta_13" class="t s3_13">Type in the </div>
+<div id="tb_13" class="t s2_13">Username</div>
+<div id="tc_13" class="t s3_13">, </div>
+<div id="td_13" class="t s2_13">Email</div>
+<div id="te_13" class="t s3_13">address </div>
+<div id="tf_13" class="t s3_13">linked to the account and your </div>
+<div id="tg_13" class="t s2_13">Member Code</div>
+<div id="th_13" class="t s3_13">in the respective fields. </div>
+<div id="ti_13" class="t s2_13">3.</div>
+<div id="tj_13" class="t s3_13">Click on the </div>
+<div id="tk_13" class="t s2_13">Submit</div>
+<div id="tl_13" class="t s3_13">button. </div>
+<div id="tm_13" class="t s2_13">4.</div>
+<div id="tn_13" class="t s3_13">If any of the three pieces of </div>
+<div id="to_13" class="t s3_13">information asked do not match, an </div>
+<div id="tp_13" class="t s3_13">error will be displayed.  </div>
+<div id="tq_13" class="t s2_13">5.</div>
+<div id="tr_13" class="t s3_13">Click on the </div>
+<div id="ts_13" class="t s2_13">Reset Password</div>
+<div id="tt_13" class="t s3_13">button to </div>
+<div id="tu_13" class="t s3_13">initiate the reset. </div>
+
+<!-- End text definitions -->
+
+<!-- Begin page background -->
+<div id="pg13Overlay" style="width:100%; height:100%; position:absolute; z-index:1; background-color:rgba(0,0,0,0); -webkit-user-select: none;"></div>
+<div id="pg13"><object width="935" height="1210" data="13/13.svg" type="image/svg+xml" id="pdf13" style="width:935px; height:1210px; background-color:white; -moz-transform:scale(1); z-index: 0;"></object></div>
+<!-- End page background -->
+
+<!-- Begin page loading JS -->
+<script id="ld13" type="text/javascript">
+
+var isIE = false;
+var f13 = [['t1_13',1044],['t3_13',186],['t4_13',351],['t5_13',310],['t6_13',467],['t7_13',553],['t8_13',480],['ta_13',304],['tf_13',835],['tg_13',398],['th_13',633],['tj_13',318],['tn_13',749],['to_13',979],['tp_13',639],['tr_13',318],['ts_13',439],['tt_13',260],['tu_13',470]];
+function load13(){
+	var timeout = 100;
+	if (navigator.userAgent.match(/iPhone|iPad|iPod|Android/i)) timeout = 500;
+	setTimeout(function() {adjustWordSpacing(f13);},timeout);
+}
+</script>
+<!--[if lt IE 9]><script type="text/javascript">
+isIE = true;
+
+var divCount = 31;
+for (var i = 1; i < divCount; i++) {
+    var div = document.getElementById("t" + i.toString(36) + "_13");
+    if (div !== null) {
+        div.style.top = (div.offsetTop * 4) + "px";
+        div.style.left = (div.offsetLeft * 4) + "px";
+        div.style.zoom = "25%";
+    }
+}
+</script><![endif]-->
+<!-- End page loading JS -->
+
+</div>
+</body>
+</html>

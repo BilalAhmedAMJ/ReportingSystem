@@ -1,0 +1,502 @@
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
+<script src='https://code.jquery.com/jquery-3.5.1.js'></script>
+<script src='https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js'></script>
+<script src='https://cdn.datatables.net/rowreorder/1.2.7/js/dataTables.rowReorder.min.js'></script>
+
+<link rel="stylesheet" href='https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css' />
+<link rel="stylesheet" href='https://cdn.datatables.net/rowreorder/1.2.7/css/rowReorder.dataTables.min.css' />
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
+<link rel="stylesheet" href='/ace_admin/assets/css/bootstrap-tagsinput.css' />
+<script src="/ace_admin/assets/js/bootstrap-tagsinput.js"></script>
+
+<style>
+
+.icon-github {
+    background: no-repeat url('../img/github-16px.png');
+    width: 16px;
+    height: 16px;
+}
+
+.bootstrap-tagsinput {
+    width: 100%;
+}
+
+.accordion {
+    margin-bottom:-3px;
+}
+
+.accordion-group {
+    border: none;
+}
+
+.twitter-typeahead .tt-query,
+.twitter-typeahead .tt-hint {
+    margin-bottom: 0;
+}
+
+.twitter-typeahead .tt-hint
+{
+    display: none;
+}
+
+.tt-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    list-style: none;
+    font-size: 14px;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    background-clip: padding-box;
+    cursor: pointer;
+}
+
+.tt-suggestion {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: normal;
+    line-height: 1.428571429;
+    color: #333333;
+    white-space: nowrap;
+}
+
+.tt-suggestion:hover,
+.tt-suggestion:focus {
+  color: #ffffff;
+  text-decoration: none;
+  outline: 0;
+  background-color: #428bca;
+}
+.condition_block {
+    display: none;
+}
+.panel-heading {
+    background-color: #cccccc;
+}
+.report_settings {
+    display: none;
+}
+.report_settings_toggle {
+    text-align: right;
+    padding-bottom: 15px;
+}
+.r_actions {
+    width: 30px
+}
+</style>
+<div class="panel panel-default report_generator">
+  <div class="panel-heading">Generate Summary Report</div>
+  <div class="panel-body">
+    <form method="post" target="blank">
+        <div class="row">
+                <div class="col-md-2">
+                    <label for="question_action">From</label>
+                    <select id="report_year" name="from_month" class="form-control select2" >
+                        <?php for($i=1; $i<=12; $i++) { ?>
+                        <option value="<?=$i?>"><?=date('F', strtotime("2020-{$i}-01"))?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label for="question_action">&nbsp;</label>
+                    <select id="report_year" name="from_year" class="form-control select2" >
+                        <?php for($i=date('Y'); $i>=2018; $i--) { ?>
+                        <option value="<?=$i?>"><?=$i?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+                <div class="col-md-2">&nbsp;</div>
+                <div class="col-md-2">
+                    <label for="question_action">To</label>
+                    <select id="report_year" name="to_month" class="form-control select2" >
+                        <?php for($i=1; $i<=12; $i++) { ?>
+                        <option value="<?=$i?>"><?=date('F', strtotime("2020-{$i}-01"))?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label for="question_action">&nbsp;</label>
+                    <select id="report_year" name="to_year" class="form-control select2" >
+                        <?php for($i=date('Y'); $i>=2018; $i--) { ?>
+                        <option value="<?=$i?>"><?=$i?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+        </div>    
+        <div class="row" style="padding-top:10px">
+                <div class="col-md-6">
+                    <label for="jamaat">Jamaa'at</label>
+                    <select id="jamaat" name="jamaat" class="form-control select2" >
+                        <option value="27">Canada</option>
+                        <?php foreach($this->branches as $key => $val) { ?>
+                        <option value="<?=$key?>"><?=$val?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label for="by_month">Monthly</label> <br />
+                    <input type="checkbox" name="by_month" id="by_month" />
+                </div>
+        </div>
+        <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group ">
+                        <label for="question_action">&nbsp;</label><br />
+                        <input type="submit" value="Generate Report" />
+                    </div>
+                </div>
+        </div>    
+        <input type="hidden" name="report_id" id="report_id" value="<?=$this->report_id?>"/>
+    </form>
+   </div>
+</div>
+
+
+<div class="report_settings_toggle" data-state="generator">
+    <a href="/report/summary-list">Back to list</a> &nbsp;&nbsp;&nbsp;&nbsp;
+    <button type="button" class="btn btn-primary">Report Settings</button>
+</div>
+<div class="report_settings">
+
+    <div class="panel panel-default">
+    <div class="panel-heading">Add / Edit Question</div>
+    <div class="panel-body">
+        <form>
+            <div class="form-group">
+                    <label for="question_id">Questions</label>
+                    <input id="question_id" type="text" value="" data-role="tagsinpuwt"  />
+            </div>
+            <div class="form-group">
+                    <label for="question_id">Custom Questions Caption</label>
+                    <input class="form-control" id="question_caption" type="text" value=""  />
+            </div>
+            <div class="row">
+                    <div class="col-md-6">
+                        <label for="question_action">Action</label>
+                        <select id="question_action" class="form-control select2" style="width: 100%" >
+                            <option value="list">List</option>
+                            <option value="sum">Sum</option>
+                            <option value="countif">Count If</option>
+                            <option value="ifempty">Count If Empty</option>
+                            <option value="ifnotempty">Count If Not Empty</option>
+                            <option value="sumOfLastAnswerOfEach">Sum of Last Answer of Each</option>
+                            <option value="listLastAnswerOfEach">List Last Answer of Each</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group ">
+                            <label>Level</label> <br />
+                            <input type="checkbox" name="question_level" value="Markaz" id="cb_markaz" /> <label for="cb_markaz">Markaz</label> &nbsp;&nbsp;&nbsp;&nbsp;
+                            <input type="checkbox" name="question_level" value="Imarat" id="cb_imarat" /> <label for="cb_imarat">Imarat</label> &nbsp;&nbsp;&nbsp;&nbsp;
+                            <input type="checkbox" name="question_level" value="Jama`at" id="cb_jamaat" /> <label for="cb_jamaat">Jama`at</label> &nbsp;&nbsp;&nbsp;&nbsp;
+                            <input type="checkbox" name="question_level" value="Halqa" id="cb_halqa" /> <label for="cb_halqa">Halqa</label>
+                        </div>
+                    </div>
+            </div>
+            <div class="row">
+
+                    <div class="col-md-3">
+                        <div class="condition_block">
+                            <label for="question_cond">Condition</label> <br />
+                            <select id="question_cond"  style="width: 100%" class="form-control select2" >
+                                <option value="gte">&gt;=</option>
+                                <option value="gt">&gt;</option>
+                                <option value="eq">=</option>
+                                <option value="lt">&lt;</option>
+                                <option value="lte">&lt;=</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="condition_block">
+                            <label for="question_cond_val">Value</label>    
+                            <input id="question_cond_val" class="form-control" type="text" value="" />
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="padding-top: 30px;">
+                        <input type="hidden" id="report_qid" />
+                        <input id="btn_clear" type="button" value="Clear" />
+                        <input id="btn_update" type="button" value="Submit" />
+                    </div>
+                </div>     
+
+            </form>
+    </div>
+    </div>
+
+
+
+
+    <br /><br /><br />
+
+
+    <table id="example" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Questions</th>
+                <th>Department</th>
+                <th>Caption</th>
+                <th>Action</th>
+                <th>Levels.</th>
+                <th>Condition</th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>No.</th>
+                <th>Questions</th>
+                <th>Department</th>
+                <th>Caption</th>
+                <th>Action</th>
+                <th>Levels.</th>
+                <th>Condition</th>
+                <th class="r_actions">&nbsp;</th>
+            </tr>
+        </tfoot>
+    </table>
+
+</div>    
+            <br /><br /><br /><br /><br />
+
+<script>
+$(document).ready(function() {
+
+    $('.select2').select2();
+    
+    var table = $('#example').DataTable( {
+        rowReorder: { update: true, dataSrc: 8 },
+        "lengthMenu": [[25, 50, 75, 100, -1], [25, 50, 75, 100, "All"]],
+        "pageLength": 100,
+        "ordering": false,
+        "ajax": '/report/summary-report-data?id='+$('#report_id').val(),
+        "columnDefs": [ {
+            "targets": -1,
+            "data": null,
+            "defaultContent": "<i class=\"fa fa-edit dt_edit\"> &nbsp;&nbsp; </i><i class=\"fa fa-remove dt_delete\"></i>"
+        } ]        
+    } );
+
+    table.on( 'row-reorder', function ( e, diff, edit ) {
+        Swal.fire({
+                title: 'Please wait ...',
+                html: 'Updaing questions order.',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                onBeforeOpen: () => {Swal.showLoading() }
+            }) 
+        var pos_order = {};
+        for ( var i=0, ien=diff.length ; i<ien ; i++ ) { 
+            var rowData = table.row( diff[i].node ).data();	 
+            pos_order[rowData[7]] = diff[i].newData; 
+        } 
+
+        $.ajax({
+            url: '/report/update-summary-repor',
+            data: {'data': pos_order, 'action':'order'},
+            type: 'POST',
+            success: function(response,status,xhr) {
+                console.log(response)
+                $('#example').DataTable().ajax.reload(function(){Swal.close();});
+                
+            },
+            error:function(xhr,status,error){
+                console.log('ERROR : '+error+' Status'+status);
+                //console.log(xhr);
+            }
+        });	
+    } );
+
+    $('#example tbody').on( 'click', '.dt_edit', function () {
+        var data = table.row( $(this).parents('tr') ).data();
+        Swal.fire({
+                title: 'Please wait ...',
+                html: 'Loading question.',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                onBeforeOpen: () => {Swal.showLoading() }
+            })
+        $.ajax({
+            url: '/report/summary-report-data?id='+$('#report_id').val(),
+            data: {'qid': data[7], 'action':'edit'},
+            type: 'POST',
+            success: function(response,status,xhr) {
+                console.log(response)
+                elt.tagsinput('removeAll');
+                for(i in response.question) {
+                    
+                    elt.tagsinput('add', { "value": i , "text": response.question[i] });
+                }
+                $('#report_qid').val( response.id );
+                $('#report_id').val( response.report_id );
+                $('#question_caption').val( response.caption );
+                $('#question_action').val( response.action );
+                $('#question_action').trigger('change');
+                $('#cb_markaz').prop( 'checked', response.level.includes('Markaz') );
+                $('#cb_imarat').prop( 'checked', response.level.includes('Imarat') );
+                $('#cb_jamaat').prop( 'checked', response.level.includes('Jama`at') );
+                $('#cb_halqa').prop( 'checked', response.level.includes('Halqa') );
+                if( $('#question_action').val() == 'countif' ) {
+                    $('#question_cond').val( response.condition )
+                    $('#question_cond').trigger('change');
+                    $('#question_cond_val').val( response.condition_value )
+                    $('#question_cond_val').trigger('change');
+                }
+                Swal.close();
+                $("html, body").animate({ scrollTop: 0 }, "slow");
+            },
+            error:function(xhr,status,error){
+                console.log('ERROR : '+error+' Status'+status);
+                //console.log(xhr);
+            }
+        });	        
+
+    } );
+
+    $('#example tbody').on( 'click', '.dt_delete', function () {
+        Swal.fire({
+                title: 'Please wait ...',
+                html: 'Deleting question.',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                onBeforeOpen: () => {Swal.showLoading() }
+            })        
+        var data = table.row( $(this).parents('tr') ).data();
+        $.ajax({
+            url: '/report/update-summary-repor',
+            data: {'id': data[7], 'action':'delete'},
+            type: 'POST',
+            success: function(response,status,xhr) {
+                console.log(response)
+                $('#example').DataTable().ajax.reload(function(){Swal.close();});            
+            },
+            error:function(xhr,status,error){
+                console.log('ERROR : '+error+' Status'+status);
+                //console.log(xhr);
+            }
+        });	        
+
+    } );    
+
+    var questions = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        prefetch: '/report/summary-repor-questions'
+    });
+    questions.initialize();
+
+    var elt = $('#question_id');
+    elt.tagsinput({
+        itemValue: 'value',
+        itemText: 'text',
+        typeaheadjs: {
+            hint: true,
+            highlight: true,            
+            limit: 15,
+            name: 'questions',
+            displayKey: 'text',
+            source: questions.ttAdapter()
+        }
+    });
+    // elt.tagsinput('add', { "value": 1 , "text": "Amsterdam"   , "continent": "Europe"  });
+
+    $('#question_action').change(function(){
+        $(this).val() == 'countif' ? $('.condition_block').show() : $('.condition_block').hide();
+    });
+
+    $('#btn_clear').click(function(e){
+        e.preventDefault();
+        elt.tagsinput('removeAll');
+        $('#report_qid').val('');
+        $('#question_caption').val('');
+        $('#question_action').val('');
+        $('#question_action').trigger('change');
+        $('#cb_markaz').prop( 'checked', false );
+        $('#cb_imarat').prop( 'checked', false );
+        $('#cb_jamaat').prop( 'checked', false );
+        $('#cb_halqa').prop( 'checked', false );
+        $('#question_cond').val('')
+        $('#question_cond').trigger('change');
+        $('#question_cond_val').val('')
+        $('#question_cond_val').trigger('change');
+    });
+
+    $('#btn_update').click(function(e){
+        e.preventDefault();
+        Swal.fire({
+                title: 'Please wait ...',
+                html: 'Updating question.',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                onBeforeOpen: () => {Swal.showLoading() }
+            })
+        var data = {};
+        data['id'] = $('#report_qid').val();
+        data['report_id'] = $('#report_id').val();
+        data['question_ids'] = $('#question_id').val();
+        data['question_caption'] = $('#question_caption').val();
+        data['question_action'] = $('#question_action').val();
+        data['question_cond'] = $('#question_action').val() == 'countif' ? $('#question_cond').val() : '';
+        data['question_cond_val'] = $('#question_action').val() == 'countif' ? $('#question_cond_val').val() : '';
+        var selected_levels = [];
+        $('input[name="question_level"]:checked').each(function () {
+            if( this.checked ) {
+                selected_levels.push( $(this).val() );
+            }
+        });
+        data['question_level'] = selected_levels.join();
+
+        $.ajax({
+            url: '/report/update-summary-repor',
+            data: {'data':data, 'action':'edit'},
+            type: 'POST',
+            success: function(response,status,xhr) {
+                console.log( response );
+                $('#example').DataTable().ajax.reload(function(){Swal.close();});       
+                $('#btn_clear').trigger('click');
+            },
+            error:function(xhr,status,error){
+                console.log('ERROR : '+error+' Status'+status);
+                //console.log(xhr);
+            }
+        });	
+
+        console.log(data);
+    });
+
+    $('.report_settings_toggle button').click(function(){
+        if( $('.report_settings_toggle').data('state') == 'generator' ) {
+            $('.report_settings').show();
+            $('.report_generator').hide();
+            $('.report_settings_toggle').data('state', 'settings')
+            $('.report_settings_toggle button').text('Generate Report')
+        }
+        else {
+            $('.report_settings').hide();
+            $('.report_generator').show();
+            $('.report_settings_toggle').data('state', 'generator')
+            $('.report_settings_toggle button').text('Report Settings')
+        }
+    });
+
+            
+} );
+</script>

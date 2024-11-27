@@ -1,0 +1,149 @@
+<style>
+body {
+    background-color: #FFF;
+    min-height: 100%;
+    padding-bottom: 0;
+    font-family: 'helvetica';
+    font-size: 13px;
+    color: #393939;
+}
+.report_status  { border-collapse: collapse;}
+.report_status th {text-align: center; padding: 0 10px; background-color: #d0d0d0;}
+.report_status td {text-align: center;}
+.report_status tr:hover {background-color: #d0d0d0;}
+.report_status_container {clear: both;}
+.dept_name {text-align: left !important; padding: 0 10px;}
+.status_received {     background-color: #b9d4b9;    color: #000; }
+.status_verified {     background-color: #fab6b6;    color: #000; }
+.status_complete {     background-color: #f1e3c8;    color: #000; }
+.status_draft {     background-color: white;    color: #000; }
+</style>
+
+<div class="col-sm-12 align-center center center-block" style="max-width: 1400px!important">
+    <table border="0" width="100%">
+        <tr>
+            <td align="left" nowrap><img src="<?=$this->basePath()?>/img/topbar-left.png" height="45"></td>
+            <td align="center"><img src="<?=$this->basePath()?>/img/bismillah.png" ></td>
+
+        </tr>   
+        <tr>
+            <td colspan="2">&nbsp;</td>
+        </tr>                                  
+        <tr>
+            <td align="left" nowrap><b>Date:&nbsp;</b><?php echo date("Y-m-d"); ?></td>
+            <td align="left" width="100">&nbsp;</td>
+        </tr>
+    </table>
+</div>
+<br />
+<div class="report_status_container">
+
+<?php if( isset($this->data) && count($this->data) ) { ?>
+<table class="report_status" border="1">
+<thead>
+<tr>
+    <th>&nbsp;</th>
+    <?php 
+    if( $this->post_data['month'] == 'all' ) {
+        $starting_month = "{$this->post_data['year']}-07-01";
+        for( $i=0; $i<12; $i++ ) {
+            echo '<th colspan="'.count($this->post_data['status']).'">' . date('M-Y', strtotime($starting_month)) . '</th>';
+            $starting_month = date('Y-m-d', strtotime($starting_month.' +1 MONTH'));
+        } 
+    }
+    else {
+        if( $this->post_data['month'] >= 7 ) {
+            $starting_month = "{$this->post_data['year']}-{$this->post_data['month']}-01";
+        }
+        else {
+            $starting_month = ($this->post_data['year']+1)."-{$this->post_data['month']}-01";
+        }
+        echo '<th colspan="'.count($this->post_data['status']).'">' . date('M-Y', strtotime($starting_month)) . '</th>';
+    }
+    ?>   
+    <th>&nbsp;</th>
+</tr>
+<tr>
+    <th>Department</th>
+    <?php 
+    if( $this->post_data['month'] == 'all' ) {
+        $starting_month = "{$this->post_data['year']}-07-01";
+        for( $i=0; $i<12; $i++ ) {
+
+            if( in_array('draft', $this->post_data['status']) ) echo '<th>Draft</th>';
+            if( in_array('completed', $this->post_data['status']) ) echo '<th>Pending Sadr Approval</th>';
+            if( in_array('verified', $this->post_data['status']) ) echo '<th>Pending Review</th>';
+            if( in_array('received', $this->post_data['status']) ) echo '<th>Reviewed</th>';
+
+            $starting_month = date('Y-m-d', strtotime($starting_month.' +1 MONTH'));
+        } 
+    }
+    else {
+        if( $this->post_data['month'] >= 7 ) {
+            $starting_month = "{$this->post_data['year']}-{$this->post_data['month']}-01";
+        }
+        else {
+            $starting_month = ($this->post_data['year']+1)."-{$this->post_data['month']}-01";
+        }
+        $month = date('M-Y', strtotime($starting_month));
+        if( in_array('draft', $this->post_data['status']) ) echo '<th>Draft</th>';
+        if( in_array('completed', $this->post_data['status']) ) echo '<th>Completed</th>';
+        if( in_array('verified', $this->post_data['status']) ) echo '<th>Verified</th>';
+        if( in_array('received', $this->post_data['status']) ) echo '<th>Received</th>';
+    }
+    ?>   
+    <th>Expected</th>
+
+</tr>
+</thead>
+<tbody>
+    <?php foreach($this->data as $data_val) { ?>
+        <tr>
+            <td class="dept_name"><?=$data_val['department']?></td>
+            <?php 
+            if( $this->post_data['month'] == 'all' ) {
+                $starting_month = "{$this->post_data['year']}-07-01";
+                for( $i=0; $i<12; $i++ ) {
+                    $month = date('M-Y', strtotime($starting_month));
+                    if( in_array('draft', $this->post_data['status']) ) echo '<td class="status_draft">'.$data_val["{$month}-draft"].'</td>';
+                    if( in_array('completed', $this->post_data['status']) ) echo '<td class="status_complete">'.$data_val["{$month}-completed"].'</td>';
+                    if( in_array('verified', $this->post_data['status']) ) echo '<td class="status_verified">'.$data_val["{$month}-verified"].'</td>';
+                    if( in_array('received', $this->post_data['status']) ) echo '<td class="status_received">'.$data_val["{$month}-received"].'</td>';
+
+                    $starting_month = date('Y-m-d', strtotime($starting_month.' +1 MONTH'));
+                } 
+            }
+            else {
+                if( $this->post_data['month'] >= 7 ) {
+                    $starting_month = "{$this->post_data['year']}-{$this->post_data['month']}-01";
+                }
+                else {
+                    $starting_month = ($this->post_data['year']+1)."-{$this->post_data['month']}-01";
+                }
+                $month = date('M-Y', strtotime($starting_month));
+                if( in_array('draft', $this->post_data['status']) ) echo '<td class="status_draft">'.$data_val["{$month}-draft"].'</td>';
+                if( in_array('completed', $this->post_data['status']) ) echo '<td class="status_complete">'.$data_val["{$month}-completed"].'</td>';
+                if( in_array('verified', $this->post_data['status']) ) echo '<td class="status_verified">'.$data_val["{$month}-verified"].'</td>';
+                if( in_array('received', $this->post_data['status']) ) echo '<td class="status_received">'.$data_val["{$month}-received"].'</td>';
+            }
+            ?>   
+            <td><?=$data_val['expected']?></td>
+        </tr>
+    <?php } ?>
+ </tbody>
+</table>
+<?php } ?>
+</div>
+
+<script src="/js/freezeHeader.js"></script>
+<script>
+    
+$(function(){
+
+    $(".report_status").freezeHeader({'offset' : '0px'});
+
+    
+});
+    
+    
+</script>

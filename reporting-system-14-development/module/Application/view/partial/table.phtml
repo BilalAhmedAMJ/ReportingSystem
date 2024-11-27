@@ -1,0 +1,32 @@
+
+<div class="table-responsive"> 
+<table  class="table table-bordered table-hover table-scondensed <?php echo $this->class?>">
+    <thead>
+        <tr>
+            <?php foreach ($this->cols as $col => $def): ?>
+            <th>
+                <?php echo $def{title} ?>
+            </th>
+            <?php endforeach ?>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($this->data as $row): ?>
+        <tr>
+            <?php foreach ($this->cols as $key => $col): ?>
+            <th>
+                <?php if($col[format]):?>
+                    <?php echo $col[format]($row[$key],$row); ?>
+                <?php else:?> 
+                    <?php echo $row[$key] ?>
+                <?php endif ?>
+            </th>
+            <?php endforeach ?>
+                
+        </tr>
+        <?php endforeach ?>
+    </tbody>
+</table>
+</div>
+
+

@@ -1,0 +1,75 @@
+<?php
+require_once getcwd()."/vendor/koolreport/core/autoload.php";
+use \koolreport\widgets\koolphp\Table;
+use \koolreport\widgets\google\PieChart;
+if( isset($this->processedData) ) {
+
+function make_link($data, $question='', $jamaat='', $category=''){
+    //return '<a class="dtl_member_report" data-question="'.$question.'" data-jamaat="'.$jamaat.'" data-category="'.$category.'" href="#">'.$data.'</a>';
+    return $data;
+}
+?>
+
+<div style="margin:50px;">
+<div style="padding:0 30px">
+
+  <div class="row">
+    <div class="col-md-6">
+        No. of Amila Members Answered: 
+        <?php
+        $totals = [];
+        foreach ($this->headers as $key => $val) {
+            if( $key != 'branch_name' && $key != 'department_name' && $key != 'display_name' ) {
+                $totals[] = $val;
+            }
+        }
+        echo implode(' | ', $totals);
+        ?>
+    </div>
+    <div class="col-md-6 text-right">
+        <a class="back-button" href="#">Back</a>
+    </div> 
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+        Category: <?=$this->additional_info['category']?>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+        Jama`at: <?=$this->additional_info['branch_name']?>
+    </div>
+  </div>
+
+<br />
+    <div class="row"></div>
+    <?php
+    Table::create(array(
+        "dataSource" =>  function() {
+                            $arr[] = array_values($this->headers);
+                            foreach ($this->processedData as $key => $value) {
+                                $_r = [];
+                                $questions = $value;
+                                foreach ($this->headers as $key => $val) {
+                                    $_r[] = make_link($value[$key], implode('|', array_keys($questions)), $value['branch_id'], $this->category);
+                                }
+                                $arr[] = $_r;
+                            }
+                            return $arr;
+                        }
+    )); ?>
+    </div>
+
+
+</div>
+    
+<?php } ?>
+
+
+
+
+
+
+

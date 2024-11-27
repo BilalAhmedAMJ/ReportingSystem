@@ -1,0 +1,595 @@
+
+<title>Messages</title>
+<style type="text/css">
+
+.message-item .time {
+    width:110px;
+}
+
+.message-body{
+    font-size:14px;
+    color:#101010;
+}
+    
+</style>
+<!-- ajax layout which only needs content area -->
+<div class="page-header">
+    <h1>
+        Messages
+        <small>
+            <i class="ace-icon fa fa-angle-double-right"></i>
+            Messages received from various Office Bearers 
+        </small>
+    </h1>
+</div><!-- /.page-header -->
+
+<div class="row">
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+        <div class="row">
+            <div class="col-xs-12">
+                <!-- #section:pages/inbox -->
+                <div class="tabbable">
+                    <ul id="inbox-tabs" class="inbox-tabs nav nav-tabs padding-16 tab-size-bigger tab-space-1">
+                        <!-- #section:pages/inbox.compose-btn -->
+                        <li class="li-new-mail pull-right hide">
+                            <a data-toggle="tab" href="#write" data-target="write" class="btn-new-mail">
+                                <span class="btn btn-purple no-border">
+                                    <i class="ace-icon fa fa-envelope bigger-130"></i>
+                                    <span class="bigger-110">Compose</span>
+                                </span>
+                            </a>
+                        </li><!-- /.li-new-mail -->
+
+                        <!-- #section:pages/inbox.reminder-btn -->
+                        <li class="li-new-mail pull-right">
+                            <a data-toggle="tab" href="#reminder" data-target="reminder" class="btn-new-mail">
+                                <span class="btn btn-purple no-border">
+                                    <i class="ace-icon fa fa-clock-o bigger-130"></i>
+                                    <span class="bigger-110">Reminders</span>
+                                </span>
+                            </a>
+                        </li><!-- /.li-reminder-mail -->
+
+                        <!-- /section:pages/inbox.compose-btn -->
+                        <li class="active">
+                            <a data-toggle="tab" href="#inbox" data-target="inbox">
+                                <i class="blue ace-icon fa fa-inbox bigger-130"></i>
+                                <span class="bigger-110">Inbox</span>
+                            </a>
+                        </li>
+
+                        <li class="hide">
+                            <a data-toggle="tab" href="#sent" data-target="sent">
+                                <i class="orange ace-icon fa fa-location-arrow bigger-130"></i>
+                                <span class="bigger-110">Sent</span>
+                            </a>
+                        </li>
+
+                        <li  class="hide">
+                            <a data-toggle="tab" href="#draft" data-target="draft">
+                                <i class="green ace-icon fa fa-pencil bigger-130"></i>
+                                <span class="bigger-110">Draft</span>
+                            </a>
+                        </li>
+                    </ul>
+
+
+                    <div class="tab-content no-border no-padding">
+                        
+                        <div id="inbox" class="tab-pane in active">
+
+                            
+                            <div class="message-container">
+                                <!-- #section:pages/inbox.navbar -->
+                                <div id="id-message-list-navbar" class="message-navbar clearfix">
+                                    <div class="message-bar">
+                                        <div class="message-infobar" id="id-message-infobar">
+                                            <span class="blue bigger-150">Inbox</span>
+                                            <?php if (count($this->messages()->unread())>0):?>
+                                            <span class="grey bigger-110">(<?=count($this->messages()->unread())?> unread messages)</span>
+                                            <?php endif?>
+                                        </div>
+
+                                        <div class="message-toolbar hide">
+                                        
+                                            <button id="delete_msgs" type="button" class="btn btn-xs btn-white btn-primary bigger-110 btn-round">
+                                                <i class="ace-icon fa fa-trash-o bigger-125 orange"></i>
+                                                <span class="bigger-110">Delete</span>
+                                            </button>
+                                            <button id="read_msgs" type="button" class="btn btn-xs btn-white btn-primary bigger-110 btn-round">
+                                                <i class="ace-icon fa fa-check bigger-125 orange"></i>
+                                                <span class="bigger-110">Read</span>
+                                            </button>
+                                            <button id="unread_msgs" type="button" class="btn btn-xs btn-white btn-primary bigger-110 btn-round">
+                                                <i class="ace-icon fa fa-envelope bigger-125 orange"></i>
+                                                <span class="bigger-110">Unread</span>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <div class="messagebar-item-left">
+                                            <label class="inline middle">
+                                                <input type="checkbox" id="id-toggle-all" class="ace" />
+                                                <span class="lbl"></span>
+                                            </label>
+
+                                            &nbsp;
+                                            <div class="inline position-relative">
+                                                <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+                                                    <i class="ace-icon fa fa-caret-down bigger-125 middle"></i>
+                                                </a>
+
+                                                <ul class="dropdown-menu dropdown-lighter dropdown-100">
+                                                    <li>
+                                                        <a id="id-select-message-all" href="#">All</a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a id="id-select-message-none" href="#">None</a>
+                                                    </li>
+
+                                                    <li class="divider"></li>
+
+                                                    <li>
+                                                        <a id="id-select-message-unread" href="#">Unread</a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a id="id-select-message-read" href="#">Read</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <div class="messagebar-item-right">
+                                            <div class="inline position-relative">
+                                                <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+                                                    Sort &nbsp;
+                                                    <i class="ace-icon fa fa-caret-down bigger-125"></i>
+                                                </a>
+
+                                                <ul class="dropdown-menu dropdown-lighter dropdown-menu-right dropdown-100">
+                                                    <li>
+                                                        <a href="#">
+                                                            <i class="ace-icon fa fa-check green"></i>
+                                                            Date
+                                                        </a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a href="#">
+                                                            <i class="ace-icon fa fa-check invisible"></i>
+                                                            From
+                                                        </a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a href="#">
+                                                            <i class="ace-icon fa fa-check invisible"></i>
+                                                            Subject
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <!-- #section:pages/inbox.navbar-search -->
+                                        <div class="nav-search minimized">
+                                            <!--
+                                            <form class="form-search">
+                                                <span class="input-icon">
+                                                    <input type="text" autocomplete="off" class="input-small nav-search-input" placeholder="Search inbox ..." />
+                                                    <i class="ace-icon fa fa-search nav-search-icon"></i>
+                                                </span>
+                                            </form>
+                                            -->
+                                        </div>
+
+                                        <!-- /section:pages/inbox.navbar-search -->
+                                    </div>
+                                </div>
+
+                                <!-- # Message-Item-Details-Bar-Start -->
+                                <div id="id-message-item-navbar" class="hide message-navbar clearfix">
+                                    <div class="message-bar">
+                                        <div class="hide message-toolbar">
+                                            <div class="inline position-relative align-left">
+
+                                            <button type="button" class="btn btn-xs btn-white btn-primary bigger-110 btn-round">
+                                                <i class="ace-icon fa fa-trash-o bigger-125 orange"></i>
+                                                <span class="bigger-110">Delete</span>
+                                            </button>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <div class="messagebar-item-left">
+                                            <a href="#" class="btn btn-xs btn-primary btn-white  btn-round btn-back-message-list">
+                                                <i class="ace-icon fa fa-arrow-left blue bigger-110 middle"></i>
+                                                <b class="bigger-110 middle">Back</b>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- # / Message-Item-Details-Bar-End -->
+
+                                <!-- /section:pages/inbox.navbar -->
+                                <div class="message-list-container">
+                                    <!-- #section:pages/inbox.message-list -->
+                                    <div class="message-list" id="message-list-inbox">
+                                        
+                                        <?php
+                                        
+                                            $messages = $this->messages;
+                                                                    
+                                            $this->partialLoop()->setObjectKey('message');
+                                            
+                                            echo $this->partialLoop('messages/mailbox_list', $this->messages()->inbox());
+                                            
+                                            
+                                        ?>
+                                        
+                                    </div>
+
+                                    <!-- /section:pages/inbox.message-list -->
+                                </div>
+
+                                <!-- #section:pages/inbox.message-footer -->
+                                <div class="message-footer clearfix ">
+                                    <div class="pull-left"> <?=count($this->messages()->inbox())?> messages total </div>
+
+                                    <div class="pull-right">
+                                        <div class="inline middle"> page 1 of 1 </div>
+
+                                        &nbsp; &nbsp;
+                                        <ul class="pagination middle">
+                                            <li class="disabled">
+                                                <span>
+                                                    <i class="ace-icon fa fa-step-backward middle"></i>
+                                                </span>
+                                            </li>
+
+                                            <li class="disabled">
+                                                <span>
+                                                    <i class="ace-icon fa fa-caret-left bigger-140 middle"></i>
+                                                </span>
+                                            </li>
+
+                                            <li>
+                                                <span>
+                                                    <input value="1" maxlength="3" type="text" />
+                                                </span>
+                                            </li>
+
+                                            <li>
+                                                <a href="#">
+                                                    <i class="ace-icon fa fa-caret-right bigger-140 middle"></i>
+                                                </a>
+                                            </li>
+
+                                            <li>
+                                                <a href="#">
+                                                    <i class="ace-icon fa fa-step-forward middle"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- /section:pages/inbox.message-footer -->
+
+
+                            </div><!-- / Inbox messageContainer -->
+                            
+
+
+                        </div><!-- / Inbox tab -->
+                    </div><!-- /.tab-content -->
+                </div><!-- /.tabbable -->
+
+                <!-- /section:pages/inbox -->
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    
+        
+        <!-- Include message template -->
+        <?php include_once __DIR__.'/../../messages/message_content.phtml';  ?>
+
+        
+
+        <!-- PAGE CONTENT ENDS -->
+    </div><!-- /.col -->
+</div><!-- /.row -->
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+    var scripts = [null,"<?=$this->basePath()?>/assets/js/bootstrap-tag.min.js","<?=$this->basePath()?>/assets/js/jquery.hotkeys.min.js","<?=$this->basePath()?>/assets/js/bootstrap-wysiwyg.min.js", null]
+    ace.load_ajax_scripts(scripts, function() {
+      //inline scripts related to this page
+    jQuery(function($){
+    
+         var height = jQuery(window).height() - $('#id-message-list-navbar').offset().top - $('#inbox-tabs').offset().top;
+
+        //handling tabs and loading/displaying relevant messages and forms
+        //not needed if using the alternative view, as described in docs
+        $('#inbox-tabs a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+            var currentTab = $(e.target).data('target');
+            if(currentTab == 'write') {
+                location.href='<?=$this->url("message/compose")?>';
+            }else if(currentTab == 'reminder') {
+                location.href='<?=$this->url("message/reminder")?>';
+            }else if(currentTab == 'inbox') {
+                Inbox.show_list();
+            }
+        })
+        
+        //basic initializations
+        $('.message-list .message-item input[type=checkbox]').removeAttr('checked');
+        $('.message-list').on('click', '.message-item input[type=checkbox]' , function() {
+            $(this).closest('.message-item').toggleClass('selected');
+            if(this.checked) Inbox.display_bar(1);//display action toolbar when a message is selected
+            else {
+                Inbox.display_bar($('.message-list input[type=checkbox]:checked').length);
+                //determine number of selected messages and display/hide action toolbar accordingly
+            }       
+        });
+    
+        //check/uncheck all messages
+        $('#id-toggle-all').removeAttr('checked').on('click', function(){
+            if(this.checked) {
+                Inbox.select_all();
+            } else Inbox.select_none();
+        });
+        
+        //select all
+        $('#id-select-message-all').on('click', function(e) {
+            e.preventDefault();
+            Inbox.select_all();
+        });
+        
+        //select none
+        $('#id-select-message-none').on('click', function(e) {
+            e.preventDefault();
+            Inbox.select_none();
+        });
+        
+        //select read
+        $('#id-select-message-read').on('click', function(e) {
+            e.preventDefault();
+            Inbox.select_read();
+        });
+    
+        //select unread
+        $('#id-select-message-unread').on('click', function(e) {
+            e.preventDefault();
+            Inbox.select_unread();
+        });
+    
+        //display message
+        $('.message-list .message-item .message-item-clkble').on('click',function(e){
+            console.log('In parent');console.log(e.target);
+            //show the loading icon
+            $('.message-container').append('<div class="message-loading-overlay"><i class="fa-spin ace-icon fa fa-spinner orange2 bigger-160"></i></div>');
+
+            //setup message list            
+            $('.message-inline-open').removeClass('message-inline-open').find('.message-content').remove();
+            var message_list = $(this).closest('.message-list');  
+            $('#inbox-tabs a[href="#inbox"]').parent().removeClass('active');
+            
+            //fetch message contents as ajax
+            var data = {'user_message_id':$(e.target).closest('.message-item').data('user-message-id')}
+            $.post('<?=$this->url("message/read")?>',data, function(message) {
+                    
+                    //hide everything that is after .message-list (which is either .message-content or .message-form)
+                    message_list.next().addClass('hide');
+                    $('.message-container').find('.message-loading-overlay').remove();
+        
+                    //close and remove the inline opened message if any!
+        
+                    //hide all navbars
+                    $('.message-navbar').addClass('hide');
+                    //now show the navbar for single message item
+                    $('#id-message-item-navbar').removeClass('hide');
+        
+                    //hide all footers
+                    $('.message-footer').addClass('hide');
+                    //now show the alternative footer
+                    $('.message-footer-style2').removeClass('hide');
+                    
+                    //update message-content
+                    console.log(['Message : ',message]);
+                    $('.message-content #message_sender').html(message.sent_as);
+                    $('.message-content #mesage_time').html(message.time);
+                    $('.message-content #message_body').html(message.html_body);
+                    $('.message-content #message_subject').html(message.subject);
+
+        
+                    //move .message-content next to .message-list and hide .message-list
+                    $('.message-content').removeClass('hide').insertAfter(message_list.addClass('hide'));
+                    //add scrollbars to .message-body
+                    $('.message-content .message-body').ace_scroll({
+                        size: height-150,
+                        mouseWheelLock: true,
+                        styleClass: 'scroll-visible'
+                    });
+
+            });//end post
+        });
+
+        // $('.message-list .message-item .msg-select-chk-lbl').on('click',function(e){
+            // console.log('stopping propagation');
+            // e.stopPropagation();            
+            // console.log('done ... should not propagate');
+            // //$(e.target).find('msg-select-chk').checked();
+            // //return false; 
+        // });
+        
+        //back to message list
+        $('.btn-back-message-list').on('click', function(e) {
+            
+            e.preventDefault();
+            //$('#inbox-tabs a[href="#inbox"]').tab('show');
+            //FIXME TODO
+            //We should do this in ajax
+            location.reload();
+        });
+    
+        var Inbox = {
+            //displays a toolbar according to the number of selected messages
+            display_bar : function (count) {
+                if(count == 0) {
+                    $('#id-toggle-all').removeAttr('checked');
+                    $('#id-message-list-navbar .message-toolbar').addClass('hide');
+                    $('#id-message-list-navbar .message-infobar').removeClass('hide');
+                }
+                else {
+                    $('#id-message-list-navbar .message-infobar').addClass('hide');
+                    $('#id-message-list-navbar .message-toolbar').removeClass('hide');
+                }
+            }
+            ,
+            select_all : function() {
+                var count = 0;
+                $('.message-item input[type=checkbox]').each(function(){
+                    this.checked = true;
+                    $(this).closest('.message-item').addClass('selected');
+                    count++;
+                });
+                
+                $('#id-toggle-all').get(0).checked = true;
+                
+                Inbox.display_bar(count);
+            }
+            ,
+            select_none : function() {
+                $('.message-item input[type=checkbox]').removeAttr('checked').closest('.message-item').removeClass('selected');
+                $('#id-toggle-all').get(0).checked = false;
+                
+                Inbox.display_bar(0);
+            }
+            ,
+            select_read : function() {
+                $('.message-unread input[type=checkbox]').removeAttr('checked').closest('.message-item').removeClass('selected');
+                
+                var count = 0;
+                $('.message-item:not(.message-unread) input[type=checkbox]').each(function(){
+                    this.checked = true;
+                    $(this).closest('.message-item').addClass('selected');
+                    count++;
+                });
+                Inbox.display_bar(count);
+            }
+            ,
+            select_unread : function() {
+                $('.message-item:not(.message-unread) input[type=checkbox]').removeAttr('checked').closest('.message-item').removeClass('selected');
+                
+                var count = 0;
+                $('.message-unread input[type=checkbox]').each(function(){
+                    this.checked = true;
+                    $(this).closest('.message-item').addClass('selected');
+                    count++;
+                });
+                
+                Inbox.display_bar(count);
+            }
+        }
+    
+        //show message list (back from writing mail or reading a message)
+        Inbox.show_list = function() {
+            $('.message-navbar').addClass('hide');
+            $('#id-message-list-navbar').removeClass('hide');
+    
+            $('.message-footer').addClass('hide');
+            $('.message-footer:not(.message-footer-style2)').removeClass('hide');
+    
+            $('.message-list').removeClass('hide').next().addClass('hide');
+            //hide the message item / new message window and go back to list
+        }
+
+        Inbox.show_message=function(msg_list){
+            //show the loading icon
+            $('.message-container').append('<div class="message-loading-overlay"><i class="fa-spin ace-icon fa fa-spinner orange2 bigger-160"></i></div>');
+
+            //setup message list            
+            $('.message-inline-open').removeClass('message-inline-open').find('.message-content').remove();
+            var message_list;
+            if(msg_list){
+                message_list=$(msg_list);
+             }
+             else{
+                message_list=$(this).closest('.message-list');
+            }
+              
+            $('#inbox-tabs a[href="#inbox"]').parent().removeClass('active');
+ 
+             //hide everything that is after .message-list (which is either .message-content or .message-form)
+            message_list.next().addClass('hide');
+            $('.message-container').find('.message-loading-overlay').remove();
+        
+            //close and remove the inline opened message if any!
+        
+            //hide all navbars
+            $('.message-navbar').addClass('hide');
+            //now show the navbar for single message item
+            $('#id-message-item-navbar').removeClass('hide');
+
+            //hide all footers
+            $('.message-footer').addClass('hide');
+            //now show the alternative footer
+            $('.message-footer-style2').removeClass('hide');
+        
+            //move .message-content next to .message-list and hide .message-list
+            $('.message-content').removeClass('hide').insertAfter(message_list.addClass('hide'));
+            //add scrollbars to .message-body
+            $('.message-content .message-body').ace_scroll({
+                size: height-150,
+                mouseWheelLock: true,
+                styleClass: 'scroll-visible'
+            });
+           
+        }
+                
+        $('.message-list').each(function(){
+           $(this).ace_scroll({
+                    size: height,
+                    mouseWheelLock: true,
+                    styleClass: 'scroll-visible'
+                }); 
+        });
+                
+       //we request was sent to open a message show message read pane
+       <?=($this->user_message)? 'setTimeout(function(){Inbox.show_message("#message-list-inbox");},200);':'' ?>
+       //done show message
+       
+        $('#delete_msgs').click(function(){
+            processMessages('delete');            
+        });
+        $('#read_msgs').click(function(){
+            processMessages('read');            
+        });
+        $('#unread_msgs').click(function(){
+            processMessages('unread');            
+        });
+    });
+    
+    });
+    
+    function processMessages(bulkAction){
+    	var ids=Array(); 
+    	$('.msg-select-chk:checked').each(
+    				function(){
+    					ids.push($(this).data('value'));
+    			});
+    	
+    	var data = {'message_ids[]':ids,'bulk_action':bulkAction};
+        $.post('<?=$this->url("message/bulk-action")?>',data, function(message) {
+            console.log(message)
+            if(message.result['messages-updated']>0){
+                location.reload();
+            }
+    	});
+    }
+</script>

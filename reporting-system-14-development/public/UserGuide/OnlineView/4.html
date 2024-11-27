@@ -1,0 +1,270 @@
+<!DOCTYPE html >
+<html lang="en">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+<meta charset="utf-8" />
+</head>
+
+<body style="margin: 0;">
+
+<div id="jpedal" style="overflow: hidden; position:relative; width: 935px; height: 1210px;">
+
+<!-- Begin shared CSS values -->
+<style type="text/css" >
+.t {
+	position: absolute;
+	-webkit-transform-origin: top left;
+	-moz-transform-origin: top left;
+	-o-transform-origin: top left;
+	-ms-transform-origin: top left;
+	-webkit-transform: scale(0.25);
+	-moz-transform: scale(0.25);
+	-o-transform: scale(0.25);
+	-ms-transform: scale(0.25);
+	z-index: 2;
+	position:absolute;
+	white-space:nowrap;
+	overflow:visible;
+}
+</style>
+<!-- End shared CSS values -->
+
+<!-- Begin shared JS -->
+<script type="text/javascript">
+
+// Ensure that we're not replacing any onload events
+function addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			if (oldonload) {
+				oldonload();
+			}
+			func();
+		}
+	}
+}
+addLoadEvent(function(){load4();});
+
+function adjustWordSpacing(widths) {
+    var i, allLinesDone = false;
+    var isDone = [];
+    var currentSpacing = [];
+    var elements = [];
+    
+    // Initialise arrays
+    for (i = 0; i < widths.length; i++) {
+        elements[i] = document.getElementById(widths[i][0]);
+        elements[i].style.wordSpacing = '0px';//Required if rerunning
+    }
+    for (i = 0; i < widths.length; i++) {
+        if (isIE) widths[i][1] = widths[i][1] * 4;
+        currentSpacing[i] = Math.floor((widths[i][1] - elements[i].offsetWidth) / elements[i].innerHTML.match(/\s.|&nbsp;./g).length);//min
+        if (isIE) currentSpacing[i] = Math.floor(currentSpacing[i] / 4);
+        isDone[i] = false;
+    }
+    
+    while (!allLinesDone) {
+        // Add each adjustment to the render queue without forcing a render
+        for (i = 0; i < widths.length; i++) {
+            if (!isDone[i]) {
+                elements[i].style.wordSpacing = currentSpacing[i] + 'px';
+            }            
+        }
+        
+        allLinesDone = true;
+        // If elements still need to be wider, add 1 to the word spacing
+        for (i = 0; i < widths.length; i++) {
+            if (!isDone[i] && currentSpacing[i] < 160) {
+                if (elements[i].offsetWidth >= widths[i][1]) {
+                    isDone[i] = true;
+                } else {
+                    currentSpacing[i]++;
+                    allLinesDone = false;
+                }
+            }
+        }
+    }
+    
+    for (i = 0; i < widths.length; i++) {
+        elements[i].style.wordSpacing = (currentSpacing[i] - 1) + 'px';
+    }
+}
+
+</script>
+<!-- End shared JS -->
+
+
+<!-- Begin inline CSS -->
+<style type="text/css" >
+
+#t1_4{left:103px;top:1157px;}
+#t2_4{left:762px;top:1157px;}
+#t3_4{left:76px;top:106px;}
+#t4_4{left:103px;top:106px;}
+#t5_4{left:103px;top:140px;}
+#t6_4{left:103px;top:164px;}
+#t7_4{left:103px;top:796px;}
+#t8_4{left:103px;top:834px;}
+#t9_4{left:131px;top:834px;}
+#ta_4{left:158px;top:858px;}
+#tb_4{left:186px;top:858px;}
+#tc_4{left:103px;top:882px;}
+#td_4{left:131px;top:882px;}
+#te_4{left:158px;top:905px;}
+#tf_4{left:186px;top:905px;}
+#tg_4{left:103px;top:929px;}
+#th_4{left:131px;top:929px;}
+#ti_4{left:158px;top:952px;}
+#tj_4{left:186px;top:952px;}
+#tk_4{left:103px;top:976px;}
+#tl_4{left:131px;top:976px;}
+#tm_4{left:103px;top:1000px;}
+#tn_4{left:131px;top:1000px;}
+#to_4{left:158px;top:1023px;}
+#tp_4{left:186px;top:1023px;}
+#tq_4{left:103px;top:1047px;}
+#tr_4{left:131px;top:1047px;}
+#ts_4{left:86px;top:715px;}
+#tt_4{left:322px;top:213px;}
+#tu_4{left:799px;top:523px;}
+#tv_4{left:799px;top:541px;}
+#tw_4{left:799px;top:560px;}
+#tx_4{left:818px;top:245px;}
+#ty_4{left:607px;top:649px;}
+#tz_4{left:607px;top:670px;}
+#t10_4{left:607px;top:690px;}
+#t11_4{left:813px;top:287px;}
+#t12_4{left:813px;top:308px;}
+#t13_4{left:813px;top:330px;}
+#t14_4{left:317px;top:474px;}
+#t15_4{left:257px;top:641px;}
+#t16_4{left:257px;top:662px;}
+#t17_4{left:257px;top:682px;}
+
+.s1_4{
+	FONT-SIZE: 67px;
+	FONT-FAMILY: ABCDEE-Calibri-Bold4;
+	color: rgb(0,0,0);
+}
+
+.s4_4{
+	FONT-SIZE: 60px;
+	FONT-FAMILY: ABCDEE-Calibri4;
+	color: rgb(0,0,0);
+}
+
+.s2_4{
+	FONT-SIZE: 67px;
+	FONT-FAMILY: ABCDEE-Calibri4;
+	color: rgb(0,0,0);
+}
+
+.s3_4{
+	FONT-SIZE: 97px;
+	FONT-FAMILY: ABCDEE-Calibri-Bold4;
+	color: rgb(23,54,93);
+}
+
+</style>
+<!-- End inline CSS -->
+
+<!-- Begin embedded font definitions -->
+<style id="fonts4" type="text/css" >
+
+@font-face {
+	font-family: ABCDEE-Calibri4;
+	src :url("4/fonts/ABCDEE-Calibri.woff") format("woff");
+}
+
+@font-face {
+	font-family: ABCDEE-Calibri-Bold4;
+	src :url("4/fonts/ABCDEE-Calibri-Bold.woff") format("woff");
+}
+
+</style>
+<!-- End embedded font definitions -->
+
+<!-- Begin text definitions (Positioned/styled in CSS) -->
+<div id="t1_4" class="t s1_4">Online Reporting Portal – User Guide</div>
+<div id="t2_4" class="t s2_4">Page | 4 </div>
+<div id="t3_4" class="t s3_4">2.</div>
+<div id="t4_4" class="t s3_4">Reporting System Home Page </div>
+<div id="t5_4" class="t s2_4">After a successful login, the main dashboard will appear. What information is displayed depends on which </div>
+<div id="t6_4" class="t s2_4">office bearer is logging in. </div>
+<div id="t7_4" class="t s2_4">This page is divided into a few different sections. </div>
+<div id="t8_4" class="t s2_4">1.</div>
+<div id="t9_4" class="t s1_4">Menu Shortcuts:</div>
+<div id="ta_4" class="t s2_4">a.</div>
+<div id="tb_4" class="t s2_4">There are 3 different sets of menu shortcuts that allow access the major tools of the site. </div>
+<div id="tc_4" class="t s2_4">2.</div>
+<div id="td_4" class="t s1_4">General Notifications</div>
+<div id="te_4" class="t s2_4">a.</div>
+<div id="tf_4" class="t s2_4">Any alerts or actions from the system. This includes emails from Markaz as well. </div>
+<div id="tg_4" class="t s2_4">3.</div>
+<div id="th_4" class="t s1_4">Feedback Regarding your Reports</div>
+<div id="ti_4" class="t s2_4">a.</div>
+<div id="tj_4" class="t s2_4">Contains reporting feedback received by the Jama‘at/Markaz. </div>
+<div id="tk_4" class="t s2_4">4.</div>
+<div id="tl_4" class="t s1_4">Report Submissions Stats for the Current Month</div>
+<div id="tm_4" class="t s2_4">5.</div>
+<div id="tn_4" class="t s1_4">Report Submissions Information for the Year</div>
+<div id="to_4" class="t s2_4">a.</div>
+<div id="tp_4" class="t s2_4">Shows at a glance the YTD information about your department. </div>
+<div id="tq_4" class="t s2_4">6.</div>
+<div id="tr_4" class="t s1_4">Information Regarding the Department of the person logged in</div>
+<div id="ts_4" class="t s2_4">Menu Buttons </div>
+<div id="tt_4" class="t s2_4">Shortcuts </div>
+<div id="tu_4" class="t s4_4">Feedback </div>
+<div id="tv_4" class="t s4_4">Regarding </div>
+<div id="tw_4" class="t s4_4">your Reports </div>
+<div id="tx_4" class="t s2_4">Shortcuts</div>
+<div id="ty_4" class="t s2_4">Report Submissions </div>
+<div id="tz_4" class="t s2_4">Information for the </div>
+<div id="t10_4" class="t s2_4">Year </div>
+<div id="t11_4" class="t s4_4">Information </div>
+<div id="t12_4" class="t s4_4">about your </div>
+<div id="t13_4" class="t s4_4">Department </div>
+<div id="t14_4" class="t s2_4">General Notifications </div>
+<div id="t15_4" class="t s2_4">Report Submissions </div>
+<div id="t16_4" class="t s2_4">Stats for the Current </div>
+<div id="t17_4" class="t s2_4">Month </div>
+
+<!-- End text definitions -->
+
+<!-- Begin page background -->
+<div id="pg4Overlay" style="width:100%; height:100%; position:absolute; z-index:1; background-color:rgba(0,0,0,0); -webkit-user-select: none;"></div>
+<div id="pg4"><object width="935" height="1210" data="4/4.svg" type="image/svg+xml" id="pdf4" style="width:935px; height:1210px; background-color:white; -moz-transform:scale(1); z-index: 0;"></object></div>
+<!-- End page background -->
+
+<!-- Begin page loading JS -->
+<script id="ld4" type="text/javascript">
+
+var isIE = false;
+var f4 = [['t1_4',1032],['t2_4',227],['t4_4',1200],['t5_4',2889],['t6_4',701],['t7_4',1329],['t9_4',464],['tb_4',2425],['td_4',593],['tf_4',2179],['th_4',936],['tj_4',1681],['tl_4',1342],['tn_4',1246],['tp_4',1728],['tr_4',1755],['ts_4',390],['tw_4',320],['ty_4',538],['tz_4',527],['t12_4',273],['t14_4',579],['t15_4',538],['t16_4',560]];
+function load4(){
+	var timeout = 100;
+	if (navigator.userAgent.match(/iPhone|iPad|iPod|Android/i)) timeout = 500;
+	setTimeout(function() {adjustWordSpacing(f4);},timeout);
+}
+</script>
+<!--[if lt IE 9]><script type="text/javascript">
+isIE = true;
+
+var divCount = 44;
+for (var i = 1; i < divCount; i++) {
+    var div = document.getElementById("t" + i.toString(36) + "_4");
+    if (div !== null) {
+        div.style.top = (div.offsetTop * 4) + "px";
+        div.style.left = (div.offsetLeft * 4) + "px";
+        div.style.zoom = "25%";
+    }
+}
+</script><![endif]-->
+<!-- End page loading JS -->
+
+</div>
+</body>
+</html>

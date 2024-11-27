@@ -1,0 +1,252 @@
+td {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 8pt;
+	color: #333333;
+}
+.copyright {
+	font-size: 7pt;
+	color: #666666;
+}
+a {
+	color: #5E7BC1;
+}
+a:hover {
+	color: #CC0000;
+}
+.pageheader {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10pt;
+	color: #006699;
+	font-style: normal;
+	font-weight: bold;
+
+
+
+}
+.justify {
+	text-align: justify;
+}
+li {
+	list-style-image: url(images/bullet.gif);
+}
+.BwHeader {
+	font-weight: bold;
+}
+.smalltext {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 7pt;
+}
+.rightcolHeader {
+
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 8pt;
+	color: #CC0000;
+	font-style: normal;
+	font-weight: bold;
+}
+.rightCol {
+	font-size: 7pt;
+}
+required {
+	font-size: 6pt;
+	color: #CC0000;
+}
+.required {
+
+	font-size: 7pt;
+	color: #993300;
+}
+.pagetextAltColor {
+	color: #CE0000;
+}
+.SpacerTable {
+	background-color: #999999;
+}
+.pageAltBlue {
+	color: #006699;
+}
+ul {
+
+	list-style-image: url(images/bullet.gif);
+}
+.pagetextAltColorSmall {
+	color: #CC0000;
+	font-size: 7pt;
+
+}
+.BoxCSS {
+	background-color: #FCFCFC;
+	border: 1px solid #999999;
+	width: 140px;
+
+}
+.BoxSearch {
+	background-color: #F9F9F9;
+	border: 1px solid #999999;
+	width: 125px;
+	font-size: 9pt;
+	height: 17px;
+
+
+}
+.BoxMenuCSS {
+
+	background-color: #FCFCFC;
+	border: 1px solid #999999;
+}
+option {
+
+
+	background-color: #FCFCFC;
+	border: 1px solid #999999;
+}
+.pageheaderRed {
+
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10pt;
+	color: #993300;
+	font-style: normal;
+	font-weight: bold;
+}
+.supsc {
+	font-size: 8pt;
+	vertical-align: super;
+}
+.BoxCSS1
+{
+    BACKGROUND-COLOR: #fcfcfc;
+    BORDER: 1px solid #999999;
+}
+
+.ButtonCSS
+{
+    BACKGROUND-COLOR:#fcfcfc;
+    BORDER: 1px solid #006699;
+    WIDTH: 80px;
+    font-size: 8pt;
+    FONT-WEIGHT: bold;
+    COLOR: #006699;
+    cursor: hand;
+}
+.ButtonCSS1
+{
+    BACKGROUND-COLOR:#f9f9f9;
+    BORDER: 1px solid #CC0000;
+    WIDTH: 80px;
+    font-size: 8pt;
+    FONT-WEIGHT: bold;
+    COLOR: #CC0000;
+    cursor: hand;
+}
+.ButtonCSS2
+{
+    BACKGROUND-COLOR:#f9f9f9;
+    BORDER: 1px solid #006699;
+    WIDTH: 95px;
+    font-size: 8pt;
+    FONT-WEIGHT: bold;
+    COLOR: #006699;
+    cursor: hand;
+}
+.ButtonCSS3
+{
+    BACKGROUND-COLOR:#f9f9f9;
+    BORDER: 0px solid #006699;
+    WIDTH: 95px;
+    font-size: 9pt;
+    FONT-WEIGHT: bold;
+    COLOR: #006699;
+    cursor: hand;
+}
+.ButtonCSS4
+{
+    BACKGROUND-COLOR:black;
+    BORDER: 2px solid white;
+    WIDTH: 95px;
+    font-size: 9pt;
+    FONT-WEIGHT: bold;
+    COLOR: white;
+    height: 30px;
+    cursor: hand;
+}
+.ButtonCSS5
+{
+    BACKGROUND-COLOR:#f9f9f9;
+    BORDER: 1px solid #006699;
+    WIDTH: 105px;
+    font-size: 8pt;
+    FONT-WEIGHT: bold;
+    COLOR: #006699;
+    cursor: hand;
+}
+.ButtonCSS6
+{
+    BACKGROUND-COLOR:black;
+    BORDER: 1px solid grey;
+    WIDTH: 95px;
+    font-size: 9pt;
+    FONT-WEIGHT: bold;
+    COLOR: #c0c0c0;
+    height: 25px;
+    cursor: hand;
+}
+.ButtonCSS7
+{
+    BACKGROUND-COLOR: black;
+    BORDER: 0px solid #c0c0c0;
+    WIDTH: 65px;
+    font-size: 8pt;
+    COLOR: red;
+    height: 20px;
+    cursor: hand;
+}
+.ButtonCSSsmallRed
+{
+    BACKGROUND-COLOR:white;
+    BORDER: 1px solid red;
+    WIDTH: 40px;
+    font-size: 7pt;
+    COLOR: red;
+    cursor: hand;
+}
+.ButtonCSSsmallBlue
+{
+    BACKGROUND-COLOR:white;
+    BORDER: 1px solid #006699;
+    WIDTH: 40px;
+    font-size: 7pt;
+    COLOR: #006699d;
+    cursor: hand;
+}
+.topmenutext 
+{ 
+	font-family: Arial,Verdana,  Helvetica, sans-serif;
+	font-size: 11px;
+	FONT-WEIGHT: bold;
+	color: #000000;
+	text-decoration:none;
+}
+
+.leftsap 
+{ 
+	BACKGROUND-COLOR:#808080;
+	WIDTH: 148px;
+	Height: 1px;
+	alight: left;
+	valign: top;
+}
+
+.leftmenuitem 
+{ 
+	BACKGROUND-COLOR:#F1FAFF;
+	WIDTH: 148px;
+	Height: 17px;
+	alight: left;
+	valign: middle;
+}
+
+.newstyletxt
+{
+	color: #336699;
+	text-shadow: 2px 2px #cccccc;
+}

@@ -1,0 +1,25 @@
+<?php $element = $this->element;
+      $element->setAttribute('style','width:90px');
+
+      $options = $element->getOptions();
+      $options['label_col']=$options['label_col']?$options['label_col']:5;
+      $options['control_col']=$options['control_col']?$options['control_col']:3;
+      $label_col_class=sprintf("col-sm-%s col-xs-6 ",$options['label_col'],$options['label_col']);
+      $control_col_class=sprintf("col-sm-%s col-xs-6 ",$options['control_col'],$options['control_col']);
+      
+?>
+   <div class="column clearfix input-field-container">
+      <div class="align-left input-lable align-middle <?=$label_col_class?> " style="padding-left: 6px;" for="<?=$element->getName()?>">
+          <?=$element->getLabel()?>:
+      </div>
+      <div class="<?=$control_col_class?> allign-left">
+
+        <div class="input-group  col-xs-2">
+           <?php echo $this->formElement($element);?>
+            <span class="input-group-addon">
+                <i class="fa fa-calendar bigger-100"></i>
+            </span>
+        </div>
+
+      </div>
+   </div>

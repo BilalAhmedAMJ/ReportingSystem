@@ -1,0 +1,135 @@
+<style>
+body {
+    background-color: #FFF;
+    min-height: 100%;
+    padding-bottom: 0;
+    font-family: 'helvetica';
+    font-size: 13px;
+    color: #393939;
+}
+.header {
+    background-color: #000;
+    color: #FFF;
+    font-weight:bold;
+}
+.sub-header {
+    background-color: #807d7d;
+    color: #FFF;
+    font-weight:bold;
+}
+.header td, .header th {
+    padding: 3px 10px;
+
+}
+table.report > tbody > tr > td, table.report > tbody > tr > th {
+    text-align:center;
+}
+
+table.report {
+    border-collapse: collapse;
+    font-family: 'dejavu sans';
+    font-size: 13px;
+    border: 1px solid #000;
+}
+table.report td {
+    border: 1px solid #000;
+    /* padding: 3px 10px; */
+}
+</style>
+<div class="row">
+<div class="col-sm-12 align-center center center-block" style="max-width: 1400px!important">
+    <table border="0" width="100%">
+        <tr>
+            <td align="left" nowrap><img src="<?=$this->basePath()?>/img/topbar-left.png" height="45"></td>
+            <td align="left"><img src="<?=$this->basePath()?>/img/bismillah.png" ></td>
+        </tr>   
+        <tr>
+            <td colspan="2">&nbsp;</td>
+        </tr>                                  
+        <tr>
+            <td align="left" nowrap><b>Date:&nbsp;</b><?php echo date("Y-m-d"); ?></td>
+            <td align="left">&nbsp;</td>
+        </tr>
+        <tr>
+            <td align="left" nowrap><b>Summary for the year <?=$this->year?></td>
+            <td align="left">&nbsp;</td>
+        </tr>
+    </table>
+</div>
+</div>
+<br />
+<div class="report_status_container">
+<br />
+<table class="report" border="0">
+    <thead>
+        <tr class="header">
+            <th style="text-align:left;" colspan="2">Question</th>
+            <th>Reports Expected</th>
+            <?php foreach ($months as $month) {?>
+            <th><?=date('M-Y', strtotime("{$month['Y']}-{$month['M']}-01"))?></th>
+            <?php } ?>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td style="text-align:left;" colspan="20">
+            Total number of Large Jamā‘ats - <?=$this->branches_summary['no_of_imarat']?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Total number of Halqajāt - <?=$this->branches_summary['no_of_halqajaat']?><br />
+            Total number of Jamā‘ats - <?=$this->branches_summary['no_of_jamats']?>
+            </td>
+        </tr>  
+
+        <?php foreach ($data as $department) {?>
+         <tr class="header">
+            <td style="text-align:left;" colspan="2"><?=$department['department']?></td>
+            <td><?=$department['reports_required']?></td>
+            <?php foreach ($months as $month) {?>
+            <td><?=$department['reports_received']["{$month['Y']}-{$month['M']}"]?></td>
+            <?php } ?>
+        </tr>      
+         <tr class="sub-header">
+            <td colspan="2">&nbsp;</td>
+            <td>
+                <?php 
+                    $this->sparkline->setData($department['reports_received']); 
+                    $sparkline->setWidth(100);
+                    $sparkline->setLineColorHex('#FFFFFF');
+                    $this->sparkline->deactivateBackgroundColor('#FFFFFF');  //e6f2fa
+                    $sparkline->setFillColorHex('#807d7d');
+                ?>
+                <img src="data:image/png;base64, <?php echo $sparkline->toBase64(); ?>" />
+                <?php $this->sparkline->destroy();?>
+            </td>
+            <?php foreach ($months as $month) {?>
+            <td><?=round($department['reports_received']["{$month['Y']}-{$month['M']}"]/$department['reports_required']*100) . '%'?></td>
+            <?php } ?>
+        </tr>      
+        <?php $count = 1; ?>
+        <?php foreach ($department['questions'] as $question) {?>
+            <tr>
+                <td style="text-align:center;  padding: 0 10px"><?=$count++?></td>
+                <td style="text-align:left; padding: 0 5px"><?=$question['caption']?></td>
+                <td>
+                    <?php 
+                    $this->sparkline->setData($question['data']); 
+                    $sparkline->setLineColorHex('#000');
+                    $this->sparkline->deactivateBackgroundColor('#FFFFFF');  //e6f2fa
+                    $sparkline->setFillColorHex('#FFFFFF');
+                ?>
+                    <img src="data:image/png;base64, <?php echo $sparkline->toBase64(); ?>" />
+                    <?php $this->sparkline->destroy();?>
+                </td>
+                <?php foreach ($months as $month) {?>
+                <td><?=$question['data']["{$month['Y']}-{$month['M']}"]?></td>
+                <?php } ?>
+            </tr> 
+        <?php } ?>
+
+        <tr>
+            <td colspan="20">&nbsp;</td>
+        </tr>  
+
+        <?php } ?>
+
+    </tbody>
+</table>
+</div>

@@ -1,0 +1,13 @@
+<?php $col = $this->col; ?>
+<?php echo $this->partial('partial/bootstrap_datagrid/custom_filters/select2_list'
+                           ,array(
+                                'id'=>$col->getUniqueId(),
+                                'label'=>'value',
+                                'index'=>'key',
+                                'url'=>$this->url("config/config-value").'?config_item=report_status&format=key-value',
+                                'value'=>$col->getFilterActiveValue(),
+                                'gridId'=>$this->gridId,
+                                'data_target'=>'report_status'
+                            )
+                         );
+ ?>

@@ -1,0 +1,309 @@
+<!DOCTYPE html >
+<html lang="en">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+<meta charset="utf-8" />
+</head>
+
+<body style="margin: 0;">
+
+<div id="jpedal" style="overflow: hidden; position:relative; width: 935px; height: 1210px;">
+
+<!-- Begin shared CSS values -->
+<style type="text/css" >
+.t {
+	position: absolute;
+	-webkit-transform-origin: top left;
+	-moz-transform-origin: top left;
+	-o-transform-origin: top left;
+	-ms-transform-origin: top left;
+	-webkit-transform: scale(0.25);
+	-moz-transform: scale(0.25);
+	-o-transform: scale(0.25);
+	-ms-transform: scale(0.25);
+	z-index: 2;
+	position:absolute;
+	white-space:nowrap;
+	overflow:visible;
+}
+</style>
+<!-- End shared CSS values -->
+
+<!-- Begin shared JS -->
+<script type="text/javascript">
+
+// Ensure that we're not replacing any onload events
+function addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			if (oldonload) {
+				oldonload();
+			}
+			func();
+		}
+	}
+}
+addLoadEvent(function(){load10();});
+
+function adjustWordSpacing(widths) {
+    var i, allLinesDone = false;
+    var isDone = [];
+    var currentSpacing = [];
+    var elements = [];
+    
+    // Initialise arrays
+    for (i = 0; i < widths.length; i++) {
+        elements[i] = document.getElementById(widths[i][0]);
+        elements[i].style.wordSpacing = '0px';//Required if rerunning
+    }
+    for (i = 0; i < widths.length; i++) {
+        if (isIE) widths[i][1] = widths[i][1] * 4;
+        currentSpacing[i] = Math.floor((widths[i][1] - elements[i].offsetWidth) / elements[i].innerHTML.match(/\s.|&nbsp;./g).length);//min
+        if (isIE) currentSpacing[i] = Math.floor(currentSpacing[i] / 4);
+        isDone[i] = false;
+    }
+    
+    while (!allLinesDone) {
+        // Add each adjustment to the render queue without forcing a render
+        for (i = 0; i < widths.length; i++) {
+            if (!isDone[i]) {
+                elements[i].style.wordSpacing = currentSpacing[i] + 'px';
+            }            
+        }
+        
+        allLinesDone = true;
+        // If elements still need to be wider, add 1 to the word spacing
+        for (i = 0; i < widths.length; i++) {
+            if (!isDone[i] && currentSpacing[i] < 160) {
+                if (elements[i].offsetWidth >= widths[i][1]) {
+                    isDone[i] = true;
+                } else {
+                    currentSpacing[i]++;
+                    allLinesDone = false;
+                }
+            }
+        }
+    }
+    
+    for (i = 0; i < widths.length; i++) {
+        elements[i].style.wordSpacing = (currentSpacing[i] - 1) + 'px';
+    }
+}
+
+</script>
+<!-- End shared JS -->
+
+
+<!-- Begin inline CSS -->
+<style type="text/css" >
+
+#t1_10{left:103px;top:88px;}
+#t2_10{left:103px;top:147px;}
+#t3_10{left:131px;top:185px;}
+#t4_10{left:158px;top:185px;}
+#t5_10{left:522px;top:185px;}
+#t6_10{left:577px;top:185px;}
+#t7_10{left:592px;top:185px;}
+#t8_10{left:659px;top:185px;}
+#t9_10{left:131px;top:209px;}
+#ta_10{left:158px;top:209px;}
+#tb_10{left:298px;top:209px;}
+#tc_10{left:352px;top:209px;}
+#td_10{left:131px;top:232px;}
+#te_10{left:158px;top:232px;}
+#tf_10{left:158px;top:256px;}
+#tg_10{left:131px;top:280px;}
+#th_10{left:158px;top:280px;}
+#ti_10{left:131px;top:303px;}
+#tj_10{left:158px;top:303px;}
+#tk_10{left:539px;top:303px;}
+#tl_10{left:593px;top:303px;}
+#tm_10{left:158px;top:327px;}
+#tn_10{left:131px;top:351px;}
+#to_10{left:158px;top:351px;}
+#tp_10{left:103px;top:390px;}
+#tq_10{left:103px;top:435px;}
+#tr_10{left:410px;top:435px;}
+#ts_10{left:468px;top:435px;}
+#tt_10{left:552px;top:435px;}
+#tu_10{left:580px;top:435px;}
+#tv_10{left:103px;top:748px;}
+#tw_10{left:725px;top:748px;}
+#tx_10{left:103px;top:772px;}
+#ty_10{left:217px;top:772px;}
+#tz_10{left:310px;top:772px;}
+#t10_10{left:452px;top:772px;}
+#t11_10{left:497px;top:772px;}
+#t12_10{left:543px;top:772px;}
+#t13_10{left:597px;top:772px;}
+#t14_10{left:642px;top:772px;}
+#t15_10{left:739px;top:772px;}
+#t16_10{left:757px;top:772px;}
+#t17_10{left:103px;top:795px;}
+#t18_10{left:175px;top:795px;}
+#t19_10{left:194px;top:795px;}
+#t1a_10{left:285px;top:795px;}
+#t1b_10{left:362px;top:795px;}
+#t1c_10{left:404px;top:795px;}
+#t1d_10{left:422px;top:795px;}
+#t1e_10{left:466px;top:795px;}
+#t1f_10{left:103px;top:819px;}
+#t1g_10{left:103px;top:862px;}
+#t1h_10{left:124px;top:862px;}
+#t1i_10{left:155px;top:862px;}
+#t1j_10{left:174px;top:862px;}
+#t1k_10{left:213px;top:862px;}
+#t1l_10{left:333px;top:862px;}
+#t1m_10{left:377px;top:862px;}
+
+.s4_10{
+	FONT-SIZE: 85px;
+	FONT-FAMILY: ABCDEE-Calibri-Bold10;
+	color: rgb(0,0,0);
+}
+
+.s1_10{
+	FONT-SIZE: 122px;
+	FONT-FAMILY: ABCDEE-Calibri-Bold10;
+	color: rgb(0,0,0);
+}
+
+.s3_10{
+	FONT-SIZE: 67px;
+	FONT-FAMILY: ABCDEE-Calibri-Bold10;
+	color: rgb(0,0,0);
+}
+
+.s2_10{
+	FONT-SIZE: 67px;
+	FONT-FAMILY: ABCDEE-Calibri10;
+	color: rgb(0,0,0);
+}
+
+#form10_1{	border-style:none;	z-index:2;	position: absolute;	left:264px;	top:187px;	width:158px;	height:25px;	text-align:left;	background: transparent;	font:normal 18px Arial, Helvetica, sans-serif;}
+
+</style>
+<!-- End inline CSS -->
+
+<!-- Begin embedded font definitions -->
+<style id="fonts10" type="text/css" >
+
+@font-face {
+	font-family: ABCDEE-Calibri10;
+	src :url("10/fonts/ABCDEE-Calibri.woff") format("woff");
+}
+
+@font-face {
+	font-family: ABCDEE-Calibri-Bold10;
+	src :url("10/fonts/ABCDEE-Calibri-Bold.woff") format("woff");
+}
+
+</style>
+<!-- End embedded font definitions -->
+
+<!-- Begin text definitions (Positioned/styled in CSS) -->
+<div id="t1_10" class="t s1_10">SUMMARY</div>
+<div id="t2_10" class="t s2_10">The report submission process can be summarized as follows: </div>
+<div id="t3_10" class="t s2_10">1-</div>
+<div id="t4_10" class="t s2_10">Login at <a href="https://reports.ahmadiyya.ca" target="_blank">https://reports.ahmadiyya.ca</a> with the given </div>
+<div id="t5_10" class="t s3_10">User ID </div>
+<div id="t6_10" class="t s2_10">&amp;</div>
+<div id="t7_10" class="t s3_10">Password</div>
+<div id="t8_10" class="t s2_10">.</div>
+<div id="t9_10" class="t s2_10">2-</div>
+<div id="ta_10" class="t s2_10">From Reports, go to </div>
+<div id="tb_10" class="t s3_10">+Create</div>
+<div id="tc_10" class="t s2_10">. </div>
+<div id="td_10" class="t s2_10">3-</div>
+<div id="te_10" class="t s2_10">Select the month to create the report for. In case the person logged in has more than one </div>
+<div id="tf_10" class="t s2_10">department, select the department as well. </div>
+<div id="tg_10" class="t s2_10">4-</div>
+<div id="th_10" class="t s2_10">Answer all relevant questions and report the activities for the month. </div>
+<div id="ti_10" class="t s2_10">5-</div>
+<div id="tj_10" class="t s2_10">Save as draft to come back to it at a later time; or press </div>
+<div id="tk_10" class="t s3_10">Submit</div>
+<div id="tl_10" class="t s2_10">to send the report for the local </div>
+<div id="tm_10" class="t s2_10">Amir/Sadr. </div>
+<div id="tn_10" class="t s2_10">6-</div>
+<div id="to_10" class="t s2_10">Local Amir/Sadr reviews and submits the report. </div>
+<div id="tp_10" class="t s4_10">Viewing Reports </div>
+<div id="tq_10" class="t s2_10">To view a previously submitted report, go to </div>
+<div id="tr_10" class="t s3_10">Reports</div>
+<div id="ts_10" class="t s2_10">and click on </div>
+<div id="tt_10" class="t s3_10">List</div>
+<div id="tu_10" class="t s2_10">in the drop down menu. </div>
+<div id="tv_10" class="t s2_10">Select the various parameters on top of the page. For example, to view the report of </div>
+<div id="tw_10" class="t s3_10">General Secretary </div>
+<div id="tx_10" class="t s2_10">Department for </div>
+<div id="ty_10" class="t s3_10">August 2015</div>
+<div id="tz_10" class="t s2_10">which was saved as</div>
+<div id="t10_10" class="t s3_10">Draft, </div>
+<div id="t11_10" class="t s2_10">select </div>
+<div id="t12_10" class="t s3_10">August</div>
+<div id="t13_10" class="t s2_10">under </div>
+<div id="t14_10" class="t s3_10">Month, 2015</div>
+<div id="t15_10" class="t s2_10">in</div>
+<div id="t16_10" class="t s3_10">Year, General </div>
+<div id="t17_10" class="t s3_10">Secretary </div>
+<div id="t18_10" class="t s2_10">in </div>
+<div id="t19_10" class="t s3_10">Department </div>
+<div id="t1a_10" class="t s2_10">and select </div>
+<div id="t1b_10" class="t s3_10">Draft</div>
+<div id="t1c_10" class="t s2_10">in </div>
+<div id="t1d_10" class="t s3_10">Status</div>
+<div id="t1e_10" class="t s2_10">. As the selections are being made the list dynamically </div>
+<div id="t1f_10" class="t s2_10">becomes shorter. </div>
+<div id="t1g_10" class="t s2_10">To </div>
+<div id="t1h_10" class="t s3_10">Edit </div>
+<div id="t1i_10" class="t s2_10">or</div>
+<div id="t1j_10" class="t s3_10">View</div>
+<div id="t1k_10" class="t s2_10">a report saved as </div>
+<div id="t1l_10" class="t s3_10">Draft,</div>
+<div id="t1m_10" class="t s2_10">click on the link of the report.</div>
+
+<!-- End text definitions -->
+
+
+<!-- Begin Form Data -->
+<form>
+<input type="button"  tabindex="1"  id="form10_1" name="92 0 R"  pdfFieldName="92 0 R" onclick="window.open('https://www.ahmadiyya.ca/reports','_blank');" style="cursor:pointer;" title="https://www.ahmadiyya.ca/reports" />
+
+</form>
+<!-- End Form Data -->
+<!-- Begin page background -->
+<div id="pg10Overlay" style="width:100%; height:100%; position:absolute; z-index:1; background-color:rgba(0,0,0,0); -webkit-user-select: none;"></div>
+<div id="pg10"><object width="935" height="1210" data="10/10.svg" type="image/svg+xml" id="pdf10" style="width:935px; height:1210px; background-color:white; -moz-transform:scale(1); z-index: 0;"></object></div>
+<!-- End page background -->
+
+<!-- Begin page loading JS -->
+<script id="ld10" type="text/javascript">
+
+var isIE = false;
+var f10 = [['t2_10',1684],['t4_10',1439],['t5_10',204],['ta_10',544],['te_10',2444],['tf_10',1185],['th_10',1892],['tj_10',1508],['tl_10',840],['to_10',1320],['tp_10',582],['tq_10',1210],['ts_10',322],['tu_10',660],['tv_10',2462],['tw_10',509],['tx_10',433],['ty_10',351],['tz_10',547],['t14_10',364],['t16_10',384],['t1a_10',286],['t1e_10',1545],['t1f_10',478],['t1k_10',466],['t1m_10',806]];
+function load10(){
+	var timeout = 100;
+	if (navigator.userAgent.match(/iPhone|iPad|iPod|Android/i)) timeout = 500;
+	setTimeout(function() {adjustWordSpacing(f10);},timeout);
+}
+</script>
+<!--[if lt IE 9]><script type="text/javascript">
+isIE = true;
+
+var divCount = 59;
+for (var i = 1; i < divCount; i++) {
+    var div = document.getElementById("t" + i.toString(36) + "_10");
+    if (div !== null) {
+        div.style.top = (div.offsetTop * 4) + "px";
+        div.style.left = (div.offsetLeft * 4) + "px";
+        div.style.zoom = "25%";
+    }
+}
+</script><![endif]-->
+<!-- End page loading JS -->
+
+</div>
+</body>
+</html>

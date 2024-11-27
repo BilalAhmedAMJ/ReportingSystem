@@ -1,0 +1,31 @@
+<?php
+
+return array(
+    'hydrator'  => 'Zend\Stdlib\Hydrator\ArraySerializable'
+    
+    ,'simple_specs'=>array(
+    
+        'report_config' =>array(
+            'type'=>'Hidden',
+        ),
+        'period_from' =>array(
+            'type'=>'Text',
+        )
+        ,'department'=>array(
+            'type'=>'Text',
+        )
+        ,'branch'=>array(
+            'type'=>'Text',
+        )
+        ,'branch_type'=>array(
+            'type'=>'Hidden',
+        )
+        
+    )//end simple_spec
+        
+    // Configuration to pass on to
+    // Zend\InputFilter\Factory::createInputFilter()
+    ,'input_filter' => array(
+        /* ... */
+    )
+);

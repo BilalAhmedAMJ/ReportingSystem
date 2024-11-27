@@ -1,0 +1,72 @@
+<?php $element = $this->element;?>
+<?php $expand =  ! ($element->getAttribute('data-is-child')); #expand only if element is not a child ?>
+
+<?php $height  = $element->getAttribute('data-display-height');
+      if(!($height))
+        $height='200'; 
+?>
+  
+      <div class="col-sm-12 <?=$expand?'no-padding':''?>">
+
+                <div class="widget-box ">
+                    
+                    <div class="widget-header widget-header-small  align-middle" style="height:30px" > 
+                        <h5 class="widget-title blue bigger bolder">                            
+                            <?=$element->getLabel()?>
+                        </h5>
+
+                        <div class=" widget-toolbar ">
+                            <?php
+                                if (strpos($element->getAttribute('data-qcaption'),'##parent_office_bearer_designation##') > 1 ){
+                            ?>
+                            <label style="font-weight: bolder" class="label label-danger"><span style="font-weight: bolder" class="lbl right">
+                                Email President&nbsp;</span>
+                            </label>
+                            <label  style="font-weight: bolder" for="email_president"> 
+                                <input type="checkbox" id="email_president" name="email_president" checked="true" class='ace ace-switch ace-switch-8'>
+                                    <span style="font-weight: bolder" class="lbl right">&nbsp;</span>
+                                </input> 
+                            </label>      
+                            <?php
+
+                                }
+                            ?>
+                            <a href="#"  data-action="collapse" class="widget-box-collapse-anchor" id="<?=$element->getAttribute('id')?>_switch">
+                                <i class="ace-icon fa fa-chevron-up"></i>
+                            </a>
+                        </div>                        
+                    </div>                    
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+          
+                           <!-- input type="hidden" class="hidden richtext-textarea " id="<?=$element->getName()?>" name="<?=$element->getName()?>" /-->
+
+<?php
+   $request = $this->getHelperPluginManager()->getServiceLocator()->get('Application')->getMvcEvent()->getRequest();
+   $view = $request->getQuery('view');
+   $tag='textarea';
+   $class='ckeditor hidden ';
+   $loading="<div class='editor_loading'> <img src='{$this->basePath()}/assets/img/loading.gif'/> Loading ... </div>";
+   $max_height="max-height: <?=$height?>px;";
+   if($view && $view=='print'){
+       $tag='div';
+       $class=' reset ';
+       $loading='';
+       $max_height='';
+   }
+?>
+            <?=$loading?>
+            <<?=$tag?> id="<?=$element->getName()?>" name="<?=$element->getName()?>" class=" <?=$class?> richtext-content light-border " style="<?=$max_height?>">
+                
+                <?=$element->getValue()?>
+                
+            </<?=$tag?>>
+
+        </div>
+
+        </div>
+        </div>
+
+      </div>
+      
+   

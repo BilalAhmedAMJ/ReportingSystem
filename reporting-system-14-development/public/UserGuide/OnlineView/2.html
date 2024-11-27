@@ -1,0 +1,221 @@
+<!DOCTYPE html >
+<html lang="en">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+<meta charset="utf-8" />
+</head>
+
+<body style="margin: 0;">
+
+<div id="jpedal" style="overflow: hidden; position:relative; width: 935px; height: 1210px;">
+
+<!-- Begin shared CSS values -->
+<style type="text/css" >
+.t {
+	position: absolute;
+	-webkit-transform-origin: top left;
+	-moz-transform-origin: top left;
+	-o-transform-origin: top left;
+	-ms-transform-origin: top left;
+	-webkit-transform: scale(0.25);
+	-moz-transform: scale(0.25);
+	-o-transform: scale(0.25);
+	-ms-transform: scale(0.25);
+	z-index: 2;
+	position:absolute;
+	white-space:nowrap;
+	overflow:visible;
+}
+</style>
+<!-- End shared CSS values -->
+
+<!-- Begin shared JS -->
+<script type="text/javascript">
+
+// Ensure that we're not replacing any onload events
+function addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			if (oldonload) {
+				oldonload();
+			}
+			func();
+		}
+	}
+}
+addLoadEvent(function(){load2();});
+
+function adjustWordSpacing(widths) {
+    var i, allLinesDone = false;
+    var isDone = [];
+    var currentSpacing = [];
+    var elements = [];
+    
+    // Initialise arrays
+    for (i = 0; i < widths.length; i++) {
+        elements[i] = document.getElementById(widths[i][0]);
+        elements[i].style.wordSpacing = '0px';//Required if rerunning
+    }
+    for (i = 0; i < widths.length; i++) {
+        if (isIE) widths[i][1] = widths[i][1] * 4;
+        currentSpacing[i] = Math.floor((widths[i][1] - elements[i].offsetWidth) / elements[i].innerHTML.match(/\s.|&nbsp;./g).length);//min
+        if (isIE) currentSpacing[i] = Math.floor(currentSpacing[i] / 4);
+        isDone[i] = false;
+    }
+    
+    while (!allLinesDone) {
+        // Add each adjustment to the render queue without forcing a render
+        for (i = 0; i < widths.length; i++) {
+            if (!isDone[i]) {
+                elements[i].style.wordSpacing = currentSpacing[i] + 'px';
+            }            
+        }
+        
+        allLinesDone = true;
+        // If elements still need to be wider, add 1 to the word spacing
+        for (i = 0; i < widths.length; i++) {
+            if (!isDone[i] && currentSpacing[i] < 160) {
+                if (elements[i].offsetWidth >= widths[i][1]) {
+                    isDone[i] = true;
+                } else {
+                    currentSpacing[i]++;
+                    allLinesDone = false;
+                }
+            }
+        }
+    }
+    
+    for (i = 0; i < widths.length; i++) {
+        elements[i].style.wordSpacing = (currentSpacing[i] - 1) + 'px';
+    }
+}
+
+</script>
+<!-- End shared JS -->
+
+
+<!-- Begin inline CSS -->
+<style type="text/css" >
+
+#t1_2{left:103px;top:1157px;}
+#t2_2{left:762px;top:1157px;}
+#t3_2{left:103px;top:106px;}
+#t4_2{left:103px;top:155px;}
+#t5_2{left:103px;top:176px;}
+#t6_2{left:103px;top:196px;}
+#t7_2{left:103px;top:217px;}
+#t8_2{left:103px;top:237px;}
+#t9_2{left:103px;top:258px;}
+#ta_2{left:103px;top:299px;}
+#tb_2{left:103px;top:320px;}
+#tc_2{left:103px;top:360px;}
+#td_2{left:103px;top:402px;}
+#te_2{left:103px;top:422px;}
+#tf_2{left:103px;top:443px;}
+#tg_2{left:103px;top:463px;}
+
+.s1_2{
+	FONT-SIZE: 67px;
+	FONT-FAMILY: ABCDEE-Calibri-Bold2;
+	color: rgb(0,0,0);
+}
+
+.s4_2{
+	FONT-SIZE: 67px;
+	FONT-FAMILY: ABCDEE-Calibri-Italic2;
+	color: rgb(0,0,0);
+}
+
+.s2_2{
+	FONT-SIZE: 67px;
+	FONT-FAMILY: ABCDEE-Calibri2;
+	color: rgb(0,0,0);
+}
+
+.s3_2{
+	FONT-SIZE: 97px;
+	FONT-FAMILY: ABCDEE-Calibri-Bold2;
+	color: rgb(23,54,93);
+}
+
+</style>
+<!-- End inline CSS -->
+
+<!-- Begin embedded font definitions -->
+<style id="fonts2" type="text/css" >
+
+@font-face {
+	font-family: ABCDEE-Calibri2;
+	src :url("2/fonts/ABCDEE-Calibri.woff") format("woff");
+}
+
+@font-face {
+	font-family: ABCDEE-Calibri-Bold2;
+	src :url("2/fonts/ABCDEE-Calibri-Bold.woff") format("woff");
+}
+
+@font-face {
+	font-family: ABCDEE-Calibri-Italic2;
+	src :url("2/fonts/ABCDEE-Calibri-Italic.woff") format("woff");
+}
+
+</style>
+<!-- End embedded font definitions -->
+
+<!-- Begin text definitions (Positioned/styled in CSS) -->
+<div id="t1_2" class="t s1_2">Online Reporting Portal – User Guide</div>
+<div id="t2_2" class="t s2_2">Page | 2 </div>
+<div id="t3_2" class="t s3_2">Revision History </div>
+<div id="t4_2" class="t s4_2">V.1.0 – Initial version </div>
+<div id="t5_2" class="t s4_2">V.1.1 – Oct. 10, 2010 </div>
+<div id="t6_2" class="t s4_2">V.1.2 – Sept. 2, 2013 </div>
+<div id="t7_2" class="t s4_2">V.1.3 – Nov. 6, 2014 </div>
+<div id="t8_2" class="t s4_2">V.1.4 – Aug. 10, 2015 </div>
+<div id="t9_2" class="t s4_2">V.2.0 – Oct. 2, 2015 </div>
+<div id="ta_2" class="t s2_2">This document is the property of the Office of National General Secretary. No part of this document is to be </div>
+<div id="tb_2" class="t s2_2">reproduced without prior written permission from the Office of General Secretary. </div>
+<div id="tc_2" class="t s2_2">National General Secretary can be contacted at: </div>
+<div id="td_2" class="t s2_2">905 832 2669 ext. 2243 </div>
+<div id="te_2" class="t s2_2">gs@ahmadiyya.ca </div>
+<div id="tf_2" class="t s2_2">www.ahmadiyya.ca | www.alislam.org </div>
+<div id="tg_2" class="t s2_2">fax: 905 832 3220</div>
+
+<!-- End text definitions -->
+
+<!-- Begin page background -->
+<div id="pg2Overlay" style="width:100%; height:100%; position:absolute; z-index:1; background-color:rgba(0,0,0,0); -webkit-user-select: none;"></div>
+<div id="pg2"><object width="935" height="1210" data="2/2.svg" type="image/svg+xml" id="pdf2" style="width:935px; height:1210px; background-color:white; -moz-transform:scale(1); z-index: 0;"></object></div>
+<!-- End page background -->
+
+<!-- Begin page loading JS -->
+<script id="ld2" type="text/javascript">
+
+var isIE = false;
+var f2 = [['t1_2',1032],['t2_2',227],['t3_2',657],['t4_2',569],['t5_2',566],['t6_2',558],['t7_2',546],['t8_2',580],['t9_2',533],['ta_2',2935],['tb_2',2254],['tc_2',1308],['td_2',640],['tf_2',1056],['tg_2',486]];
+function load2(){
+	var timeout = 100;
+	if (navigator.userAgent.match(/iPhone|iPad|iPod|Android/i)) timeout = 500;
+	setTimeout(function() {adjustWordSpacing(f2);},timeout);
+}
+</script>
+<!--[if lt IE 9]><script type="text/javascript">
+isIE = true;
+
+var divCount = 17;
+for (var i = 1; i < divCount; i++) {
+    var div = document.getElementById("t" + i.toString(36) + "_2");
+    if (div !== null) {
+        div.style.top = (div.offsetTop * 4) + "px";
+        div.style.left = (div.offsetLeft * 4) + "px";
+        div.style.zoom = "25%";
+    }
+}
+</script><![endif]-->
+<!-- End page loading JS -->
+
+</div>
+</body>
+</html>

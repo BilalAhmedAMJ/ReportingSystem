@@ -1,0 +1,99 @@
+<?php
+ $element = $this->element;
+ $report = $this->ViewModel()->getCurrent()->getVariable('report');
+ $readOnly = $this->read_only;
+ $locked = $element->getAttribute('data-rollup');
+ $read_only = $read_only || $locked;
+ 
+?>
+
+<div class="row-fluid clearfix no-padding no-margin">
+   <div class="col-sm-12 no-padding no-margin">
+      
+     <div class="widget-box">
+         <div class="widget-header widget-header-small">
+            <div class="widget-title  bigger-120 bolder  blue lighter ">
+               <?php if($locked) { ?>
+               <i class='fa fa-lock field-icon-r-simple field-icon-r-grid'></i>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+               <?php } ?>
+               <?=$element->getLabel()?></div>
+
+            <div class="widget-toolbar">            
+                <a href="#"  data-action="collapse" class="  " >
+                    <i class="ace-icon fa fa-chevron-up"></i>
+                </a>
+            </div>
+
+         </div>
+         <div class="widget-body no-padding no-margin">
+            <div class="widget-main  no-padding no-margin">
+               <table id="<?=$element->getName()?>_grid"></table>
+               <div id="<?=$element->getName()?>_pager"></div>
+            </div>
+         </div>
+     </div> 
+
+   
+   <style>
+      #editmod<?=$element->getName()?>_grid{
+          width:700!important;
+      }       
+       
+   </style>
+
+
+   <script>
+   
+   $(document).ready(function(){
+   
+       SimpleDataGrid.create(
+            {'grid_selector':'#<?=$element->getName()?>_grid','pager_selector':'#<?=$element->getName()?>_pager',
+            'url':'<?php echo $this->url("report/answers-data") ?>/json?',
+            'editurl': "<?php echo $this->url('report/answers-save') ?>/json?question_id=<?=$element->getAttribute('data-question_id')?>&report_id=<?=$report->getId()?>", 
+            'mtype':'post',
+            'postparams':{'question_id':<?=$element->getAttribute('data-question_id')?>,'report_id':<?=$report->getId()?>},
+   
+            //'gridTitle':'<?=$element->getLabel()?>',
+            'height' : '200',
+            'dataRoot':'data',
+            
+            'editable':<?=$read_only?'false':'true'?>,
+            //'noinline':true,
+            //'nodblclick':true,
+            'colModel':[
+              {name:'answer_number',label:'Answer Number',hidden:true,editable: true, editrules: { edithidden: false }},
+              //{name:'report_id',hidden: true, editable: true, editrules: { edithidden: false }},
+              //{name:'question_id',hidden: true, editable: true, editrules: { edithidden: false }},
+            <?php foreach ($element as $column):?>
+            <?php
+               $editoptions = '';
+               switch($column->getAttribute('data-qtype')){
+                  case 'YES_NO':
+                         $edittype = 'checkbox'; 
+                         $editoptions = ' , editoptions:{ value: "Yes:No" } ';
+                        break;
+                  case 'MEMO': $edittype = 'textarea'; break;
+                  case 'OPTION_LIST': 
+                        $edittype = 'select'; 
+                        $editoptions = ' , editoptions:'.json_encode(['value'=>$column->getOption('options_list')]).' ';
+                        break;
+                  default: $edittype = 'text'; break;
+               }
+              ?>            
+              { index:'<?=$column->getAttribute('data-question_id')?>',name:'<?=$column->getAttribute('data-question_id')?>'
+               ,label:'<?=$column->getLabel()?>',editable:<?=$read_only?'false':'true'?>,edittype:'<?=$edittype?>'<?=$editoptions?>,'search':false},
+            <?php endforeach //Child elements?>
+              
+            ]
+            }
+         );
+   
+      
+      setTimeout(function(){               
+           $('#gbox_<?=$element->getName()?>_grid').find('.ui-search-toolbar').html('');
+           //$('#<?=$element->getName()?>_grid').jqGrid();               
+           }, 500);
+   });    
+   </script>
+   </div>
+</div>

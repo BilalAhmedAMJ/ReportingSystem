@@ -1,0 +1,129 @@
+<?php
+
+return array(
+    'hydrator'  => 'Zend\Stdlib\Hydrator\ArraySerializable'
+    
+    ,'simple_specs'=>array(
+    
+        'full_name' =>array(
+            'type'=>'Text',
+        )
+        ,'member_code'=>array(
+            'type'=>'Number',
+        )
+        ,'email'=>array(
+            'type'=>'Email',
+        )
+        ,'confirm_email'=>array(
+            'type'=>'Email',
+        )
+                
+        ,'primary_phone'=>array(
+            'type'=>'Text',
+        )
+        ,'alt_phone'=>array(
+            'type'=>'Text',
+        )
+        ,'branch'=>array(
+            'type'=>'Text',
+        )
+        ,'department'=>array(
+            'type'=>'Text',
+        )
+        ,'expires_period'=>array(
+            'type'=>'Text',
+        )
+        ,'term'=>array(
+            'type'=>'Text',
+        )
+        ,'request_reason'=>array(
+            'type'=>'TextArea',
+        )
+        ,'approval_status'=>array(
+            'type'=>'Text',
+        )
+		,'processor_comments'=>array(
+            'type'=>'TextArea',
+        )
+        ,'request_id'=>array(
+            'type'=>'Hidden'
+        )
+        ,'request_action'=>array(
+            'type'=>'Hidden'
+        )
+        ,'copy_user_info_from_req'=>array(
+            'type'=>'Checkbox'
+        )
+        
+        
+        
+    )//end simple_spec
+    
+    ,'fieldsets' => array(
+         array(
+            'spec'=>array(
+                'hydrator' => 'Zend\Stdlib\Hydrator\ArraySerializable',
+                'name'=>'user',
+                'elements'=>array(
+                    array(
+                        'spec'=>array(                        
+                        'name'=>'username',
+                         'type'=>'Text'
+                         )
+                      )
+                     ,array(
+                        'spec'=>array(                        
+                        'name'=>'member_code',
+                         'type'=>'Text'
+                         )
+                      )    
+                     ,array(
+                        'spec'=>array(                        
+                        'name'=>'email',
+                         'type'=>'Text'
+                         )
+                      )    
+                     ,array(
+                        'spec'=>array(                        
+                        'name'=>'primary_phone',
+                         'type'=>'Text'
+                         )
+                      )    
+                     ,array(
+                        'spec'=>array(                        
+                        'name'=>'alt_phone',
+                         'type'=>'Text'
+                         )
+                      )    
+                     ,array(
+                        'spec'=>array(                        
+                        'name'=>'full_name',
+                         'type'=>'Text'
+                         )
+                      )    
+
+                 )//field set elements
+             )//fieldset specs
+           )//first fieldset
+      )
+    /*
+	,'elements' =>array(
+			array(
+	            'spec'=>array(
+	            	'name' => 'full_name',	            	
+	            	'attributes'=>array(
+	            		'id'=>'full_name',	            		
+	            		'class'=>'form-control'
+					)
+		            ,'type'=>'Text'
+					),
+	        )
+	)//end element
+    */
+    
+    // Configuration to pass on to
+    // Zend\InputFilter\Factory::createInputFilter()
+    ,'input_filter' => array(
+        /* ... */
+    )
+);

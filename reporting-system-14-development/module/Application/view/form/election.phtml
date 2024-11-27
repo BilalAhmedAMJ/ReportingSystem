@@ -1,0 +1,212 @@
+<?php
+
+return array(
+    'hydrator'  => 'Zend\Stdlib\Hydrator\ArraySerializable'
+    ,'name'		=> 'election'    
+    ,'type'		=> 'Fieldset'
+    ,'options'  => array(
+                'office_bearer_terms'=>array(
+                    '2016-2019'=>'2016-2019',
+                    '2019-2022'=>'2019-2022',
+                    '2022-2025'=>'2022-2025',
+                    '2025-2028'=>'2025-2028'
+                ),
+                'shura_terms'=>array(
+                    '2017'=>'2017',
+                    '2018'=>'2018',
+                    '2019'=>'2019',
+                    '2020'=>'2020',
+                    '2021'=>'2021',
+                    '2022'=>'2022',
+                )
+        )
+    ,'simple_specs'=>array(
+        
+        'election_id'=>array(
+            'type'=>'Hidden',
+        )
+
+        ,'id'=>array(
+            'type'=>'Hidden',
+        )
+
+        ,'election_type'=>array(
+			'type'=>'Select',
+            'required'=>'required',
+            'options'=>array(
+                'value_options'=>array(
+                        "" =>'-- Please Select Election Type --',
+                        "office_bearer"=>'Office Bearers Election',
+                        "shura"=>'Shura Delegates Election',
+                        "majlis_intikhab"=>'Majlis Intikhab Election'
+                
+                )
+            )            
+        )
+    
+        ,'election_term'=>array(
+            'type'=>'Select',
+            'required'=>'required',
+            'options'=>array(
+                'value_options'=>array(
+                )
+            )
+        )
+
+        ,'branch_id'=>array(
+            'required'=>'required',
+            'type'=>'Select'
+        )
+
+        ,'election_date'=>array(
+            'type'=>'Text',
+            'required'=>'required',
+            'class'=>'date-picker',
+        )
+
+        ,'election_call'=>array(
+            'type'=>'Select',
+            'required'=>'required',
+            'class'=>'select2',
+            'options'=>array(
+                'value_options'=>array(
+                	''=>'',
+                    '1st'=>'1st',
+                    '2nd'=>'2nd',
+                    '3rd'=>'3rd',
+                    'other'=>'other',
+                )
+            )
+        )
+
+        ,'chanda_payers'=>array(
+            'required'=>'required',
+            'style'=>'width:200px',
+            'type'=>'Number',
+        )
+
+        ,'defaulters'=>array(
+            'required'=>'required',
+            'style'=>'width:200px',
+            'type'=>'Number',
+        )
+	/*this was missing*/
+        ,'eligible_voters_present'=>array(
+            'required'=>'required',
+            'style'=>'width:200px',
+            'type'=>'Number',
+        )
+        
+        ,'presided_by'=>array(
+            'required'=>'required',
+            'style'=>'width:200px',
+            'type'=>'Text',
+        )
+
+
+        ,'presiding_officer_comments'=>array(
+            'type'=>'TextArea',
+            'style'=>'width:200px',
+            
+        )
+
+        ,'eligible_voters_list'=>array(
+            'type'=>'Text',
+         )
+
+        ,'witness_name_one'=>array(
+            'type'=>'Text',
+            'style'=>'width:200px',
+            'required'=>'required',
+         )
+
+        ,'witness_phone_one'=>array(
+            'type'=>'Text',
+            'style'=>'width:200px',
+            'required'=>'required',
+        )
+
+        ,'witness_name_two'=>array(
+            'type'=>'Text',
+            'style'=>'width:200px',
+            'required'=>'required',
+        )
+
+        ,'witness_phone_two'=>array(
+            'type'=>'Text',
+            'style'=>'width:200px',
+            'required'=>'required',
+        )
+
+        ,'election_status'=>array(
+            'style'=>'width:200px',
+            'type'=>'Text',
+        )
+
+        ,'completed_by_name'=>array(
+            'type'=>'Text',
+            'style'=>'width:200px',
+            'required'=>'required',
+        )
+
+        ,'completed_by_number'=>array(
+            'type'=>'Text',
+            'style'=>'width:200px',
+            'required'=>'required',
+        )
+
+        ,'election_location'=>array(
+            'type'=>'Text',
+            'style'=>'width:200px',
+            'required'=>'required',
+        )
+
+
+        ,'under_eighteen_wassayat'=>array(
+            'type'=>'Number',
+            'style'=>'width:200px',
+            'required'=>'required',
+        )
+
+        ,'lajna_payers'=>array(
+            'type'=>'Number',
+            'style'=>'width:200px',
+            'required'=>'required',
+        )
+        
+        ,'allowed_delegates'=>array(
+            'type'=>'Number',
+            'style'=>'width:200px',
+            'required'=>'required',
+        )
+
+        ,'allowed_electors'=>array(
+            'type'=>'Number',
+            'style'=>'width:200px',
+            'required'=>'required',
+        )
+
+        ,'over_60_payers'=>array(
+            'type'=>'Number',
+            'style'=>'width:200px',
+            'required'=>'required',
+        )
+
+    )//end simple_spec
+        
+    // Configuration to pass on to
+    // Zend\InputFilter\Factory::createInputFilter()
+    ,'input_filter' => array(
+        /* ... */
+        'type' => 'Zend\InputFilter\InputFilter',
+        'election_date' => array(
+            'name' => 'election_date',
+            'required' => true,
+            'validators' => array(
+                    array(
+                        'name' => 'not_empty',
+                    ),
+            )
+        )//not-empty
+    )
+);

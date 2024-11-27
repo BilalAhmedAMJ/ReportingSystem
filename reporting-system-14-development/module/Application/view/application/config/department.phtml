@@ -1,0 +1,58 @@
+<?php
+    $this->headLink()
+        ->appendStylesheet($this->basePath() . '/assets/css/jquery-ui.min.css')
+        ->appendStylesheet($this->basePath() . '/assets/css/datepicker.css')
+        ->appendStylesheet($this->basePath() . '/assets/css/ui.jqgrid.css');
+        
+    $this->headScript()->appendFile( $this->basePath() . '/assets/js/tinymce/tinymce.min.js','text/javascript',array());
+    $this->headScript()->appendFile( $this->basePath() . '/assets/js/tinymce/jquery.tinymce.min.js','text/javascript',array());
+    
+    //$this->headScript()->appendFile( '//cdnjs.cloudflare.com/ajax/libs/tinymce/4.1.5/tinymce.min.js','text/javascript',array());
+    //$this->headScript()->appendFile( '//cdnjs.cloudflare.com/ajax/libs/tinymce/4.1.5/jquery.tinymce.min.js','text/javascript',array());
+    	
+    $this->headScript()->appendFile( $this->basePath() . '/js/grids.js','text/javascript',array());
+?>
+
+<div class="fill" style="width100%;height:100%">
+        <table id="department_grid"></table>
+        <div id="department_pager"></div>
+</div>
+
+<script>
+
+$(document).ready(function(){
+
+    SimpleDataGrid.create({'grid_selector':'#department_grid','pager_selector':'#department_pager',
+                          'url':'<?php echo $this->url("config/department-json") ?>',
+                          'editurl': '<?php echo $this->url("config/department-json") ?>', //"/dummy.html",//nothing is saved
+                          'gridTitle':'Departments Grid',
+                          'dataRoot':'data',
+                          'editable':true,
+                          'colModel':[
+                                {index:'id',name:'id',label:'Dept Id',sorttype:"int"},
+                                {index:'department_name',name:'department_name',label:'Dept Name',editable:true,edittype:"text"},
+                                {index:'department_code',name:'department_code',label:'Dept Code',editable:true,edittype:"text"},
+                                {index:'status',name:'status',label:'Status',editable:true,
+                                    edittype:"select",editoptions:{value:"active:active;disabled:disabled"}
+    							},
+    							{index:'dept_id',name:'dept_id',label:'Dept Id',editable:true,hidden: true, viewable: false,editrules:{edithidden:true}},
+                                {index:'rules',name:'rules',label:'Rules',editable:true,hidden: true, viewable: true,editrules:{edithidden:true},
+                                    edittype:"custom",editoptions:{custom_element:CommonDataGrid.tinymce_element,custom_value:CommonDataGrid.tinymce_value}
+                               },
+                                {index:'guide_lines',name:'guide_lines',label:'Guide Lines',editable:true,hidden: true, viewable: true,editrules:{edithidden:true},
+                                    edittype:"custom",editoptions:{custom_element:CommonDataGrid.tinymce_element,custom_value:CommonDataGrid.tinymce_value}
+                                },						
+                          ],
+                          'rowNum':15,
+                          'height':'450',
+                          'memoSubGrid':{
+                            //for this example we are using local data
+                            'col_model':[{name:'rules',label:'Rules'}
+                                        ,{name:'guide_lines',label:'Guide Lines'}]
+                          }
+                          
+                          });
+                          
+
+});    
+</script>

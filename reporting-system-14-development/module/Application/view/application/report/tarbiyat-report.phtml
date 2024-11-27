@@ -1,0 +1,307 @@
+<style>
+    .tarbiyat_report th {text-align: center;}
+    .tarbiyat_report .bl {border-left: 3px solid #000;}
+    .tarbiyat_report .br {border-right: 3px solid #000;}
+    .tarbiyat_report .level-1 {background-color: #438eb9; color: #FFF;}
+    .tarbiyat_report .level-2 {background-color: #b1cbda; color: #000;}
+    .tarbiyat_report .level-3 {background-color: #ccc9c9; display: none;}
+    .tarbiyat_report .level-4 {display: none;}
+    .colb {text-align: left;}
+    .colb .bname{ white-space: nowrap;  margin: 0 5px; display: inline-block;}
+    .cols {width:50px; text-align: center;}
+    .cols .mcols{width: 40px;}
+    .level-1 .fa-plus-square-o, .level-1 .fa-minus-square-o {margin: 0 10px 0 0;}
+    .level-2 .fa-plus-square-o, .level-2 .fa-minus-square-o {margin: 0 10px 0 10px;}
+    .level-3 .fa-plus-square-o, .level-3 .fa-minus-square-o {margin: 0 10px 0 20px;}
+    .level-4 .fa-plus-square-o, .level-4 .fa-minus-square-o {margin: 0 10px 0 20px; visibility: hidden; opacity: 0;}
+    .mcols .fa-check {color: #438eb9;font-size: 11px;}
+    .tarbiyat_report_container {margin-top: 80px;}
+</style>
+<div class="col-sm-12 align-center center center-block" style="max-width: 1400px!important">
+    <table border="0" width="100%">
+        <tr>
+            <td align="left" nowrap><img src="<?=$this->basePath()?>/img/topbar-left.png" height="45"></td>
+            <td align="center"><img src="<?=$this->basePath()?>/img/bismillah.png" ></td>
+
+        </tr>   
+        <tr>
+            <td colspan="2">&nbsp;</td>
+        </tr>                                  
+        <tr>
+            <td align="left" nowrap><b>Date:&nbsp;</b><?php echo date("Y-m-d"); ?></td>
+            <td align="left" width="100">&nbsp;</td>
+        </tr>
+    </table>
+</div>
+<br />
+<div class="tarbiyat_report_container">
+<table class="tarbiyat_report" border="1">
+<thead>
+<tr>
+    <th>&nbsp;</th>
+    <th>&nbsp;</th>
+    <th colspan="8" class="bl br">Prayers</th>
+    <th colspan="6" class="bl br">Fajr</th>
+    <th colspan="6" class="bl br">Magrib / Isha</th>
+    <th colspan="6" class="bl br">Reciting Qur'an with Translation</th>
+    <th colspan="7" class="bl br">Friday Prayers</th>
+    <th colspan="7" class="bl br">Friday Sermons</th>
+    <th colspan="7" class="bl br">Nawafil</th>
+</tr>
+<tr>
+    <th>Branch</th>
+    <th>Name</th>
+    <th class="bl" title="Total">T</th>
+    <th title="5">5</th>
+    <th title="4">4</th>
+    <th title="3">3</th>
+    <th title="2">2</th>
+    <th title="1">1</th>
+    <th title="0">0</th>
+    <th title="Blank" class="br">B</th>
+    <th title="Total" class="bl">T</th>
+    <th title="21+">21+</th>
+    <th title="11-20">11-20</th>
+    <th title="1-10">1-10</th>
+    <th title="0">0</th>
+    <th title="Blank" class="br">B</th>
+    <th title="Total" class="bl">T</th>
+    <th title="21+">21+</th>
+    <th title="11-20">11-20</th>
+    <th title="1-10">1-10</th>
+    <th title="0">0</th>
+    <th title="Blank" class="br">B</th>
+    <th title="Total" class="bl">T</th>
+    <th title="21+">21+</th>
+    <th title="11-20">11-20</th>
+    <th title="1-10">1-10</th>
+    <th title="0">0</th>
+    <th title="Blank" class="br">B</th>
+    <th title="Total" class="bl">T</th>
+    <th title="All">All</th>
+    <th title="3">3</th>
+    <th title="2">2</th>
+    <th title="1">1</th>
+    <th title="0">0</th>
+    <th title="Blank" class="br">B</th>
+    <th title="Total" class="bl">T</th>
+    <th title="All">All</th>
+    <th title="3">3</th>
+    <th title="2">2</th>
+    <th title="1">1</th>
+    <th title="0">0</th>
+    <th title="Blank" class="br">B</th>
+    <th title="Total" class="bl">T</th>
+    <th title="21+">21+</th>
+    <th title="11-20">11-20</th>
+    <th title="1-10">1-10</th>
+    <th title="0">0</th>
+    <th title="Blank" class="br">B</th>
+</tr>
+</thead>
+<tbody>
+<?php
+
+$questions = array(
+    'prayers'       => array('data-for','5','4','3','2','1','zero','blank'),
+    'fajr'          => array('data-for','21+','11-20','1-10','zero','blank'),
+    'maghrib_isha'  => array('data-for','21+','11-20','1-10','zero','blank'),
+    'quran'         => array('data-for','21+','11-20','1-10','zero','blank'),
+    'friday_prayer' => array('data-for','All','3','2','1','zero','blank'),
+    'friday_sermon' => array('data-for','All','3','2','1','zero','blank'),
+    'nawafil'       => array('data-for','21+','11-20','1-10','zero','blank'),
+);
+
+function getSummaryRow($questions, $branch_leavel) { 
+    $summary_class = "level-3 c{$branch_leavel['parent']}";
+    $classref = $branch_leavel['id'];
+    if(isset($branch_leavel['summary-markaz'])) { ?>
+    <tr class="level-1" data-visible="yes" data-classref="c<?=$classref?>" data-level="<?=$branch_leavel['level']?>"> 
+        <td class="colb "><div class="bname" title="<?=$branch_leavel['name']?>"><i class="fa fa-minus-square-o" aria-hidden="true"></i> <?=$branch_leavel['name']?></div></td>
+        <td class="colb"><div class="bname" title="<?=$branch_leavel['name']?>"><?=$branch_leavel['name']?></div></td>
+        <?php foreach($questions as $k1 => $q1) { 
+                foreach($q1 as $q2) { ?>
+            <td class="cols <?=(in_array($q2,['data-for'])?'bl':($q2=='blank'?'br':''))?>"><div class="mcols"><?=$branch_leavel['summary-markaz'][$k1][$q2]?></div></td>
+        <?php } 
+        $summary_class = "level-2 c{$branch_leavel['id']}";
+        $next_level = 'level-4';
+        }?>
+    </tr> 
+    <?php } 
+    if(isset($branch_leavel['summary-imarat'])) { ?>
+        <tr class="level-2 c<?=$branch_leavel['parent']?>" data-visible="no"  data-classref="c<?=$classref?>" data-level="<?=$branch_leavel['level']?>""> 
+            <td class="colb"><div class="bname" title="<?=$branch_leavel['name']?>"><i class="fa fa-plus-square-o" aria-hidden="true"></i> <?=$branch_leavel['name']?></div></td>
+            <td class="colb"><div class="bname" title="<?=$branch_leavel['name']?>"><?=$branch_leavel['name']?></div></td>
+            <?php foreach($questions as $k1 => $q1) { 
+                    foreach($q1 as $q2) { ?>
+                <td class="cols <?=(in_array($q2,['data-for'])?'bl':($q2=='blank'?'br':''))?>"><div class="mcols"><?=$branch_leavel['summary-imarat'][$k1][$q2]?></div></td>
+            <?php } 
+            }?>
+        </tr> 
+        <?php 
+        $summary_class = "level-3 c{$branch_leavel['id']}";
+        $next_level = 'level-4';
+    }
+    if($branch_leavel['level']!='Jama`at' && isset($branch_leavel['summary'])) { ?>
+        <tr class="<?= $summary_class?>" data-visible="no"  data-classref="c<?=$classref?>" data-level="<?=$branch_leavel['level']?>"> 
+            <td class="colb"><div class="bname" title="<?=$branch_leavel['name']?>"><i class="fa fa-plus-square-o" aria-hidden="true"></i> <?=$branch_leavel['name']?></div></td>
+            <td class="colb"><div class="bname" title="<?=$branch_leavel['name']?>"><?=$branch_leavel['name']?></div></td>
+            <?php foreach($questions as $k1 => $q1) { 
+                    foreach($q1 as $q2) { ?>
+                <td class="cols <?=(in_array($q2,['data-for'])?'bl':($q2=='blank'?'br':''))?>"><div class="mcols"><?=$branch_leavel['summary'][$k1][$q2]?></div></td>
+            <?php } 
+            }?>
+        </tr>  <?php 
+    }    
+}
+
+function getMemberRow($questions, $branch_leavel_1, $members_1) { ?>
+    <tr class="level-4 mc<?=$branch_leavel_1['id']?>" data-visible="no"> 
+        <td class="colb"><div class="bname" title="<?=$branch_leavel_1['name']?>"><i class="fa fa-plus-square-o" aria-hidden="true"></i> <?=$branch_leavel_1['name']?></div></td>
+        <td class="colb"><div class="bname" title="<?=$members_1['display_name']?>"><?=$members_1['display_name']?></div></td>
+        <?php foreach($questions as $k1 => $q1) { 
+                foreach($q1 as $q2) { ?>
+            <td class="cols <?=(in_array($q2,['data-for'])?'bl':($q2=='blank'?'br':''))?>"><div class="mcols"><?=($members_1[$k1] == $q2 ? '<i class="fa fa-check" aria-hidden="true"></i>' : '')?></div></td>
+        <?php } 
+        }?>
+    </tr> <?php
+}
+
+
+# Level 1 
+foreach($this->data as $branch_leavel_1) {
+
+    # Level 1 - Summary and Members
+    usort($branch_leavel_1['child'], function($a, $b){    return strcmp($a["name"], $b["name"]);});
+    usort($branch_leavel_1['members'], function($a, $b){    return strcmp($a["display_name"], $b["display_name"]);});
+    getSummaryRow($questions, $branch_leavel_1);
+    foreach($branch_leavel_1['members'] as $members_1) { 
+        getMemberRow($questions, $branch_leavel_1, $members_1);
+    }
+
+    if( isset($branch_leavel_1['child']) && count($branch_leavel_1['child']) ) {
+
+        # Level 2 
+        foreach($branch_leavel_1['child'] as $branch_leavel_2) { 
+
+            # Level 2 - Summary and Members
+            usort($branch_leavel_2['child'], function($a, $b){    return strcmp($a["name"], $b["name"]);});
+            usort($branch_leavel_2['members'], function($a, $b){    return strcmp($a["display_name"], $b["display_name"]);});
+            getSummaryRow($questions, $branch_leavel_2);
+            foreach($branch_leavel_2['members'] as $members_1) { 
+                getMemberRow($questions, $branch_leavel_2, $members_1);
+            }            
+
+            if( isset($branch_leavel_2['child']) && count($branch_leavel_2['child']) ) {
+
+                # Level 3
+                foreach($branch_leavel_2['child'] as $branch_leavel_3) { 
+
+                    # Level 2 - Summary and Members
+                    usort($branch_leavel_3['members'], function($a, $b){    return strcmp($a["display_name"], $b["display_name"]);});
+                    getSummaryRow($questions, $branch_leavel_3);
+                    foreach($branch_leavel_3['members'] as $members_1) { 
+                        getMemberRow($questions, $branch_leavel_3, $members_1);
+                    }
+                 }
+            }
+         }
+    }
+ }?>  
+ </tbody>
+</table>
+</div>
+<script>
+    
+    $(function(){
+
+
+        var user_branch = '<?=$this->user_branch?>';
+
+        function show_hide(row, level, parent) {
+            if($(row).data('visible') == 'yes') {
+                if($(row).hasClass('level-1')) {
+                    $('.level-2,.level-3,.level-4').hide(); 
+                    $('.level-2,.level-3,.level-4').data('visible', 'no');
+                    $('.tarbiyat_report').find('.level-2 .bname .fa, .level-3 .bname .fa, .level-4 .bname .fa').removeClass('fa-minus-square-o')
+                    $('.tarbiyat_report').find('.level-2 .bname .fa, .level-3 .bname .fa, .level-4 .bname .fa').addClass('fa-plus-square-o')
+                }
+                else if($(row).hasClass('level-2')) {
+                    $('.level-3,.level-4').hide(); 
+                    $('.level-3,.level-4').data('visible', 'no');
+                    $('.tarbiyat_report').find('.level-3 .bname .fa, .level-4 .bname .fa').removeClass('fa-minus-square-o')
+                    $('.tarbiyat_report').find('.level-3 .bname .fa, .level-4 .bname .fa').addClass('fa-plus-square-o')
+                }
+                else if($(row).hasClass('level-3')) {
+                    $('.level-4').hide(); 
+                    $('.level-4').data('visible', 'no');
+                    $('.tarbiyat_report').find('.level-4 .bname .fa').removeClass('fa-minus-square-o')
+                    $('.tarbiyat_report').find('.level-4 .bname .fa').addClass('fa-plus-square-o')
+                }
+                $(row).find('.bname .fa').removeClass('fa-minus-square-o')
+                $(row).find('.bname .fa').addClass('fa-plus-square-o')
+                $(row).data('visible', 'no')
+            }
+            else {
+                $('.' + level + '.' + parent).show()
+                $(row).find('.bname .fa').removeClass('fa-plus-square-o')
+                $(row).find('.bname .fa').addClass('fa-minus-square-o')
+                $(row).data('visible', 'yes')
+            }
+            //$('.tarbiyat_report_container').freezeTable('update');
+        }
+        
+        $( "body" ).on( "click", ".tarbiyat_report tr",function( e ) {
+            e.preventDefault();
+
+            console.log(user_branch + ' -' + $(this).data('level') + ' - ' + $(this).data('visible') + ' - '+  $(this).data('classref'))
+
+            if(user_branch == 'Markaz') {
+                if($(this).data('level') == 'Markaz') {
+                    if( $(this).hasClass('level-1') )       show_hide($(this), 'level-2', $(this).data('classref'));
+                    else if( $(this).hasClass('level-2') )  show_hide($(this), 'level-4', 'm'+$(this).data('classref'));
+                    else alert('Error: ' + $(this).data('level') + ' - ' + $(this).data('visible') + ' - '+  $(this).data('classref'))
+                }
+
+                else if($(this).data('level') == 'Imarat') {
+                    if( $(this).hasClass('level-2') )       show_hide($(this), 'level-3', $(this).data('classref'));
+                    else if( $(this).hasClass('level-3') )  show_hide($(this), 'level-4', 'm'+$(this).data('classref'));
+                    else alert('Error: ' + $(this).data('level') + ' - ' + $(this).data('visible') + ' - '+  $(this).data('classref'))
+                }
+
+                else if($(this).data('level') == 'Jama`at') {
+                    show_hide($(this), 'level-4', 'm'+$(this).data('classref'));
+                }
+
+                else if($(this).data('level') == 'Halqa') {
+                    show_hide($(this), 'level-4', 'm'+$(this).data('classref'));
+                }
+            }
+            else if(user_branch == 'Imarat') {
+                if($(this).data('level') == 'Imarat') {
+                    if( $(this).hasClass('level-1') )       show_hide($(this), 'level-2', $(this).data('classref'));
+                    else if( $(this).hasClass('level-2') )  show_hide($(this), 'level-4', 'm'+$(this).data('classref'));
+                    else alert('Error: ' + $(this).data('level') + ' - ' + $(this).data('visible') + ' - '+  $(this).data('classref'))
+                }
+
+                else if($(this).data('level') == 'Halqa') {
+                    show_hide($(this), 'level-4', 'm'+$(this).data('classref'));
+                }
+            }
+            else if(user_branch == 'Halqa') {
+                if( $(this).hasClass('level-1') )       show_hide($(this), 'level-2', $(this).data('classref'));
+                else if( $(this).hasClass('level-2') )  show_hide($(this), 'level-4', 'm'+$(this).data('classref'));
+                else alert('Error: ' + $(this).data('level') + ' - ' + $(this).data('visible') + ' - '+  $(this).data('classref'))
+            }
+            else if(user_branch == 'Jama`at') {
+                if( $(this).hasClass('level-1') )       show_hide($(this), 'level-4', 'm'+$(this).data('classref'));
+                else alert('Error: ' + $(this).data('level') + ' - ' + $(this).data('visible') + ' - '+  $(this).data('classref'))
+            }
+
+
+        });
+       
+    });
+    
+    
+    </script>        

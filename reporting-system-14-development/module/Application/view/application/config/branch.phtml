@@ -1,0 +1,60 @@
+<?php include __DIR__.'/../../partial/grid_includes.phtml' ?>
+
+<h1>
+<?php
+    $this->headLink()
+        ->appendStylesheet($this->basePath() . '/assets/css/select2.css');
+  
+    $this->headScript()->appendFile( $this->basePath() . '/assets/js/select2.min.js','text/javascript',array());
+    $this->headScript()->appendFile( $this->basePath() . '/js/custom.select2.js','text/javascript',array());
+
+?>
+
+</h1>
+
+<table id="branch_grid"></table>
+<div id="branch_pager"></div>
+
+<script>
+
+$(document).ready(function(){
+    
+    SimpleDataGrid.create({'grid_selector':'#branch_grid','pager_selector':'#branch_pager',
+                          'url':'<?php echo $this->url("config/branch") ?>/json',
+                          'editurl': '<?php echo $this->url("config/branch") ?>/json', //"/dummy.html",//nothing is saved
+
+                          'gridTitle':'<?php echo $this->translate('Branch List')?>',
+                          'dataRoot':'data',
+                          'editable':true,
+                          'colModel':[
+                            {index:'id',name:'id',label:'Id',sorttype:"int",width:100},
+                            {index:'branch_name',name:'branch_name',label:'Branch Name',editable:true,edittype:"text"},
+                            {index:'branch_code',name:'branch_code',label:'Branch Code',editable:true,edittype:"text"},
+                            {index:'branch_type',name:'branch_type',label:'Type',editable:true,edittype:"text"},
+                            
+                            {index:'parent.branch_name',name:'parent.branch_name',label:'Reports To',editable:true,edittype:"text",
+                                editoptions:{
+                                            dataInit:function(element){                                                
+                                                        setTimeout(function(){
+                                                            CustomSelect2.createSimple({
+                                                                placeholder:'Select Jama`at',
+                                                                url:'<?php echo $this->url("config/branch")?>/json',
+                                                                id:'id',
+                                                                label:'branch_name',
+                                                                element:$(element),
+                                                                data_target:'data',
+                                                                initValLabel:true
+                                                            })                
+                                                        }                                            
+                                                        ,50);                                                
+                                                }
+                                            },
+                            },
+                            {index:'status',name:'status',label:'Status',editable:true,
+                                edittype:"select",editoptions:{value:"active:active;disabled:disabled"}
+                                }
+                          ]
+                          });
+
+});    
+</script>

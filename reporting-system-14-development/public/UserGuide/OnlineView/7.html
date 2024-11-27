@@ -1,0 +1,312 @@
+<!DOCTYPE html >
+<html lang="en">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+<meta charset="utf-8" />
+</head>
+
+<body style="margin: 0;">
+
+<div id="jpedal" style="overflow: hidden; position:relative; width: 935px; height: 1210px;">
+
+<!-- Begin shared CSS values -->
+<style type="text/css" >
+.t {
+	position: absolute;
+	-webkit-transform-origin: top left;
+	-moz-transform-origin: top left;
+	-o-transform-origin: top left;
+	-ms-transform-origin: top left;
+	-webkit-transform: scale(0.25);
+	-moz-transform: scale(0.25);
+	-o-transform: scale(0.25);
+	-ms-transform: scale(0.25);
+	z-index: 2;
+	position:absolute;
+	white-space:nowrap;
+	overflow:visible;
+}
+</style>
+<!-- End shared CSS values -->
+
+<!-- Begin shared JS -->
+<script type="text/javascript">
+
+// Ensure that we're not replacing any onload events
+function addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			if (oldonload) {
+				oldonload();
+			}
+			func();
+		}
+	}
+}
+addLoadEvent(function(){load7();});
+
+function adjustWordSpacing(widths) {
+    var i, allLinesDone = false;
+    var isDone = [];
+    var currentSpacing = [];
+    var elements = [];
+    
+    // Initialise arrays
+    for (i = 0; i < widths.length; i++) {
+        elements[i] = document.getElementById(widths[i][0]);
+        elements[i].style.wordSpacing = '0px';//Required if rerunning
+    }
+    for (i = 0; i < widths.length; i++) {
+        if (isIE) widths[i][1] = widths[i][1] * 4;
+        currentSpacing[i] = Math.floor((widths[i][1] - elements[i].offsetWidth) / elements[i].innerHTML.match(/\s.|&nbsp;./g).length);//min
+        if (isIE) currentSpacing[i] = Math.floor(currentSpacing[i] / 4);
+        isDone[i] = false;
+    }
+    
+    while (!allLinesDone) {
+        // Add each adjustment to the render queue without forcing a render
+        for (i = 0; i < widths.length; i++) {
+            if (!isDone[i]) {
+                elements[i].style.wordSpacing = currentSpacing[i] + 'px';
+            }            
+        }
+        
+        allLinesDone = true;
+        // If elements still need to be wider, add 1 to the word spacing
+        for (i = 0; i < widths.length; i++) {
+            if (!isDone[i] && currentSpacing[i] < 160) {
+                if (elements[i].offsetWidth >= widths[i][1]) {
+                    isDone[i] = true;
+                } else {
+                    currentSpacing[i]++;
+                    allLinesDone = false;
+                }
+            }
+        }
+    }
+    
+    for (i = 0; i < widths.length; i++) {
+        elements[i].style.wordSpacing = (currentSpacing[i] - 1) + 'px';
+    }
+}
+
+</script>
+<!-- End shared JS -->
+
+
+<!-- Begin inline CSS -->
+<style type="text/css" >
+
+#t1_7{left:187px;top:88px;}
+#t2_7{left:417px;top:88px;}
+#t3_7{left:103px;top:146px;}
+#t4_7{left:103px;top:200px;}
+#t5_7{left:103px;top:230px;}
+#t6_7{left:103px;top:276px;}
+#t7_7{left:103px;top:782px;}
+#t8_7{left:330px;top:782px;}
+#t9_7{left:380px;top:782px;}
+#ta_7{left:470px;top:326px;}
+#tb_7{left:563px;top:326px;}
+#tc_7{left:655px;top:326px;}
+#td_7{left:751px;top:326px;}
+#te_7{left:470px;top:360px;}
+#tf_7{left:544px;top:360px;}
+#tg_7{left:600px;top:360px;}
+#th_7{left:670px;top:360px;}
+#ti_7{left:749px;top:360px;}
+#tj_7{left:829px;top:360px;}
+#tk_7{left:470px;top:395px;}
+#tl_7{left:504px;top:446px;}
+#tm_7{left:531px;top:446px;}
+#tn_7{left:504px;top:481px;}
+#to_7{left:531px;top:481px;}
+#tp_7{left:559px;top:516px;}
+#tq_7{left:586px;top:516px;}
+#tr_7{left:658px;top:516px;}
+#ts_7{left:794px;top:516px;}
+#tt_7{left:586px;top:550px;}
+#tu_7{left:559px;top:584px;}
+#tv_7{left:586px;top:584px;}
+#tw_7{left:651px;top:584px;}
+#tx_7{left:768px;top:584px;}
+#ty_7{left:586px;top:618px;}
+#tz_7{left:504px;top:654px;}
+#t10_7{left:531px;top:654px;}
+#t11_7{left:716px;top:845px;}
+#t12_7{left:716px;top:865px;}
+
+.s4_7{
+	FONT-SIZE: 85px;
+	FONT-FAMILY: ABCDEE-Calibri7;
+	color: rgb(0,0,0);
+}
+
+.s1_7{
+	FONT-SIZE: 122px;
+	FONT-FAMILY: ABCDEE-Calibri7;
+	color: rgb(0,0,0);
+}
+
+.s8_7{
+	FONT-SIZE: 97px;
+	FONT-FAMILY: ABCDEE-Calibri7;
+	color: rgb(0,0,0);
+}
+
+.s9_7{
+	FONT-SIZE: 97px;
+	FONT-FAMILY: ABCDEE-Calibri-Bold7;
+	color: rgb(0,0,0);
+}
+
+.s3_7{
+	FONT-SIZE: 110px;
+	FONT-FAMILY: ABCDEE-Calibri-Bold7;
+	color: rgb(0,112,192);
+}
+
+.s5_7{
+	FONT-SIZE: 85px;
+	FONT-FAMILY: ABCDEE-Calibri-Bold7;
+	color: rgb(0,0,0);
+}
+
+.s7_7{
+	FONT-SIZE: 67px;
+	FONT-FAMILY: ABCDEE-Calibri-Bold7;
+	color: rgb(0,0,0);
+}
+
+.s6_7{
+	FONT-SIZE: 67px;
+	FONT-FAMILY: ABCDEE-Calibri7;
+	color: rgb(0,0,0);
+}
+
+.s2_7{
+	FONT-SIZE: 122px;
+	FONT-FAMILY: ABCDEE-Calibri-Bold7;
+	color: rgb(31,73,125);
+}
+
+.s11_7{
+	FONT-SIZE: 97px;
+	FONT-FAMILY: ABCDEE-CourierNew7;
+	color: rgb(0,0,0);
+}
+
+.s10_7{
+	FONT-SIZE: 97px;
+	FONT-FAMILY: Symbol7;
+	color: rgb(0,0,0);
+}
+
+</style>
+<!-- End inline CSS -->
+
+<!-- Begin embedded font definitions -->
+<style id="fonts7" type="text/css" >
+
+@font-face {
+	font-family: ABCDEE-Calibri7;
+	src :url("7/fonts/ABCDEE-Calibri.woff") format("woff");
+}
+
+@font-face {
+	font-family: ABCDEE-Calibri-Bold7;
+	src :url("7/fonts/ABCDEE-Calibri-Bold.woff") format("woff");
+}
+
+@font-face {
+	font-family: Symbol7;
+	src :url("7/fonts/Symbol.woff") format("woff");
+}
+
+@font-face {
+	font-family: ABCDEE-CourierNew7;
+	src :url("7/fonts/ABCDEE-CourierNew.woff") format("woff");
+}
+
+</style>
+<!-- End embedded font definitions -->
+
+<!-- Begin text definitions (Positioned/styled in CSS) -->
+<div id="t1_7" class="t s1_7">MIDDLE SECTION: </div>
+<div id="t2_7" class="t s2_7">MAIN REPORTING OPTIONS</div>
+<div id="t3_7" class="t s3_7">DEPARTMENTAL REPORTS</div>
+<div id="t4_7" class="t s4_7">The following section explains the process of submitting a new report, editing a </div>
+<div id="t5_7" class="t s4_7">previously saved draft report, and viewing previously submitted reports.</div>
+<div id="t6_7" class="t s5_7">Submitting a New Report </div>
+<div id="t7_7" class="t s6_7">To create a new report press the </div>
+<div id="t8_7" class="t s7_7">Create</div>
+<div id="t9_7" class="t s6_7">button in the drop down menu or click on the link as shown below: </div>
+<div id="ta_7" class="t s8_7">Clicking </div>
+<div id="tb_7" class="t s8_7">on the </div>
+<div id="tc_7" class="t s9_7">Reports</div>
+<div id="td_7" class="t s8_7">button will </div>
+<div id="te_7" class="t s8_7">open </div>
+<div id="tf_7" class="t s8_7">the </div>
+<div id="tg_7" class="t s8_7">drop </div>
+<div id="th_7" class="t s8_7">down </div>
+<div id="ti_7" class="t s8_7">menu </div>
+<div id="tj_7" class="t s8_7">that </div>
+<div id="tk_7" class="t s8_7">provides the option for: </div>
+<div id="tl_7" class="t s10_7"></div>
+<div id="tm_7" class="t s8_7">Creating new reports </div>
+<div id="tn_7" class="t s10_7"></div>
+<div id="to_7" class="t s8_7">List view of reports to: </div>
+<div id="tp_7" class="t s11_7">o</div>
+<div id="tq_7" class="t s8_7">Edit </div>
+<div id="tr_7" class="t s8_7">previously </div>
+<div id="ts_7" class="t s8_7">created </div>
+<div id="tt_7" class="t s8_7">reports or </div>
+<div id="tu_7" class="t s11_7">o</div>
+<div id="tv_7" class="t s8_7">View </div>
+<div id="tw_7" class="t s8_7">previously </div>
+<div id="tx_7" class="t s8_7">submitted </div>
+<div id="ty_7" class="t s8_7">reports. </div>
+<div id="tz_7" class="t s10_7"></div>
+<div id="t10_7" class="t s8_7">Analysis </div>
+<div id="t11_7" class="t s6_7">Click to create </div>
+<div id="t12_7" class="t s6_7">new report </div>
+
+<!-- End text definitions -->
+
+<!-- Begin page background -->
+<div id="pg7Overlay" style="width:100%; height:100%; position:absolute; z-index:1; background-color:rgba(0,0,0,0); -webkit-user-select: none;"></div>
+<div id="pg7"><object width="935" height="1210" data="7/7.svg" type="image/svg+xml" id="pdf7" style="width:935px; height:1210px; background-color:white; -moz-transform:scale(1); z-index: 0;"></object></div>
+<!-- End page background -->
+
+<!-- Begin page loading JS -->
+<script id="ld7" type="text/javascript">
+
+var isIE = false;
+var f7 = [['t1_7',888],['t2_7',1408],['t3_7',1195],['t4_7',2756],['t5_7',2513],['t6_7',896],['t7_7',892],['t9_7',1827],['tb_7',302],['td_7',475],['tk_7',943],['tm_7',839],['to_7',891],['tt_7',398],['t11_7',387],['t12_7',305]];
+function load7(){
+	var timeout = 100;
+	if (navigator.userAgent.match(/iPhone|iPad|iPod|Android/i)) timeout = 500;
+	setTimeout(function() {adjustWordSpacing(f7);},timeout);
+}
+</script>
+<!--[if lt IE 9]><script type="text/javascript">
+isIE = true;
+
+var divCount = 39;
+for (var i = 1; i < divCount; i++) {
+    var div = document.getElementById("t" + i.toString(36) + "_7");
+    if (div !== null) {
+        div.style.top = (div.offsetTop * 4) + "px";
+        div.style.left = (div.offsetLeft * 4) + "px";
+        div.style.zoom = "25%";
+    }
+}
+</script><![endif]-->
+<!-- End page loading JS -->
+
+</div>
+</body>
+</html>

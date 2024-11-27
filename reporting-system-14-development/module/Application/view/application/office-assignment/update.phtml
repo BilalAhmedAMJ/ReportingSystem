@@ -1,0 +1,277 @@
+<?php
+    $office=$this->office;
+    $user=$office->getUser();
+    $status=$office->getStatus();
+    
+    $status_active=$status=='active'?' selected ':'';
+    $status_disabled=$status=='disabled'?' selected ':'';
+	$status_deleted=$status=='deleted'?' selected ':'';
+	
+    $status_unassigned=$user?'': 'selected ';
+
+    $supervise_depts = $office->getSuperviseDepartments();
+    $delegated_president = false;
+    if(preg_match('/(\?,)?(26)(\/?,)?/', $supervise_depts)){
+        $delegated_president = true;
+    }
+
+
+?>
+<?php if($this->show_form):?>
+<div class="page-header2 text-center widget-header-blue" style="margin-top: -25px">
+    <h3 class="title  blue">
+        Update Office Assignment
+    </h3>
+</div>
+<style>
+    .profile-info-value>span+span:before{
+        content:'';
+    }
+    .profile-info-name{
+        width:170px;
+    }
+    
+    .select2-container{
+        padding-top:0px!important;
+        padding-bottom:0px!important;
+        border:0px;
+    }
+    .select2-container .select2-choice{
+        background:none!important;
+        height:auto!important;
+        border:0px;
+    }
+</style>
+
+<div class="widget-body">
+    <div class="col-sm-12 no-border no-padding" >
+            <div id="user-profile-3" class="user-profile row clearfix no-padding" style="margin: auto">
+                
+                <div class=" col-md-12  ">
+                
+                <form class="form-horizontal dlg-form" id="update-user-form-id" method="post" enctype="multipart/form-data" action="<?=$this->url('office-assignment/update')?>">
+                	
+                    <div class="profile-edit-tab-content no-padding">
+                        <div class="profile-user-info profile-user-info-striped width-100">
+                    
+                        <?php if( ! $this->office) :?>
+                            <div class="danger alert alert-danger">
+                                <span class="bigger-130">
+                                    Not authorized to edit selected office<br/>                                                                        
+                                </span> 
+                            </div>
+                        <?php else:?>
+                        	<input type="hidden" name="user_action" value="update"/>
+                        	<input type="hidden" name="office_id" value="<?=$office->getId()?>"/>
+                            <?php if( ! $user):?>
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name"> Status </div>
+        
+                                    <div class="profile-info-value">
+                                        <select class="select2" name="office_status">
+                                            <option value="active" >Active</option>
+                                            <option value="disabled" >Disabled</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            <?php else:?>
+                            <div class="profile-user-info profile-user-info-striped width-100">
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name"> Name </div>
+        
+                                    <div class="profile-info-value">
+                                        <?php if($this->zfcUserIdentity()->hasRole('sys-admin')):?>
+                                            <input type="text" class="form-input-style input-large " name="display_name" value="<?=$user->getDisplayName()?>" />
+                                        <?php else:?>
+                                            <span class="" id="displayname"><?=$user->getDisplayName()?></span>
+                                        <?php endif?>                           
+                                    </div>
+                                </div>
+                            </div>
+
+                            <?php if($this->zfcUserIdentity()->hasRole('sys-admin')):?>
+                            <div class="profile-user-info profile-user-info-striped width-100">
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name"> Member Code </div>
+        
+                                    <div class="profile-info-value">
+                                        <input class="form-input-style input-large disabled" value="<?=$user->getMembercode()?>"  name="membercode" placeholder=""  type="text"  />
+                                    </div>
+                                </div>
+                            </div>
+                            <?php endif?>                           
+
+                            <div class="profile-user-info profile-user-info-striped width-100">
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name"> Username </div>
+        
+                                    <div class="profile-info-value">
+                                    	<?php if($this->zfcUserIdentity()->hasRole('sys-admin')):?>
+                                            <input type="text" class="form-input-style input-large " name="username" value="<?=$user->getUsername()?>" />
+                                        <?php else:?>
+	                                        <span class="" id="username"><?=$user->getUsername()?></span>
+	                                        <input type="hidden" name="username" value="<?=$user->getUsername()?>" />
+                                        <?php endif?>                           
+                                        <input type="hidden" name="user_id" value="<?=$user->getId()?>" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="profile-user-info profile-user-info-striped width-100">
+
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name"> Status</div>
+        
+                                    <div class="profile-info-value">
+                                        <select class="select2" name="office_status" value="<?=$office->getStatus()?>" disabled="true">
+                                            <option value="disabled" <?=$status_disabled?> >Disabled</option>
+                                            <option value="active" <?=$status_active?> >Active</option>
+                                            <?php if($this->zfcUserIdentity()->hasRole('sys-admin')):?>
+                                            <option value="deleted" <?=$status_deleted?> >Delete</option>
+                                            <?php endif?>                                            
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="profile-user-info profile-user-info-striped width-100">
+
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name">Expiry Month (Markaz records will over-write)</div>
+        
+                                    <div class="profile-info-value">
+                                        <?php if($this->zfcUserIdentity()->hasRole('sys-admin')):?>
+                                                                                        
+                                            <?php echo $this->formElement($this->report_period('expires_period',$office->getPeriodTo()->getPeriodCode())) ?>
+                                            
+                                        <?php else:?>
+                                            <input type="text" name="expires_period_readonly" readonly="true" disabled="true" class="form-input-style input-large " 
+                                                value="<?=$office->getPeriodTo()->getPeriodCode()?>"/> 
+                                        <?php endif?>                                            
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="profile-user-info profile-user-info-striped width-100">
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name"> Delegate President Role? </div>
+        
+                                    <div class="profile-info-value">
+                                        <input id="delegated_president" name="delegated_president"  type="checkbox" class="ace ace-switch ace-switch-5"  value="<?=$delegated_president?>"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--
+                            <div class="profile-user-info profile-user-info-striped width-100">
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name"> Password </div>
+        
+                                    <div class="profile-info-value">
+                                        <input class="form-input-style input-large " value=""  name="newpassword" placeholder="New Password"  type="password"  />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="profile-user-info profile-user-info-striped width-100">
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name"> Confirm Password </div>
+        
+                                    <div class="profile-info-value">
+                                        <input class="form-input-style input-large " value=""  name="confirmpassword" placeholder="Confirm Password"  type="password"  />
+                                    </div>
+                                </div>
+                            </div>
+                            -->
+                            <div class="profile-user-info profile-user-info-striped width-100">
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name"> Email </div>
+        
+                                    <div class="profile-info-value">
+                                        <input class="form-input-style input-large " value="<?=$user->getEmail()?>"  name="email" placeholder="Email"  type="email"  />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="profile-user-info profile-user-info-striped width-100">
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name">Primary Phone </div>
+        
+                                    <div class="profile-info-value">
+                                        <input class="form-input-style input-large " value="<?=$user->getPhonePrimary()?>"  name="primaryphone" placeholder="Primary Phone"  type="text"  />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="profile-user-info profile-user-info-striped width-100">
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name">Alternate Phone </div>
+        
+                                    <div class="profile-info-value">
+                                        <input class="form-input-style input-large " value="<?=$user->getPhoneAlternate()?>"  name="alternatephone" placeholder="Alternate Phone"  type="text"  />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <?php if($this->zfcUserIdentity()->hasRole('sys-admin')):?>
+                            <div class="profile-user-info profile-user-info-striped width-100">
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name">Switch User</div>
+        
+                                    <div class="profile-info-value">
+                                        <input class="form-input-style input-sm " placeholder="Your Password" name="currentuserpasswordid" id="currentuserpasswordid" type="password"  />
+                                        <div class="btn btn-sm btn-warning btn-round btn-white" id="login_as">Login As</div>
+                                    </div>
+                                </div>
+                                <input type="hidden" class="form-control" name="su_to_userid" id="su_to_userid" value="<?=$user->getId()?>" />
+                                <input type="hidden" class="form-control" name="current_userpassword" id="current_userpassword_id" />
+                            </div>
+                            <?php endif?>                            
+                            <?php endif ?>                            
+                        <?php endif?>                        
+                        </div>           
+                    </div>           
+                </form>
+                </div>
+            </div>
+    </div>
+    <div class="space-20"></div>
+</div>
+<?php endif?>
+<div class="space-20"></div>
+
+<?php if($this->zfcUserIdentity()->hasRole('sys-admin')):?>
+
+<script>
+    $(function(){
+        
+        $('#expires_period').select2({
+            containerCssClass:'form-input-style input-large',
+            width:'210px',
+            style:'padding:0px!importnat'
+        });
+        
+        $('#login_as').on('click',function(){
+            if($('#currentuserpasswordid').val()==''){
+                jQuery.gritter.add({
+                    title: 'Unable to switch user!',
+                    text: 'We need to confirm your password, enter password in "Your Password" field' ,
+                    //image: 'path/to/image',
+                    sticky: true,
+                    time: 5000,
+                    class_name: 'gritter-error gritter-light '
+                });
+                return false;
+            }
+
+            jQuery.gritter.add({
+                title: 'Switching user',
+                text: 'Switch user to selected office, please wait ...' ,
+                //image: 'path/to/image',
+                sticky: true,
+                time: 15000,
+                class_name: 'gritter-warning gritter-light '
+            });
+            $('#update-user-form-id').attr('action',"<?=$this->url('auth/switch-user')?>");
+            $('#current_userpassword_id').val($('#currentuserpasswordid').val());
+            $('#update-user-form-id').submit();
+            
+        })
+    });
+    
+</script>
+<?php endif?>

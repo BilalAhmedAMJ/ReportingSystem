@@ -1,0 +1,17 @@
+<?php
+
+$sm = $this->getHelperPluginManager()->getServiceLocator();//get('Redirector');
+//$redirector->gotoUrl($this->basePath());
+$response = ($sm->get('application')->getResponse());
+$request = ($sm->get('application')->getRequest());
+
+$uri = $request->getUri();
+$scheme = $uri->getScheme();
+$host = $uri->getHost();
+$base = sprintf('%s://%s', $scheme, $host);
+    
+$response -> getHeaders() -> addHeaderLine('Location', $base.$this->basePath());
+$response -> setStatusCode(302);
+$response -> sendHeaders();
+exit ;
+?>

@@ -1,0 +1,69 @@
+{
+    "name": "amjcanada/reporting-system",
+    "description": "AMJ Canada Reporting Application",
+    "license": "Internal",
+    "keywords": [
+        "framework",
+        "zf2",
+        "phpunit",
+        "bootstrap",
+        "jquery"
+    ],
+    "homepage": "http://rep-dev.ahmadiyya.ca/",
+    "require": {
+        "php": ">=5.4",
+        "zendframework/zendframework": "2.3.*",
+        "doctrine/doctrine-orm-module": "0.8.*",
+        "bjyoungblood/bjy-authorize": "1.4.*",
+        "zf-commons/zfc-user": "0.1.*",
+        "zf-commons/zfc-user-doctrine-orm": "0.1.*",
+        "thadafinser/zfc-datagrid": "0.*",
+        "neilime/zf2-twb-bundle": "2.*@stable",
+        "sp/jms-serializer-module": "dev-master",
+        "rhumsaa/uuid": "~2.8",
+        "symfony/icu": "1.0.*",
+        "tecnick.com/tcpdf": "~6.0",
+        "beberlei/DoctrineExtensions": "^1.0",
+        "51systems/doctrine-encrypt-module": "1.*",
+        "ext-bz2": "*",
+        "ext-ctype": "*",
+        "ext-curl": "*",
+        "ext-gd": "*",
+        "ext-intl": "*",
+        "ext-mcrypt": "*",
+        "ext-mbstring": "*",
+        "ext-zip": "*",
+        "koolreport/core": "^4.3",
+        "google/recaptcha": "^1.2",
+        "dompdf/dompdf": "^0.8.3",
+        "davaxi/sparkline": "^1.0",
+        "league/oauth2-client": "^2",
+        "zendframework/zend-json": "^2.0"
+    },
+    "_saved": {
+        "zendframework/zend-developer-tools": "1.1.*"
+    },
+    "require-dev": {
+        "zendframework/zend-developer-tools": "*",
+        "bjyoungblood/bjy-profiler": "dev-master",
+        "desktopd/PHP-SHA3-Streamable": "dev-master",
+        "phpunit/phpunit": "4.4.*"
+    },
+    "repositories": [{
+        "type": "package",
+        "package": {
+            "name": "desktopd/PHP-SHA3-Streamable",
+            "version": "dev-master",
+            "source": {
+                "url": "https://notabug.org/desktopd/php-sha3-streamable.git",
+                "type": "git",
+                "reference": "master"
+            },
+            "autoload": {
+                "psr-0": {
+                    "PHPSHA3": "namespaced/desktopd"
+                }
+            }
+        }
+    }]
+}

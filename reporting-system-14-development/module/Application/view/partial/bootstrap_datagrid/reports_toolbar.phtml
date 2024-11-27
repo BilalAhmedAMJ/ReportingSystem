@@ -1,0 +1,123 @@
+<style>
+    .container{
+       /*
+        *  overflow:auto;
+        */
+        overflow:auto;
+    }
+    
+</style>
+
+<div class="container clearfix" >
+    
+<div class="row row-fluid clearfix" style="margin-bottom: 5px;content:">
+    <!-- Anything else (filter, ...) -->
+    <div class="span6 col-xs-9  container"  style="">
+        <div class="row">
+            <div class="col-xs-2">
+                Department
+                <input  id="branch_branch_name" name="toolbarFilters[branch_branch_name]" value="" placeholder="Bracnh" type="text"></input>           
+            
+            </div>
+
+            <div class="col-xs-6">
+                <div class="col-xs-6">
+                Department
+                <input  id="dept"  value="" placeholder="Department" type="text"></input>           
+             </div>
+              <div class="col-xs-3">
+                Status <br/>
+                <select name="status" id="status" class="width-auto select2">
+                    <option value="draft">Draft</option>
+                    <option value="completed">Completed</option>
+                    <option value="verified">Verified</option>
+                    <option value="received">Received</option>
+                </select>
+              </div>  
+            </div>        
+
+            <div class="col-xs-2">
+
+                Month
+                <input class="input-small" id="period_from_period_code" name="period_from_period_code"  value="" placeholder="Month" type="text"></input>           
+            </div>        
+             <div class="col-xs-2">
+
+            </div>
+
+        </div>
+    
+    </div>
+
+    <!-- Export buttons -->
+          <div class="col-xs-3"> 
+              <div class="col-xs-6">
+                  Reports/Page<br/>
+                      <select name="records_per_page" class=" input-medium select2">
+                           <option value="20">20</option>
+                           <option value="50">50</option>
+                           <option value="100">100</option>
+                      </select>
+              </div>
+              <div class="col-xs-6">
+            &nbsp;&nbsp;&nbsp;<br/>
+            <a  id="create"  href="<?=$this->url('/report/create')?>" class="btn btn-sm btn-primary btn-round">Create Rrport</a>                                    
+               </div>
+        </div>
+</div>
+</div>
+
+<?php
+
+    $this->headLink()
+        ->appendStylesheet($this->basePath() . '/assets/css/select2.css')
+        ->appendStylesheet($this->basePath().'/assets/css/datepicker.css');
+  
+  
+    $this->headScript()->appendFile( $this->basePath() . '/assets/js/select2.min.js','text/javascript',array());
+    $this->headScript()->appendFile( $this->basePath() . '/js/custom.select2.js','text/javascript',array());
+    
+    $this->headScript()->appendFile( $this->basePath() . '/assets/js/uncompressed/date-time/bootstrap-datepicker.js','text/javascript',array());
+        
+
+?>
+
+<script>
+$(function(){
+
+        CustomSelect2.createSimple({
+            placeholder:"Branch",
+            url:'<?php echo $this->url("config/user-branches") ?>/json',
+            id:'id',
+            label:'branch_name',
+            element:$('#branch_branch_name'),
+            data_target:'data'
+        });
+
+        CustomSelect2.createSimple({
+            placeholder:"Select Department",
+            url:'<?php echo $this->url("config/user-departments") ?>',
+            id:'id',
+            label:'department_name',
+            element:$('#dept'),
+            data_target:'data'
+        });
+                
+                
+        CustomSelect2.createSimple({
+                placeholder:"Select Month",
+                url:'<?php echo $this->url("config/periods")?>/json',
+                id:'period_code',
+                label:'period_code',
+                element:$('#period_from_period_code'),
+                data_target:'data',
+                initValLabel:true
+        }); 
+                           
+        $('.input-daterange').datepicker({
+            //todayBtn: "linked",
+            minViewMode:1,
+        });        
+});
+</script>
+

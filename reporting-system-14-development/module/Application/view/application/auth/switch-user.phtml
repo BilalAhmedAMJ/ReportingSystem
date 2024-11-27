@@ -1,0 +1,53 @@
+<style>
+    .profile-info-value>span+span:before{
+        content:'';
+    }
+    .profile-info-name{
+        width:170px;
+    }
+</style>
+
+<div class="space-6"></div>
+
+<div class="row row-fluid">
+    
+<form class="form-horizontal" action="<?=$this->url('auth/switch-user')?>" method="post">
+    
+    <fieldset class="col-sm-8 col-md-6">
+
+        <div class="profile-info-row">
+            <div class="profile-info-name"> Target User </div>
+
+            <div class="profile-info-value">
+                <span class="block input-icon input-icon-right">
+                    <input type="text" class="form-control" name="su_to_userid" placeholder="User id for target user" />
+                    <i class="ace-icon fa fa-user"></i>
+                </span>
+            </div>
+        </div>
+
+
+        <div class="profile-info-row">
+            <div class="profile-info-name"> Current User Password </div>
+
+            <div class="profile-info-value">
+                <span class="block input-icon input-icon-right">
+                    <input type="password" class="form-control" name="current_userpassword" placeholder="Your Password" />
+                    <i class="ace-icon fa fa-lock"></i>
+                </span>
+            </div>
+        </div>
+
+
+        <div class="profile-info-row">
+            <div class="profile-info-name"> 
+            </div>
+            <div class="profile-info-value" >
+                <input class="btn btn-primary btn-white btn-round" type="submit" value="Submit"/> 
+                <input class="btn btn-default btn-white btn-round" type="reset" value="Cancel"/> 
+            </div>
+        </div>
+        
+    </fieldset> 
+    </form>
+</div>                        

@@ -1,0 +1,19 @@
+<?php
+
+return array(
+    'hydrator'  => 'Zend\Stdlib\Hydrator\ArraySerializable'
+    
+    ,'simple_specs'=>array(
+            
+        'year'=>array(
+            'type'=>'Text',
+            'value'=>\Application\Entity\Period::getTermStartCurrent(),
+        )
+        ,'report_status'=>array(
+            'type'=>'Text',
+            'value'=>'All',
+        )
+    )//end simple_spec
+        
+
+);

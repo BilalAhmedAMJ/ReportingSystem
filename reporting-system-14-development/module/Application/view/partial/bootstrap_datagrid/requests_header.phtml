@@ -1,0 +1,13 @@
+<form name="update_request" id="update_request" action="/office-assignment/request" method="post">
+    <input type="hidden" name="request_id" id="request_id_to_edit"  />
+    <input type="hidden" name="request_action" value="edit"/>
+</form>
+
+<script>
+
+    var actionsFunction=function ( rowId ){
+        $('#update_request > #request_id_to_edit').val(rowId);
+        $('#update_request').submit();
+    };
+
+</script>

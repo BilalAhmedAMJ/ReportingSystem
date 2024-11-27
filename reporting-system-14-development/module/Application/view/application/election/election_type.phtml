@@ -1,0 +1,178 @@
+<?php
+    $this->headLink()
+        ->appendStylesheet($this->basePath() . '/assets/css/select2.css');
+  
+    $this->headScript()->appendFile( $this->basePath() . '/assets/js/select2.min.js','text/javascript',array());
+    $this->headScript()->appendFile( $this->basePath() . '/js/custom.select2.js','text/javascript',array());
+
+?>
+
+<?php   
+    $form=$this->form->get('election');
+	$submit_label='Next';
+	$user_action='election_type';
+	$form_action='election/create';
+		
+	if($this->user_action=='submit'){
+		$submit_label='Submit Results';
+		$user_action='submit';
+		$form_action='election/submit';
+	}
+?>
+
+<form class="form-horizontal" role="form" id="election_results_form" method="post" action="<?php echo $this->url($form_action) ?>"  name="election_results_form" >
+
+	<!-- fieldset contained election id -->
+	<input type="hidden" name="user_action" value="<?=$user_action?>"/>
+    
+
+<div class="row">
+<div class="col-xs-12 col-lg-12 " >
+
+    <!-- use widget box for collapsable feature, however, applying panel, panel-default to the container so we can get ronded corners
+         also note that we need to remove padding from container that will be added by panel classes
+         as well as remove border from widget box
+         --> 
+    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 panel panel-default widget-container-col no-padding" > <!-- userinfo -->
+    	 
+    <div class="widget-box no-border " id="user_info_widget_box">
+    	
+        <div class="widget-header widget-header-small  ">
+            <h3 class="widget-title smaller">New Election Result</h3>
+
+            <div class="widget-toolbar">
+
+            <div class="btn-group">
+                <button class="btn btn-info btn-group" type="submit">
+                    <i class="ace-icon fa fa-arrow-right bigger-110"></i>
+                    <?=$submit_label?>
+                </button>
+                
+                <button class="btn btn-group" type="reset">
+                    <i class="ace-icon fa fa-undo bigger-110"></i>
+                    Reset
+                </button>
+
+            </div>
+
+
+            </div>
+            
+        </div>
+        
+        <div class="widget-body widget-main no-margin-bottom no-padding-bottom">    
+
+		<?php if($this->errors && is_array($this->errors) && count($this->errors)>1 ):?>
+			
+			<?php /*print_r(['<pre>',$this->errors])*/ ?>
+				
+			<div class="col-sm-12 alert alert-danger no-padding no-margin " style="" id="result_form_DetailsArea">
+				<span class="alert-danger">There are <?=$errors[0]['error']?> error(s) and <?=$errors[0]['warning']?> warning(s) in election report
+					<?php if($errors[0]['error']>0):?>
+					<br/>
+					You need to fix all errors before submitting report</span>
+			        <a href="<?=$this->url('election/result')?>?id=<?=$this->election->getId()?>" class="print-report btn btn-primary  btn-white  btn-round btn-sm margin-4 ">
+				        Open Election Report
+				        <i class="fa fa-form icon ace-icon"></i>
+				    </a>
+					<?php endif?>
+				<ul class="alert">
+				<?php foreach($this->errors as $error): ?>
+					<?php if($error['type']=='summary') {
+						if(key_exists('message', $error) && ($error['error']|| $error['warning']>0))
+							echo $error['message'];
+						continue;
+					 } ?>									
+					<?php $type= ($error['type']=='error'?'alert-danger':'alert-warning');?>
+					<li class=" <?=$type?> alert-dismissable"><?=$error['message']?></li>
+				<?php endforeach?>			
+				</ul>
+			</div>
+			<div class="col-sm-12 space-6"></div>
+		<?php endif?>
+		
+		<!-- FormBody -->
+		<div class="col-sm-12 "> 
+			
+		   <div class=" space-12"></div>	
+		    	
+		   <div class="col-sm-12 no-padding no-margin">
+           <div class="form-group">
+              <label class="col-sm-3 control-label no-padding-right" for="period_from">Election Type: </label>
+              <div class="col-sm-8">
+                <?=$this->formElement($form->get('election_type')) ?>
+              </div>
+           </div>
+		  </div>
+			
+		<div class=" space-12"></div>&nbsp;
+		<div class=" space-12"></div>	
+			
+		</div> 
+		<!-- / FormBody -->	
+
+			
+			<!-- Widget bottom toolbar -->
+        <div class="widget-header2 widget-header-small  ">
+
+            <div class="widget-toolbar " style="float: left">
+
+            <div class="btn-group">
+                <button class="btn btn-info btn-group" type="submit">
+                    <i class="ace-icon fa fa-arrow-right bigger-110"></i>
+                    <?=$submit_label?>
+                </button>
+                
+                <button class="btn btn-group" type="reset">
+                    <i class="ace-icon fa fa-undo bigger-110"></i>
+                    Reset
+                </button>
+
+            </div>
+
+
+            </div>
+        </div>
+
+        </div> <!-- /widget -->
+ 
+    </div> 
+    </div> <!-- / userinfo --> 
+
+ </div>
+
+</div> <!-- /row -->
+
+<!-- form-actions -->
+<div class="widget-container-col col-xs-10 col-sm-10 col-md-12 col-lg-10 col-xl-8">
+    
+</div>
+<!-- / form-actions -->
+</form>
+
+<script>
+
+    $(function(){
+
+        //Create Date Pickers
+        $('.date-picker').datepicker({
+           autoclose: true,
+           todayHighlight: true,
+	           
+        })
+        //show datepicker when clicking on the icon
+        .next().css('border','1px solid #6fb3e0').css('border-top-right-radius','4px!important').css('border-bottom-right-radius','4px!important').on(ace.click_event, function(){
+            $(this).prev().focus();
+        });
+      
+      	$('select').attr('autocomplete','off').select2({
+        	width:'250px',
+        	minimumResultsForSearch: 10,
+        });
+        
+        <?php if ($this->read_only): ?>                                         
+		$('#election_results_form').find('select, input,button,textarea').attr('disabled','disabled');
+        <?php endif ?> 
+    });
+    
+</script>

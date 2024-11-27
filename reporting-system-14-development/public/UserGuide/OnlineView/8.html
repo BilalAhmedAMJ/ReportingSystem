@@ -1,0 +1,270 @@
+<!DOCTYPE html >
+<html lang="en">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+<meta charset="utf-8" />
+</head>
+
+<body style="margin: 0;">
+
+<div id="jpedal" style="overflow: hidden; position:relative; width: 935px; height: 1210px;">
+
+<!-- Begin shared CSS values -->
+<style type="text/css" >
+.t {
+	position: absolute;
+	-webkit-transform-origin: top left;
+	-moz-transform-origin: top left;
+	-o-transform-origin: top left;
+	-ms-transform-origin: top left;
+	-webkit-transform: scale(0.25);
+	-moz-transform: scale(0.25);
+	-o-transform: scale(0.25);
+	-ms-transform: scale(0.25);
+	z-index: 2;
+	position:absolute;
+	white-space:nowrap;
+	overflow:visible;
+}
+</style>
+<!-- End shared CSS values -->
+
+<!-- Begin shared JS -->
+<script type="text/javascript">
+
+// Ensure that we're not replacing any onload events
+function addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			if (oldonload) {
+				oldonload();
+			}
+			func();
+		}
+	}
+}
+addLoadEvent(function(){load8();});
+
+function adjustWordSpacing(widths) {
+    var i, allLinesDone = false;
+    var isDone = [];
+    var currentSpacing = [];
+    var elements = [];
+    
+    // Initialise arrays
+    for (i = 0; i < widths.length; i++) {
+        elements[i] = document.getElementById(widths[i][0]);
+        elements[i].style.wordSpacing = '0px';//Required if rerunning
+    }
+    for (i = 0; i < widths.length; i++) {
+        if (isIE) widths[i][1] = widths[i][1] * 4;
+        currentSpacing[i] = Math.floor((widths[i][1] - elements[i].offsetWidth) / elements[i].innerHTML.match(/\s.|&nbsp;./g).length);//min
+        if (isIE) currentSpacing[i] = Math.floor(currentSpacing[i] / 4);
+        isDone[i] = false;
+    }
+    
+    while (!allLinesDone) {
+        // Add each adjustment to the render queue without forcing a render
+        for (i = 0; i < widths.length; i++) {
+            if (!isDone[i]) {
+                elements[i].style.wordSpacing = currentSpacing[i] + 'px';
+            }            
+        }
+        
+        allLinesDone = true;
+        // If elements still need to be wider, add 1 to the word spacing
+        for (i = 0; i < widths.length; i++) {
+            if (!isDone[i] && currentSpacing[i] < 160) {
+                if (elements[i].offsetWidth >= widths[i][1]) {
+                    isDone[i] = true;
+                } else {
+                    currentSpacing[i]++;
+                    allLinesDone = false;
+                }
+            }
+        }
+    }
+    
+    for (i = 0; i < widths.length; i++) {
+        elements[i].style.wordSpacing = (currentSpacing[i] - 1) + 'px';
+    }
+}
+
+</script>
+<!-- End shared JS -->
+
+
+<!-- Begin inline CSS -->
+<style type="text/css" >
+
+#t1_8{left:103px;top:88px;}
+#t2_8{left:103px;top:109px;}
+#t3_8{left:528px;top:109px;}
+#t4_8{left:571px;top:109px;}
+#t5_8{left:700px;top:109px;}
+#t6_8{left:103px;top:129px;}
+#t7_8{left:170px;top:129px;}
+#t8_8{left:264px;top:129px;}
+#t9_8{left:369px;top:129px;}
+#ta_8{left:440px;top:129px;}
+#tb_8{left:105px;top:369px;}
+#tc_8{left:162px;top:369px;}
+#td_8{left:212px;top:369px;}
+#te_8{left:103px;top:411px;}
+#tf_8{left:146px;top:411px;}
+#tg_8{left:103px;top:452px;}
+#th_8{left:103px;top:472px;}
+#ti_8{left:103px;top:513px;}
+#tj_8{left:138px;top:513px;}
+#tk_8{left:321px;top:513px;}
+#tl_8{left:363px;top:513px;}
+#tm_8{left:103px;top:537px;}
+#tn_8{left:793px;top:794px;}
+#to_8{left:793px;top:814px;}
+#tp_8{left:793px;top:835px;}
+#tq_8{left:793px;top:856px;}
+#tr_8{left:793px;top:876px;}
+#ts_8{left:62px;top:738px;}
+#tt_8{left:62px;top:759px;}
+#tu_8{left:58px;top:909px;}
+#tv_8{left:58px;top:929px;}
+#tw_8{left:114px;top:929px;}
+#tx_8{left:140px;top:929px;}
+#ty_8{left:58px;top:950px;}
+#tz_8{left:58px;top:971px;}
+#t10_8{left:665px;top:981px;}
+#t11_8{left:665px;top:1001px;}
+#t12_8{left:686px;top:1001px;}
+#t13_8{left:741px;top:1001px;}
+#t14_8{left:665px;top:1022px;}
+#t15_8{left:793px;top:610px;}
+#t16_8{left:823px;top:610px;}
+#t17_8{left:840px;top:610px;}
+#t18_8{left:793px;top:631px;}
+#t19_8{left:793px;top:651px;}
+#t1a_8{left:793px;top:672px;}
+#t1b_8{left:793px;top:692px;}
+#t1c_8{left:793px;top:713px;}
+#t1d_8{left:793px;top:733px;}
+
+.s1_8{
+	FONT-SIZE: 67px;
+	FONT-FAMILY: ABCDEE-Calibri8;
+	color: rgb(0,0,0);
+}
+
+.s2_8{
+	FONT-SIZE: 67px;
+	FONT-FAMILY: ABCDEE-Calibri-Bold8;
+	color: rgb(0,0,0);
+}
+
+</style>
+<!-- End inline CSS -->
+
+<!-- Begin embedded font definitions -->
+<style id="fonts8" type="text/css" >
+
+@font-face {
+	font-family: ABCDEE-Calibri8;
+	src :url("8/fonts/ABCDEE-Calibri.woff") format("woff");
+}
+
+@font-face {
+	font-family: ABCDEE-Calibri-Bold8;
+	src :url("8/fonts/ABCDEE-Calibri-Bold.woff") format("woff");
+}
+
+</style>
+<!-- End embedded font definitions -->
+
+<!-- Begin text definitions (Positioned/styled in CSS) -->
+<div id="t1_8" class="t s1_8">When the Create Report section is clicked, some questions are asked. For example, to submit a report for the </div>
+<div id="t2_8" class="t s1_8">General Secretary Department for the month of August 2015,</div>
+<div id="t3_8" class="t s1_8">select </div>
+<div id="t4_8" class="t s2_8">General Secretary </div>
+<div id="t5_8" class="t s1_8">in the drop down </div>
+<div id="t6_8" class="t s1_8">menu for </div>
+<div id="t7_8" class="t s2_8">Department. </div>
+<div id="t8_8" class="t s1_8">Similarly select</div>
+<div id="t9_8" class="t s2_8">Aug-2015 </div>
+<div id="ta_8" class="t s1_8">for month and the name of your branch. </div>
+<div id="tb_8" class="t s1_8">Click on </div>
+<div id="tc_8" class="t s2_8">Create</div>
+<div id="td_8" class="t s1_8">button to create the monthly report </div>
+<div id="te_8" class="t s2_8">Note:</div>
+<div id="tf_8" class="t s1_8">Various departments have their specific questions that their respective secretaries have to fill out. </div>
+<div id="tg_8" class="t s1_8">In the text box below this instruction, you can list down all the activities for the month. You can also attach a </div>
+<div id="th_8" class="t s1_8">file related to your report that has details of the activities. </div>
+<div id="ti_8" class="t s2_8">Note</div>
+<div id="tj_8" class="t s1_8">: Please attach documents </div>
+<div id="tk_8" class="t s2_8">ONLY </div>
+<div id="tl_8" class="t s1_8">when necessary. It is preferable that report is submitted in text form in </div>
+<div id="tm_8" class="t s1_8">the given fields. </div>
+<div id="tn_8" class="t s2_8">Guidelines</div>
+<div id="to_8" class="t s1_8">provides with </div>
+<div id="tp_8" class="t s1_8">hints for </div>
+<div id="tq_8" class="t s1_8">preparing </div>
+<div id="tr_8" class="t s1_8">the report </div>
+<div id="ts_8" class="t s1_8">Questions/ </div>
+<div id="tt_8" class="t s1_8">Instructions </div>
+<div id="tu_8" class="t s1_8">These questions are </div>
+<div id="tv_8" class="t s1_8">marked </div>
+<div id="tw_8" class="t s2_8">NO</div>
+<div id="tx_8" class="t s1_8">by </div>
+<div id="ty_8" class="t s1_8">default. Only fill if </div>
+<div id="tz_8" class="t s1_8">required. </div>
+<div id="t10_8" class="t s1_8">To attach a file, click </div>
+<div id="t11_8" class="t s1_8">on </div>
+<div id="t12_8" class="t s2_8">Choose</div>
+<div id="t13_8" class="t s1_8">to upload </div>
+<div id="t14_8" class="t s1_8">the file </div>
+<div id="t15_8" class="t s1_8">The </div>
+<div id="t16_8" class="t s2_8">TJ</div>
+<div id="t17_8" class="t s1_8">tab </div>
+<div id="t18_8" class="t s1_8">provides </div>
+<div id="t19_8" class="t s1_8">the rules as </div>
+<div id="t1a_8" class="t s1_8">specified in </div>
+<div id="t1b_8" class="t s1_8">the Tahrik </div>
+<div id="t1c_8" class="t s1_8">Jadid Rule </div>
+<div id="t1d_8" class="t s1_8">Book </div>
+
+<!-- End text definitions -->
+
+<!-- Begin page background -->
+<div id="pg8Overlay" style="width:100%; height:100%; position:absolute; z-index:1; background-color:rgba(0,0,0,0); -webkit-user-select: none;"></div>
+<div id="pg8"><object width="935" height="1210" data="8/8.svg" type="image/svg+xml" id="pdf8" style="width:935px; height:1210px; background-color:white; -moz-transform:scale(1); z-index: 0;"></object></div>
+<!-- End page background -->
+
+<!-- Begin page loading JS -->
+<script id="ld8" type="text/javascript">
+
+var isIE = false;
+var f8 = [['t1_8',2979],['t2_8',1681],['t4_8',499],['t5_8',470],['t6_8',252],['t8_8',406],['ta_8',1103],['tb_8',211],['td_8',995],['tf_8',2677],['tg_8',2961],['th_8',1581],['tj_8',718],['tl_8',1936],['tm_8',431],['to_8',371],['tp_8',230],['tr_8',280],['tu_8',546],['ty_8',486],['t10_8',555],['t13_8',261],['t14_8',191],['t19_8',314],['t1a_8',310],['t1b_8',276],['t1c_8',275]];
+function load8(){
+	var timeout = 100;
+	if (navigator.userAgent.match(/iPhone|iPad|iPod|Android/i)) timeout = 500;
+	setTimeout(function() {adjustWordSpacing(f8);},timeout);
+}
+</script>
+<!--[if lt IE 9]><script type="text/javascript">
+isIE = true;
+
+var divCount = 50;
+for (var i = 1; i < divCount; i++) {
+    var div = document.getElementById("t" + i.toString(36) + "_8");
+    if (div !== null) {
+        div.style.top = (div.offsetTop * 4) + "px";
+        div.style.left = (div.offsetLeft * 4) + "px";
+        div.style.zoom = "25%";
+    }
+}
+</script><![endif]-->
+<!-- End page loading JS -->
+
+</div>
+</body>
+</html>

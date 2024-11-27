@@ -1,0 +1,92 @@
+<?php
+
+return array(
+        'hydrator'  => 'Zend\Stdlib\Hydrator\ArraySerializable',
+        'fieldsets' => array(
+             array(
+               'spec'=>array(
+                    'name' => 'sender',
+                    'elements' => array(
+                                    array(
+                                      'spec'=>array(
+                                        'name' => 'name1',
+                                        'options' => array(
+                                            'label' => 'Your name',
+                                            ),
+                                        'attributes' => array(
+                                            'placeholder'=>'Your name',
+                                            'type'  => 'text'
+                                        ),
+                                        )
+                                    ),
+                                    array(
+                                    'spec'=>array(
+                                        'type' => 'Zend\Form\Element\Email',
+                                        'name' => 'email',
+                                        'attributes' => array(
+                                            'placeholder'=>'Your email address',
+                                            ),
+                                        'options' => array(
+                                            'label' => 'Your email address',
+                                            ),
+                                    ),
+                                 ),
+                       ),
+                            
+                ),
+            
+             ),
+        /*
+        array(
+            'name' => 'details',
+            'elements' => array(
+                array(
+                    'name' => 'subject',
+                    'options' => array(
+                        'label' => 'Subject',
+                        ),
+                    'attributes' => array(
+                        'type'  => 'text',
+                    ),
+                ),
+                array(
+                    'type' => 'Zend\Form\Element\Textarea',
+                    'options' => array(
+                        'label' => 'Message',
+                        ),
+                ),
+            ),
+        ),
+         */
+    ),
+    /*
+    'elements' => array(
+        array(
+            'type' => 'Zend\Form\Element\Captcha',
+            'name' => 'captcha',
+            'options' => array(
+                'label' => 'Please verify you are human. ',
+                'captcha' => array(
+                    'class' => 'Dumb',
+                ),
+            ),
+        ),
+        array(
+            'type' => 'Zend\Form\Element\Csrf',
+            'name' => 'security',
+        ),
+        array(
+            'name' => 'send',
+            'attributes' => array(
+                'type'  => 'submit',
+                'value' => 'Submit',
+            ),
+        ),
+    ),
+*/
+    // Configuration to pass on to
+    // Zend\InputFilter\Factory::createInputFilter()
+    'input_filter' => array(
+        /* ... */
+    )
+);

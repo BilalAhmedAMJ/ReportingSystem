@@ -1,0 +1,24 @@
+<?php $col = $this->col; ?>
+<?php
+ 
+ //print_r($this->form != null);exit;
+ $monthyear=$form->get('monthyear');
+ $monthyear->setMonthAttributes(array('style'=>'width:100px!important;'));
+ $monthyear->setYearAttributes(array('style'=>'width:65px!important;'));
+ 
+ echo $this->formElement($monthyear);
+ 
+?>
+  
+<script>
+    $(function(){
+        $('select[name="monthyear[month]"], select[name="monthyear[year]"]').select2({minimumResultsForSearch: Infinity});
+
+        $('select[name="monthyear[month]"], select[name="monthyear[year]"]').change(function(){
+            document.forms["form_<?=$this->gridId?>"].submit();
+        });
+                     
+    });
+    
+    
+</script>

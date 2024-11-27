@@ -1,0 +1,35 @@
+<div class="widget-toolbar">
+    
+    <a class="btn btn-success btn-round btn-white padding-4" href="<?=$this->url('report/create')?>">
+        &nbsp;
+        <i class="ace-icon fa fa-plus bigger-110"></i>
+        Create Report
+        &nbsp;
+    </a>
+    &nbsp;
+    <div class="checkbox" style="min-height:inherit!important;display: inline-block;margin-top:0px!important;margin-bottom: 0px!important">
+        <label>
+            <?php $halqa_value = ($this->columns['branch_branch_level']->getFilterActiveValue());
+            ?>
+            <input style="position: inherit!important" 
+            <?=($halqa_value == ''?'checked':'')?>
+            name="halqa_chackbox" type="checkbox" class="" id="halqa_checkbox">
+            &nbsp;Halqa
+            <input type="hidden" id="toolbarFilters_branch_branch_level" 
+            name="toolbarFilters[branch_branch_level]" value="<?=$halqa_value?>"  />
+        </label>
+    </div>
+</div>
+
+<script>
+    $(function(){
+        
+        $('#halqa_checkbox').on("change",function(){
+            console.log('clicked ');
+            var fld = $('#toolbarFilters_branch_branch_level');
+            fld.val("<?=$halqa_value==''?'!= Halqa':''?>");
+            fld.get(0).form.submit();
+        })
+        
+    });
+</script>

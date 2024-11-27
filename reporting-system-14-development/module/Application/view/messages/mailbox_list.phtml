@@ -1,0 +1,38 @@
+<?php  
+    $user_msg = $this->message;
+    $is_unread = $user_msg->isUnread();   
+    $message=$user_msg->getMessage();
+    $unread_class='';
+    $unread_star='';
+    if($is_unread){
+        $unread_class='message-unread';
+        $unread_star='<i class="message-star ace-icon fa fa-star orange2"></i>';
+    } 
+    
+    $msg_time = $this->smart_format($message->getDateSent());
+?>
+
+
+    <!-- #section:pages/inbox.message-list.item -->
+    <div class="message-item <?=$unread_class?>" data-user-message-id="<?=$user_msg->getId()?>">
+        
+        <label class="inline">            
+            <input type="checkbox" class="ace msg-select-chk" data-value="<?=$user_msg->getId()?>" />            
+            <span class="lbl msg-select-chk-lbl"></span>
+        </label>
+        
+        <span class="sender message-item-clkble" title="<?=$message->getSentAs()?>"><?=$message->getSentAs()?></span>
+        <span class="summary  message-item-clkble">
+            <?=$unread_star?>
+            <span class="text">
+                <?=$message->getSubject()?> 
+            </span>
+        </span>
+
+        <span class="time message-item-clkble">
+            <?=$msg_time?>
+        </span>
+
+    </div>
+
+    <!-- /section:pages/inbox.message-list.item -->

@@ -1,0 +1,487 @@
+<script src="<?=$this->basePath()?>/assets/js/ckeditor/ckeditor.js" ></script>
+<script src="<?=$this->basePath()?>/assets/js/ckeditor/adapters/jquery.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<?php
+    
+    $status_icons = array(
+                    'inactive'=>'<i class="yellow fa fa-icon ace-icon fa-exclamation-circle "></i>',
+                    'email'=>'<i class="green fa fa-icon ace-icon fa-check-circle  "></i>',
+                    'noemail'=>'<i class="gray fa fa-icon ace-icon fa-minus-circle  "></i>',
+                    'error'=>'<i class="red fa fa-icon ace-icon fa-minus-circle  "></i>',
+                    'unknown'=>'<i class="red fa fa-icon ace-icon fa-question-circle  "></i>'
+                );
+
+    $status_messages = array(
+                    'inactive'=>'Skipped %s, office or user not active, system message sent',
+                    'email'=>' Sent email to %s &lt;%s&gt; ',
+                    'email'=>' Sent email to %s &lt;%s&gt; ',
+                    'error'=>' There was an error in sending email to %s &lt;%s&gt; ',
+                    'noemail'=>'Skipped email, %s has no email address, system message sent',
+                    'unknown'=>'Not sent, %s is invalid office, please contact admin'
+                );
+                
+
+    $summary_message = array(
+                    'email'=>'%d Emails were sent',
+                    'inactive'=>'%d Offices or users are inactive, only local messages were sent',
+                    'noemail'=>'%d Users have no email or have an invalid email, only local messages were sent',
+                    'error'=>'%d Emails were not sent due to some error in sending email',
+                    'unknown'=>'%d Offices have invalid status, please contact admin for these',
+                );
+
+    /** Sort email results by Branch, Department and Office Bearer Name */
+    function compareResults($first, $second){
+        $office_1=$first[1];
+        $office_2=$second[1];
+        $branch_cmp = strcmp($office_1->getBranch()->getBranchName(),
+                             $office_2->getBranch()->getBranchName());
+        if($branch_cmp!=0){
+            return $branch_cmp;
+        }
+        $dept_cmp = strcmp($office_1->getDepartment()->getDepartmentName(),
+                           $office_2->getDepartment()->getDepartmentName());
+        if($dept_cmp!=0){
+            return $dept_cmp;
+        }
+        return strcmp($office_1->getUser()->getDisplayName(),
+                      $office_2->getUser()->getDisplayName());
+    }
+?>
+
+<style>
+    
+    .form-group{
+        padding:2px!important;
+        margin:2px!important;
+    }
+
+    .hr-18-2{
+        margin:4px 0px!important;
+    }
+
+</style>
+<div class="tabbable no-border no-padding">
+
+     <ul id="inbox-tabs" class="inbox-tabs nav nav-tabs tab-size-bigger tab-space-1">
+         
+            <div id="id-message-new-navbar" class=" message-navbar clearfix" style="border-color:#D6E1EA!important">
+                
+                        <div class="title widget-title blue bigger-150">
+                            Compose Email Reminder
+                        </div>
+                        <!--
+                        <div class="btn-group">
+                            <button type="button" data-toggle="dropdown" class="btn btn-sm btn-white btn-primary btn-round dropdown-toggle">
+                                <i class="ace-icon fa fa-bars bigger-125"></i>
+                                <span class="bigger-110">Template</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-light dropdown-caret"> 
+                                 <li><a>Report Reminder</a></li>  
+                                 <li><a>Reminder after duedate</a></li>  
+                                 <li><a>Meeting Reminder</a></li>  
+                        </div>
+                        
+                        <button type="button" class="btn btn-sm btn-white btn-primary btn-round">
+                            <i class="ace-icon fa fa-floppy-o bigger-125"></i>
+                            <span class="bigger-110">Save Draft</span>
+                        </button>
+    
+                        <button type="button" class="btn btn-sm btn-white btn-primary btn-round">
+                            <i class="ace-icon fa fa-times bigger-125 orange2"></i>
+                            <span class="bigger-110">Discard</span>
+                        </button>
+                        -->
+                
+                
+                    <div class="messagebar-item-left">
+                        <span class="inline btn-send-message">
+                            <button type="button" class="btn btn-sm btn-primary no-border btn-white btn-round" onclick="location.href='<?=$this->url('message/inbox')?>'">
+                                <i class="ace-icon fa fa-arrow-left icon-on-left"></i>
+                                <span class="bigger-110">Mailbox</span>    
+                            </button>
+                        </span>
+                    </div>
+    
+                    <div class="messagebar-item-right">
+                        <span class="inline btn-send-message">
+                            <button type="button" class="btn btn-sm btn-primary no-border btn-white btn-round" id="send_message_button">
+                                <i class="menu-icon fa fa-send-o"></i>
+                                <span class="bigger-110">Send</span>
+    
+                        </button>
+                        </span>
+                    </div>
+                
+            </div>
+     </ul>
+    <div class="tab-content no-border no-padding">
+                                        
+        <?php if($this->result_details && count($this->result_details)>0):?>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="widget-box">
+                    <!-- #section:custom/widget-box.header.options -->
+                    <div class="widget-header widget-header-small">
+                        <h5 class="widget-title">Based on selected criteria <?=count($result_details)?> offices were processed.</h5>
+
+                        <div class="widget-toolbar">
+                            <a href="#" data-action="collapse">
+                                <i class="ace-icon fa fa-chevron-up"></i>
+                            </a>
+
+                            <a href="#" data-action="close">
+                                <i class="ace-icon fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- /section:custom/widget-box.header.options -->
+                    <div class="widget-body no-padding">
+                        <div class="widget-main no-padding">
+                        <div class="table-responsive ">
+                        <table  class="table table-striped table-normal table-bordered table-hover table-condensed">
+                        <?php foreach ($this->result_summary as $action =>$value ):?>
+                            <?php
+                            if($value<1){
+                                continue;
+                            }    
+                            ?>
+                            <tr ><td width="30px">
+                                <?=$status_icons[$action]?>
+                            </td><td >
+                                <?=sprintf($summary_message[$action],$value)?>
+                            </td></tr>
+                        <?php endforeach?>
+                        <tr><td></td><td><h5 class="widget-title">Details</h5></td></tr>
+                        <?php 
+                        $sorted_result_details = $this->result_details;
+                        usort($sorted_result_details,"compareResults");
+                        foreach ($sorted_result_details as $result_action ):
+                            $action = $result_action[0];   
+                            $title = $result_action[1]->getTitle(true);
+                            $msg = $status_messages[$action];
+                            $email = ($action=='email') ? ($result_action[1]->getUser()->getEmail()) :'';
+			            ?>
+                            <tr class="message-result" data-message-id='<?=isset($result_action[2])?$result_action[2]->getId():""?>' ><td width="30px">
+                                <?=$status_icons[$action]?>
+                            </td><td >
+                                <?=sprintf($msg,$title,$email)?>
+                            </td></tr>
+                        <?php endforeach?>
+                        </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    <?php endif ?>
+
+        
+        
+        
+        <form id="id-message-form" method="post" enctype="multipart/form-data" class="form-horizontal message-form col-xs-12 no-border no-padding" data-description="Draft message">
+            <!-- #section:pages/inbox.compose -->
+           <div class="space-10"></div>
+            <div>
+                <div class="form-group">
+                    
+                    <label class="col-sm-2 control-label " for="form-field-recipient">Month:</label>
+
+                    <div class="col-sm-5 ">
+                        
+                        <div class="form-group2 no-padding input-icon ">                
+                              
+                              <?=$this->formSelect($form->get('month'))?>
+                              <br/>
+                                Users will be reminded to complete report for this month
+                            </div> 
+                    </div>
+                </div>
+                
+                <div class="form-group ">                    
+                    <label class="col-sm-2 control-label " for="form-field-recipient">Office:</label>
+                    <div class="col-sm-5 ">                        
+                        <div class="form-group2 no-padding input-icon ">                                                
+                                <input id="office" name="office" style="width:250px" />
+                            </div> 
+                    </div>
+                </div>
+
+                <?php if($form->has('branch')):?>
+                <?php if($form->get('branch')->getAttribute('type') == 'hidden'):?>
+                    <input type="hidden" id="branch" name="branch" value="<?=$form->get('branch')->getValue()?>" />
+                <?php else:?>
+                <div class="form-group">                    
+                    <label class="col-sm-2 control-label " for="form-field-recipient">Branch:</label>
+                    <div class="col-sm-5 ">                        
+                        <div class="form-group2 no-padding input-icon ">                                                                                
+                                <?=$this->formSelect($form->get('branch'))?>
+                            </div> 
+                    </div>
+                </div>
+                <?php endif?>
+                <?php endif?>
+
+                <div class="form-group">                    
+                    <label class="col-sm-2 control-label " for="form-field-recipient">Send to:</label>
+                    <div class="col-sm-5 ">                        
+                        <div class="form-group2 no-padding input-icon ">                                                                                
+                                <?=$this->formSelect($form->get('send_to_rule'))?>
+                            </div> 
+                    </div>
+                </div>
+
+                <?php if($form->has('level_rule')):?>
+                <div class="form-group">                    
+                    <label class="col-sm-2 control-label " for="form-field-recipient">Level:</label>
+                    <div class="col-sm-5 ">                        
+                        <div class="form-group2 no-padding input-icon ">
+                                                                                
+                                <?=$this->formSelect($form->get('level_rule'))?>
+                            </div> 
+                    </div>
+                </div>
+                <?php endif?>
+                
+                <div class="form-group">                    
+                    <label class="col-sm-2 control-label " for="form-field-recipient">
+                        Custom message:                        
+                    </label>
+                    <div class="col-sm-5 " style="vertical-align: top!improtant">
+                        <label style="vertical-align: bottom!improtant">                        
+                            <input name="custom_message" type="checkbox" class="ace ace-switch ace-switch-5"/>
+                            <span class="lbl"></span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-group">                    
+                    <label class="col-sm-2 control-label " for="form-field-recipient">
+                    Attachment:
+                    </label>
+                    <div class="col-sm-5 no-border no-margin">                        
+                        <?=$this->formElement($form->get('file_attachments'))?>
+                    </div>
+                </div>
+                
+                
+                <div class="hr hr-18-2 dotted"></div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label " for="form-field-subject">Subject:</label>
+
+                    <div class="col-sm-6 col-xs-12">
+                        <div class="input-icon block col-xs-12 no-padding">
+                            <input maxlength="100" type="text" class="col-xs-12" name="subject" id="form-field-subject" placeholder="Subject" />
+                            <i class="ace-icon fa fa-comment-o"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hr hr-18-2 dotted no-margin-bottom"></div>
+
+                <div class="form-group no-margin no-padding">
+                    <!--
+                    <label class="col-sm-2 control-label no-padding-right">
+                        <span class="inline space-24 hidden-480"></span>
+                        Message:
+                    </label>
+                    -->
+                    <!-- #section:plugins/editor.wysiwyg -->
+                    <div class="col-sm-12  no-margin no-padding">
+                        <div class="wysiwyg-editor-del hide" id="compose-editor-del" style="min-height:350px"></div>
+                        <textarea class='ckeditor' id="compose-editor" name="custom_message_body"></textarea>
+                    </div>
+
+                    <!-- /section:plugins/editor.wysiwyg -->
+                </div>
+
+                <div class="hr hr-18 dotted no-margin"></div>
+
+                <!--
+                <div class="form-group no-margin-bottom">
+                    <label class="col-sm-2 control-label no-padding-right">Attachments:</label>
+
+                    <div class="col-sm-10">
+                        <div id="form-attachments">
+                            < ! -- #section:custom/file-input -- >
+                            <input type="file" name="attachment[]" />
+
+                            < ! -- /section:custom/file-input -- >
+                        </div>
+                    </div>
+                </div>
+
+                <div class="align-right">
+                    <button id="id-add-attachment" type="button" class="btn btn-sm btn-danger">
+                        <i class="ace-icon fa fa-paperclip bigger-140"></i>
+                        Add Attachment
+                    </button>
+                </div>
+                <div class="space"></div>
+                -->    
+            </div>
+
+            <!-- /section:pages/inbox.compose -->
+        </form>
+    </div>
+</div>
+
+        
+
+<script>
+    var form_initialized = false;
+    
+    $(function() {
+        
+      // CustomSelect2.createSimple({
+                // placeholder:"User Level",
+                // url:'<?php echo $this->url("config/config-value")?>?config_item=document_rules',
+                // id:'id',
+                // label:'label',
+                // element:$('#access_rule'),
+                // data_target:'document_rules',
+                // initValLabel:true,
+                // multiple:true,
+        // });
+
+        
+        
+// 
+        // CustomSelect2.createSimple({
+                // placeholder:"All",
+                // url:'<?php echo $this->url("config/department-json")?>',
+                // id:'id',
+                // label:'department_name',
+                // element:$('#office'),
+                // data_target:'data',
+                // initValLabel:true,
+                // //multiple:true,
+        // });
+//         
+        var offices = <?=json_encode($form->getOfficeNames());?>;
+        var offices_labels = [];
+        var selected_office="<?=$form->get('office')->getValue()?>";
+        if(selected_office==""){
+            selected_office=0;
+        }
+        //console.log(offices);
+        for  (office in offices){
+            var div = $('<div></div>');
+            div.html(offices[office]['text']);
+            offices_labels.push({id:offices[office]['id'],text:div.text()});
+            if(selected_office == "" && offices[office]['text'] == 'All'){
+               selected_office = offices[office]['id'];
+            }
+        }
+
+        
+        $('#office').select2({data:offices_labels}).css('width','150px');
+        $('#office').select2('val',selected_office).change();
+        $('.select2').select2({minimumResultsForSearch: 15}).addClass('');
+        
+        if(form_initialized) return;
+        form_initialized = true;
+            
+            // var height = jQuery(window).height()-$('.message-form .wysiwyg-editor').parent().position().top*3;
+            // $('.message-form .wysiwyg-editor').css('min-height',height+'px');
+            
+
+        $('.ckeditor').each(function(){ReportForms.ckeditor($(this));});
+    
+    //file input
+    $('.message-form input[type=file]').ace_file_input();
+    a=({
+        multiple:true,
+        style:'well',
+        no_file:'Attach ...',
+        btn_choose:'Attach ...',
+        btn_change:'Change',
+        droppable:true,
+        onchange:null,
+        no_icon:'',
+        icon:false,
+        thumbnail:false //| true | large
+
+    });
+    //.closest('.ace-file-input')
+    ReportForms.file_input($('.message-form input[type=file]'));
+    //.addClass('width-90 inline')
+    //.wrap('<div class="form-group file-input-container"><div class="col-sm-7"></div></div>');
+    
+            //Add Attachment
+            //the button to add a new file input
+            $('#id-add-attachment')
+            .on('click', function(){
+                var file = $('<input type="file" name="attachment[]" />').appendTo('#form-attachments');
+                file.ace_file_input();
+                
+                file.closest('.ace-file-input')
+                .addClass('width-90 inline')
+                .wrap('<div class="form-group file-input-container"><div class="col-sm-7"></div></div>')
+                .parent().append('<div class="action-buttons pull-right col-xs-1">\
+                    <a href="#" data-action="delete" class="middle">\
+                        <i class="ace-icon fa fa-trash-o red bigger-130 middle"></i>\
+                    </a>\
+                </div>')
+                .find('a[data-action=delete]').on('click', function(e){
+                    //the button that removes the newly inserted file input
+                    e.preventDefault();
+                    $(this).closest('.file-input-container').hide(300, function(){ $(this).remove() });
+                });
+            });
+            
+    
+         $('#send_message_button').on('click',function(e){
+            e.preventDefault();            
+            Swal.fire({
+                title: 'Please wait ...',
+                html: 'Working on your request.',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                onBeforeOpen: () => {Swal.showLoading() }
+            })
+            $('#id-message-form').submit();
+         });   
+            
+    });//initialize_form
+    
+    
+    $(function(){
+        //message result click handler
+        $('.message-result').on('click',function(e){
+            e.preventDefault();            
+            var tr = $(e.currentTarget);
+            openMessageInDialog(tr.data('message-id'));
+        })
+    });
+    
+var bootbox_open=false;
+    
+function openMessageInDialog(message_id){
+
+    if(bootbox_open){
+        return;
+    }
+    
+    bootbox_open=true;
+    
+    url='<?=$this->url("message/open")?>';
+    
+    var data = {'message_id':message_id,'operation':'ajax_view'}
+
+    $.post(url,data, function(message) {
+        
+        //update message-content
+        //console.log(['Message : ',message]);
+        var message_body = $(message).find('.message-content').html();
+        message_body = $(message_body);
+        var subject = message_body.find('#message_subject').html();
+        message_body.find('#message_subject').html('');
+        bootbox.dialog({title:subject,message:message_body,onEscape:function(){bootbox_open=false;}});
+        $('.modal-content').css('width','675px');
+        
+    });//end post
+}//end openMessageInDialog 
+</script>

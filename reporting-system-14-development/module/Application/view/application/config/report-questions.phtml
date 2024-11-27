@@ -1,0 +1,27 @@
+<?php
+    $this->headLink()
+        ->appendStylesheet($this->basePath() . '/assets/css/jquery-ui.min.css')
+        ->appendStylesheet($this->basePath() . '/assets/css/datepicker.css')
+        ->appendStylesheet($this->basePath() . '/assets/css/ui.jqgrid.css');
+  
+    $this->headScript()->appendFile( $this->basePath() . '/js/grids.js','text/javascript',array() );
+
+?>
+
+<div class="widget-box">
+    <div class="widget-header">
+        <div class="widget-title blue bolder bigger-125 ">
+            Monthly Report Questions    
+        </div>
+    </div>
+    
+    <div class="widget-body">
+        
+        <div class="widget-main no-padding">
+            <?php echo $this->question_grid; ?>
+        </div>
+        
+    </div>
+</div>
+
+        

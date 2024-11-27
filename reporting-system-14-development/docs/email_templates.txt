@@ -1,0 +1,48 @@
+<<Subject>>
+AMJ Report update notification - $report_name
+
+<<Body_Generic>>
+Assslam o Alaikum wa Rahmatullah
+
+<<Status_Specific_Message>>
+
+Please login to AMJ monthly reports to review the comments.
+
+There is no need to reply to this email.
+
+<<Signature>>
+Wassalam
+National GS Department
+
+
+<<Feedback_Message>>
+This is an email notification that there is an update
+on the $report_name ($month_desc, $year) report by National Markaz.
+
+
+<<Verify_Message>>
+This is an email notification that the report for the department of
+$report_name ($month_desc, $year) is now complete.
+Please login to AMJ monthly reports to review and verify the report.
+
+<<Done>>
+
+<<Subject>>
+AMJ Report Due
+
+<<Body_Generic>>
+
+
+Assalam o alaikum wa Rahmatullah
+
+You are requested to submit your monthly report for the month of $month_desc, $year.
+Please visit http://report.ahmadiyya.ca to submit your report.
+Once you have completed the report, kindly request your President to verify the reports.
+
+<<Signature>>
+Wassalam
+Office of National General Secretary
+General Secretary - $Branch
+
+
+

@@ -1,0 +1,356 @@
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <!--[if lte IE 8]>
+      <script src="../assets/js/excanvas.js"></script>
+    <![endif]-->
+    <script src="<?=$this->basePath()?>/assets/js/jquery-ui.custom.min.js"></script>
+    <script src="<?=$this->basePath()?>/assets/js/jquery.easypiechart.min.js"></script>
+    <script src="<?=$this->basePath()?>/assets/js/jquery.sparkline.min.js"></script>
+    <script src="<?=$this->basePath()?>/assets/js/flot/jquery.flot.min.js"></script>
+    <script src="<?=$this->basePath()?>/assets/js/flot/jquery.flot.pie.min.js"></script>
+    <script src="<?=$this->basePath()?>/assets/js/flot/jquery.flot.resize.min.js"></script>
+
+    <script src="<?=$this->basePath()?>/assets/js/datatables/jquery.datatables.min.js"></script>
+    <script src="<?=$this->basePath()?>/assets/js/datatables/jquery.datatables.bootstrap.min.js"></script>
+
+    <link type="text/css" rel="stylesheet" class="ajax-stylesheet" href='<?=$this->basePath() . "/assets/css/jquery.data-tables.css" ?>'>  
+
+
+    <script src="/js/highcharts.js"></script>
+
+    <style>
+        .profile-info-row .profile-info-name{
+            width:200px;
+        }
+        .table {
+            table-layout: fixed;
+            word-wrap: break-word;
+        }        
+    </style>
+
+<div class="row">
+    <div class="space-10"></div>
+</div>
+
+<div class="row responsive clearfix " >
+    
+<div class="col-sm-12 col-md-6 col-md-offset-3 ">
+ 
+        
+        <form class="form-horizontal" id="report-form" method="post" target="">
+
+                <div class="widget-box  ">
+                    
+                    <div class="widget-header ">
+                                                
+                        <div class="widget-title title blue bigger-125 bolder">
+                            <span class="padding-8">Tarbiyat Report</span>
+                        </div>
+                    </div>
+
+                    <div class="widget-body no-padding">
+                        <div class="widget-main  no-padding">
+                                    <div class="profile-user-info profile-user-info-striped width-100">
+                                        <div class="profile-info-row">
+                                            <div class="profile-info-name"> Office </div>
+                
+                                            <div class="profile-info-value">
+                                                <input class="select2-select" id="office" name="office" type="text"></input> 
+                                            </div>
+                                        </div>
+                
+                                        <div class="profile-info-row">
+                                            <div class="profile-info-name"> Year </div>
+                
+                                            <div class="profile-info-value">
+
+                                                
+                                                <input class="" name="year" type="text" value="<?=($this->form->get('year')->getValue())?$this->form->get('year')->getValue():date('Y')?>" style="width:90%"></input>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="profile-info-row">
+                                            <div class="profile-info-name"> Status </div>
+                
+                                            <div class="profile-info-value">
+                                                <?php $month = ($this->form->get('month')->getValue())?$this->form->get('month')->getValue():date('m')?>
+                                                <select class="select2-select" id="report_month" name="month">
+                                                    
+                                                <option value="1" <?=($month=='1'?' selected="selected" ':'')?>>Jan</option>
+                                                <option value="2" <?=($month=='2'?' selected="selected" ':'')?>>Feb</option>
+                                                <option value="3" <?=($month=='3'?' selected="selected" ':'')?>>Mar</option>
+                                                <option value="4" <?=($month=='4'?' selected="selected" ':'')?>>Apr</option>
+                                                <option value="5" <?=($month=='5'?' selected="selected" ':'')?>>May</option>
+                                                <option value="6" <?=($month=='6'?' selected="selected" ':'')?>>Jun</option>
+                                                <option value="7" <?=($month=='7'?' selected="selected" ':'')?>>Jul</option>
+                                                <option value="8" <?=($month=='8'?' selected="selected" ':'')?>>Aug</option>
+                                                <option value="9" <?=($month=='9'?' selected="selected" ':'')?>>Sep</option>
+                                                <option value="10" <?=($month=='10'?' selected="selected" ':'')?>>Oct</option>
+                                                <option value="11" <?=($month=='11'?' selected="selected" ':'')?>>Nov</option>
+                                                <option value="12" <?=($month=='12'?' selected="selected" ':'')?>>Dec</option>
+
+                                                </select>
+                                            </div>
+                                        </div>       
+                
+                                        <div class="profile-info-row">
+                                            <div class="profile-info-name"> Branch </div>
+                
+                                            <div class="profile-info-value">
+                                                <input class="select2-select" id="branch" name="branch" type="text"></input>
+                                            </div>
+                                        </div>
+                
+                                        <div class="profile-info-row">
+                                            <div class="profile-info-name"> Status </div>
+                
+                                            <div class="profile-info-value">
+                                                
+                                                <select class="select2-select" id="report_status" name="report_status">
+                                                    
+                                                    <option value="completed,verified,received">All (except Draft)</option>
+                                                    <option value="verified,received">Verified or Received</option>
+                                                    <option value="draft,outstanding">Draft or Outstanding</option>
+                                                    <option value="completed">Complete</option>
+                                                    <option value="verified">Verified</option>
+                                                    <option value="received">Received</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        
+                                    </div><!-- / Profile Tab-->                                  
+                                    <div class="widget-toolbox padding-6 clearfix align-center">
+                                        <div class=" padding-6 btn-group-del   ">
+                                            <button class="btn btn-round  btn-danger btn-white " type="reset">
+                                                <i class="ace-icon fa fa-undo bigger-110"></i>
+                                                Reset
+                                            </button>
+                                            <span class="space-24"></span>
+                                            <button id="summary_report" class="btn  btn-round btn-success btn-white margin-2" type="button">
+                                                <i class="ace-icon fa fa-check bigger-110"></i>
+                                                Summary Report
+                                            </button>
+                                            <span class="space-24"></span>
+                                            <!-- <button id="detail_report" class="btn  btn-round btn-success btn-white margin-2" type="button">
+                                                <i class="ace-icon fa fa-check bigger-110"></i>
+                                                Detail Report
+                                            </button> -->
+                                            <input type="hidden" name="user_action" value="report"/>
+                                        </div>
+                                    </div>
+                        </div> <!-- /WidgetMain -->
+                    </div> <!-- WidgetBody-->
+                  </div> <!-- WidgetBox -->
+                        
+                </form>
+</div>    
+</div>
+
+
+<div class="report-content-1"></div>
+<div class="report-content-2" style="display:none;"></div>
+<div class="report-content-3" style="display:none;"></div>
+<script>
+    
+    $(function(){
+
+        $( "body" ).on( "click", ".back-button",function( e ) {
+            e.preventDefault();
+            if( $(this).data('page') == '2' ) {
+                $('.report-content-1').show();
+                $('.report-content-2').hide()
+                $('.report-content-3').hide();
+                $(".back-button").data('page', '1');
+                $('.report-content-1').find('script').each(function(index){
+                    eval($(this).html())
+                })
+            }
+            else if( $(this).data('page') == '3' ) {
+                $('.report-content-1').hide();
+                $('.report-content-2').show()
+                $('.report-content-3').hide();
+                $(".back-button").data('page', '2');
+                $('.report-content-2').find('script').each(function(index){
+                    eval($(this).html())
+                })
+            }
+        });
+
+        $( "body" ).on( "click", "#summary_report",function( e ) {
+            e.preventDefault();
+            Swal.fire('Please wait', 'generating report ...',)
+            Swal.showLoading();
+            $.ajax({
+                url: '/report/tarbiyat-report',
+                data: $('#report-form').serialize(),
+                type: 'POST',
+                success: function(response,status,xhr) {
+                    $('.report-content-1').html( response );
+                    $('.report-content-1').show();
+                    $('.report-content-2').hide();
+                    $('.report-content-3').hide()
+                    $(".back-button").data('page', '');                    
+                    Swal.close();
+                    $('.report-content-1').find('script').each(function(index){
+                        eval($(this).html())
+                    })
+                },
+                error:function(xhr,status,error){
+                    console.log('ERROR : '+error+' Status'+status);
+                    //console.log(xhr);
+                }
+            });	  
+        });
+
+        $( "body" ).on( "click", ".dtl_report",function( e ) {
+            e.preventDefault();
+            Swal.fire('Please wait', 'generating report ...',)
+            Swal.showLoading();
+            var postParams = $('#report-form').serializeArray();
+            postParams.push({name: "question", value: $(this).data('question')});
+            postParams.push({name: "category", value: $(this).data('category')});
+            $.ajax({
+                url: '/report/tarbiyat-report-details',
+                data: $.param( postParams ),
+                type: 'POST',
+                success: function(response,status,xhr) {
+                    $('.report-content-1').hide();
+                    $('.report-content-2').html( response );
+                    $('.report-content-2').show()
+                    $('.report-content-3').hide();
+                    $(".back-button").data('page', '2');
+                    Swal.close();
+                    $('.report-content-2').find('script').each(function(index){
+                        eval($(this).html())
+                    })                    
+                },
+                error:function(xhr,status,error){
+                    console.log('ERROR : '+error+' Status'+status);
+                    //console.log(xhr);
+                }
+            });	  
+        });
+
+        $( "body" ).on( "click", ".dtl_member_report",function( e ) {
+            e.preventDefault();
+            Swal.fire('Please wait', 'generating report ...',)
+            Swal.showLoading();
+            var postParams = $('#report-form').serializeArray();
+            postParams.push({name: "question", value: $(this).data('question')});
+            postParams.push({name: "jamaat", value: $(this).data('jamaat')});
+            postParams.push({name: "category", value: $(this).data('category')});
+            $.ajax({
+                url: '/report/tarbiyat-report-bymembers',
+                data: $.param( postParams ),
+                type: 'POST',
+                success: function(response,status,xhr) {
+                    $('.report-content-1').hide();
+                    $('.report-content-2').hide();
+                    $('.report-content-3').html( response );
+                    $('.report-content-3').show()
+                    $(".back-button").data('page', '3');
+                    Swal.close();
+                },
+                error:function(xhr,status,error){
+                    console.log('ERROR : '+error+' Status'+status);
+                    //console.log(xhr);
+                }
+            });	  
+        });
+
+/*
+        $( "form" ).on( "submit", function( e ) {
+            e.preventDefault();
+            Swal.fire('Please wait', 'generating report ...',)
+            Swal.showLoading()
+            $.ajax({
+                url: '/report/tarbiyat-report',
+                data: $(this).serialize(),
+                type: 'POST',
+                success: function(response,status,xhr) {
+                    $('.report-content').html( response );
+                    Swal.close();
+                },
+                error:function(xhr,status,error){
+                    console.log('ERROR : '+error+' Status'+status);
+                    //console.log(xhr);
+                }
+            });	       
+        })
+ */    
+
+        CustomSelect2.createSimple({
+                placeholder:"All Offices, Click to Change",
+                url:'<?php echo $this->url("config/department-json")?>',
+                id:'id',
+                label:'department_name',
+                element:$('#office'),
+                data_target:'data',
+                initValLabel:true,
+                multiple:true
+        });
+        //$('#office').val(26);
+
+
+        CustomSelect2.createSimple({
+                placeholder:"All Branches, Click to Change",
+                url:'<?=$this->url("config/user-branches")?>?filter=all',
+                id:'id',
+                label:'branch_name',
+                element:$('#branch'),
+                data_target:'data',
+                initValLabel:true,
+                multiple:true
+        });
+        
+        $('#report_status').select2({minimumResultsForSearch: Infinity,width:'90%'});
+        $('#report_month').select2({minimumResultsForSearch: Infinity,width:'90%'});
+        
+        <?php /*
+            //set values
+            if($this->form){
+                if($this->form->get('report_status')->getValue()){
+                    echo '$("#report_status").select2("val","'.$this->form->get('report_status')->getValue().'");';
+                }
+                        
+                if($this->table['branches'] && $this->form->get('branch')->getValue()){
+                    $data=array();
+                    foreach ($this->table['branches'] as $branch) {
+                        $data[]=array('id'=>$branch->getId(),'text'=>$branch->getBranchName());
+                    }
+                    echo '$("#branch").select2("data",'.json_encode($data).');';
+                }
+                
+                if($this->table['departments'] && $this->form->get('office')->getValue()){
+                    
+                    $data=array();
+                    foreach ($this->table['departments'] as $dept) {
+                        $data[]=array('id'=>$dept['id'],'text'=>$dept['department_name']);
+                    }
+                    echo '$("#office").select2("data",'.json_encode($data).');';
+                }
+
+            } */
+                    
+        ?>
+        
+        //$('#reports-table-c').parent().ace_scroll({horizontal: true,mouseWheelLock:false});
+        
+        // $('#reports-table').wrap("<div class='dataTables_borderWrap' />").dataTable({
+        // sScrollX: "100%",
+        // bScrollCollapse: true,
+        // bAutoWidth: false,//for better responsiveness
+        // bSort:false    
+        // // aoColumns:{
+        // // bSortable:false,bSortable:false,bSortable:false,bSortable:false,bSortable:false,bSortable:false,bSortable:false,
+        // // bSortable:false,bSortable:false,bSortable:false,bSortable:false,bSortable:false,bSortable:false
+        // // }
+        // });
+       
+    });
+    
+    
+</script>
+
+

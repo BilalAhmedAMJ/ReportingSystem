@@ -1,0 +1,153 @@
+<?php
+    $this->headLink()
+        ->appendStylesheet($this->basePath() . '/assets/css/select2.css');
+  
+    $this->headScript()->appendFile( $this->basePath() . '/assets/js/select2.min.js','text/javascript',array());
+    $this->headScript()->appendFile( $this->basePath() . '/js/custom.select2.js','text/javascript',array());
+
+?>
+
+<?php   
+    $form=$this->form; 
+    $branch_type=$this->branch_type;
+?>
+
+<!--
+<div class="col-xs-12 col-lg-12 col-md-12 no-padding-left" >
+
+
+     <div class="align-left no-padding-left" >
+        <div class="widget-title smaller no-padding-left" >    
+            <h3 class=" header smaller no-padding-left no-margin-top">
+            Request Office Bearer Assignment / Change    
+            </h3>
+        </div>
+    </div>
+  
+</div>
+-->
+<form class="form-horizontal" role="form" id="createReportForm" method="post" action="<?php echo $this->url("report/create") ?>"  >
+    <input id="report_config" name="report_config" type="hidden" value="monthly_report"></input>
+    <input id="branch_type" name="branch_type" type="hidden" value="<?=$branch_type?>"></input>
+
+<div class="row">
+<div class="col-xs-12 col-lg-12 " >
+
+    <!-- use widget box for collapsable feature, however, applying panel, panel-default to the container so we can get ronded corners
+         also note that we need to remove padding from container that will be added by panel classes
+         as well as remove border from widget box
+         --> 
+    <div class="col-xs-10 col-sm-10 col-md-6 col-lg-5 panel panel-default widget-container-col no-padding" > <!-- userinfo --> 
+    <div class="widget-box no-border" id="user_info_widget_box">
+        <div class="widget-header widget-header-small  ">
+            <h3 class="widget-title smaller"><?php echo $this->translate('Create Report') ?></h3>
+            <div class="widget-toolbar">
+
+            <div class="btn-group">
+                <button class="btn btn-info btn-group" type="submit">
+                    <i class="ace-icon fa fa-check bigger-110"></i>
+                    Create
+                </button>
+                
+                <button class="btn btn-group" type="reset">
+                    <i class="ace-icon fa fa-undo bigger-110"></i>
+                    Reset
+                </button>
+            </div>
+
+
+            </div>
+        </div>
+        <div class="widget-body widget-main no-margin-bottom no-padding-bottom">    
+
+
+           <div class="form-group">
+              <label class="col-sm-4 control-label no-padding-right" for="period_from">Month: </label>
+              <div class="col-sm-7">
+                <input type="text" class="" placeholder="Period of Report" id="period_from" name="period_from"  required="true" value="<?=$form->get('period_from')->getValue()?>"></input>
+              </div>
+           </div>
+
+           <div class="form-group">
+              <label class="col-sm-4 control-label no-padding-right" for="department"><?=$branch_type?>: </label>
+              <div class="col-sm-7">
+                <input type="text" class="" placeholder="Select Branch" id="branch" name="branch"    required="true" value="<?=$form->get('branch')->getValue()?>"></input>
+              </div>
+           </div>
+
+           <div class="form-group">
+              <label class="col-sm-4 control-label no-padding-right" for="department">Department: </label>
+              <div class="col-sm-7">
+                <input type="text" class="" placeholder="Reporting Department" id="department" name="department"    required="true" value="<?=$form->get('department')->getValue()?>"></input>
+              </div>
+           </div>
+
+           
+        </div>
+ 
+    </div> 
+    </div> <!-- / userinfo --> 
+
+ </div>
+
+</div> <!-- /row -->
+
+<!-- form-actions -->
+<div class="widget-container-col col-xs-10 col-sm-10 col-md-12 col-lg-10 col-xl-8">
+    
+</div>
+<!-- / form-actions -->
+    <input type="hidden" value="<?=$form->get('report_config')->getValue()?>"  id="report_config_2" name="report_config_2"/>
+</form>
+
+<script>
+
+    $(function(){
+        //form validation
+     ReportForms.validate($('#createReportForm'),{
+                                messages:{
+                                    'report_config':'A report type is requried',
+                                    'period_from':'We need month / period for which report is being created',
+                                    'department':'Selected report type requires a department',
+                                },                                
+                                });
+                                
+
+        //period_from / reporting month
+        CustomSelect2.createSimple({
+                    placeholder:"Select Report Period",
+                    url:'<?=$this->url("config/periods")?>?filter=past',
+                    id:'period_code',
+                    label:'period_code',
+                    element:$('#period_from'),
+                    data_target:'data'
+                    
+            });     
+
+        //reported for branch 
+        CustomSelect2.createSimple({
+                        placeholder:"Select Report Period",
+                        url:'<?=$this->url("config/user-branches")?>?filter=own',
+                        id:'id',
+                        label:'branch_name',
+                        element:$('#branch'),
+                        data_target:'data'
+                        
+                });     
+
+        //report department 
+        CustomSelect2.createSimple({
+                    placeholder:"Select Department",
+                    url:'<?php echo $this->url("config/user-departments")?>',
+                    id:'id',
+                    label:'department_name',
+                    element:$('#department'),
+                    data_target:'data'
+                                     
+            });     
+            
+                                                
+    });
+    
+    
+</script>

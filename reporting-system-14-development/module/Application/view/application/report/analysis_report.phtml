@@ -1,0 +1,221 @@
+
+<style>
+    .profile-info-row .profile-info-name{
+        width:200px;
+    }
+    .table {
+        table-layout: fixed;
+        word-wrap: break-word;
+    }        
+    body {
+        min-height: 100%;
+        padding-bottom: 0;
+        font-family: 'helvetica';
+        font-size: 13px;
+        color: #393939;
+    }
+    .report_status  { border-collapse: collapse;}    
+</style>
+
+<div class="row">
+    <div class="space-10"></div>
+</div>
+
+<?php if(is_array($this->table)):?>
+
+    <table border="0" >
+                    <tr>
+                        <td align="left" nowrap><img src="<?=$this->basePath()?>/img/topbar-left.png" height="45"></td>
+                        <td align="center"><img src="<?=$this->basePath()?>/img/bismillah.png" ></td>
+                        <td align="right" >
+                            <!--    
+                            <form method="post">
+                                <?php
+                                    // foreach ($this->form as $element) {
+                                    //     echo $this->formhidden($element);
+                                    // }
+                                ?>
+                            <button class="btn  btn-round btn-primary btn-white margin-2" type="submit">
+                                <i class="ace-icon fa ace fa-arrow-left bigger-120"></i>
+                                Back
+                            </button>
+                            -->
+                            </form>
+                            
+                        </td>
+                    </tr>
+                    <tr><td colspan="3"><hr width="100%"></td></tr>
+                        
+                    <tr>
+                        <td align="left" nowrap><b>Date:&nbsp;</b><?php echo date("Y-m-d"); ?></td>
+                        <td align="left" width="100">&nbsp;</td>
+                        <td align="left"><b>Login user:&nbsp;</b><?=$this->user->getDisplayName() ?></td>
+                    </tr>
+                    <tr>
+                        <td align="left" nowrap>
+                            <b>Status:&nbsp;</b>
+                            <?php
+                                $comma="";
+                                foreach (explode(',',$this->form->get('report_status')->getValue()) as $status) {
+                                    echo $comma . ucfirst($status);
+                                    $comma=', ';      
+                                }
+                            ?>
+                        <td align="left" width="100">&nbsp;</td>
+                        <td align="left"><b>Office:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <?php
+                                $val = $this->form->get('office')->getValue();
+                                $tag = $this->form->get('tag_filter')->getValue();
+                                if(empty($val) && empty($tag)){
+                                    echo 'All';
+                                }else{
+                                    $comma='';
+                                    foreach ($table['departments'] as $dept) {
+                                        echo $comma.($dept['department_name']);
+                                        $comma=', ';
+                                    }
+                                }
+                            ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan=4 align=left>
+                            <b>Report Status Codes:</b>
+                            &nbsp;&nbsp;<b>C</b> - Complete
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>V</b> - Verified
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>R</b> - Received
+                        </td>
+                    </tr>
+                </table>
+
+
+
+
+                <table  class="analysis-table2 table-striped align-center center"  cellspacing="0" cellpadding="2" border="1" >
+                    <thead>
+                        <tr bgcolor="#cccccc" style="padding: 4px!important;vertical-align:middle!important; text-align: center!important">
+                            <th style="padding: 5px!important">
+                                Branch
+                            </th>
+                            <?php foreach($this->periods as $period=>$start_date):?>
+                            <th align="center" style="padding: 5px!important;text-align: center!important">
+                                <?=$period?>
+                            </th>
+                            <?php endforeach?>
+                            <th style="padding: 5px!important;text-align: center!important">
+                                Total<br/>Reports
+                            </th>
+                            <th style="padding: 5px!important;text-align: center!important">
+                                Months<br/>Count
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                    <?php $single_department=$this->selected_department && is_array($this->selected_department)?(count($this->selected_department)==1):false;	?>
+                    <?php foreach ($this->table['summary'] as $branch=>$row_data) :
+
+                        $reports_total=0;
+                        $months_total=0;  ?>
+                        <tr style="vertical-align:top;text-align: center">
+                            <td align="left" nowrap="true" style="padding: 2px!important;text-align: left!important">
+                                <?=$branch?>
+                            </td>
+                            <?php foreach($this->periods as $period=>$start_date):
+                                
+                                $reports_count=is_array($row_data[$period])?count($row_data[$period]['department']):0;
+                                $reports_total += $reports_count;
+                                if($reports_count>0){
+                                    $months_total++;
+                                } ?>
+                            <td style="padding:4px;text-align:center" >
+                                <?php if($this->form->get('office_names')->isChecked() && is_array($row_data[$period]['department']) && ! $single_department ):?>
+                                    <div style="text-align:center!important;" class="no-padding">
+                                        <b><?=$reports_count>0?$reports_count:''?></b>
+                                    </div>
+                                    <table border="1" cellpadding="1" cellspacing="0" align="center">
+                                    <?php foreach ($row_data[$period]['department'] as $office => $status):?>
+                                        <tr class="" >
+                                            <td style="padding:2px;">
+                                                <?=$office?> 
+                                            </td>
+                                            <td style="padding:2px;">
+                                                <?=strtoupper(substr($status, 0,1))?>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach?>
+                                    </table>
+                                <?php elseif(is_array($row_data[$period]['department']) && $single_department ):?>
+                                    <!-- show report status if only one Dept -->
+                                    <?php foreach ($row_data[$period]['department'] as $office => $status):?>
+                                        <b><?=strtoupper(substr($status, 0,1))?></b>
+                                    <?php endforeach?>
+                                <?php else:?>    
+                                <?=$reports_count>0?$reports_count:''?>
+                                <?php endif?>
+                            </td>
+                            <?php endforeach ?>
+                            <td><b><?=$reports_total?></b></td>
+                            <td><b><?=$months_total?></b></td>
+                        </tr>  
+                    <?php endforeach ?>   
+                    </tbody>                
+                </table>   
+                
+                
+
+                
+<div class="row responsive clearfix " >
+
+<table  cellspacing="0" cellpadding="0" border="0">
+    <tr>
+        <td>
+            <div class="col-sm-12 align-center center center-block" style="max-width: 1400px!important">
+
+      
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <div id='table-reports-c' class="col-sm-12 align-center center center-block" style=" top;font-size: 12px!important;max-width: 1400px!important">
+
+            </div>
+        </td>
+    </tr>
+</div>
+<?php else:?>
+    <div class="row responsive clearfix " >    
+      <div class="col-sm-12">
+          
+        <table border="0" width="100%">
+        <tr>
+            <td align="left" nowrap><img src="<?$this->basePath()?>/img/topbar-left.png" height="45"></td>
+            <td align="center"><img src="<?$this->basePath()?>/img/bismillah.png" ></td>
+            <td align="right" >
+                <form method="post">
+                    <?php
+                        foreach ($this->form as $element) {
+                            echo $this->formhidden($element);
+                        }
+                    ?>
+                    <button class="btn  btn-round btn-primary btn-white margin-2" type="submit">
+                    <i class="ace-icon fa ace fa-arrow-left bigger-120"></i>
+                    Back
+                </button>
+                </form>
+                
+            </td>
+        </tr>
+        <tr><td colspan="3"><hr width="100%"></td></tr>
+        </table>          
+          
+        <h2>Report is empty</h2>
+    </div>
+    </div>
+<?php endif?>
+
+
+
+

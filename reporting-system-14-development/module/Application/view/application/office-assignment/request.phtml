@@ -1,0 +1,417 @@
+<?php
+    $this->headLink()
+        ->appendStylesheet($this->basePath() . '/assets/css/select2.css');
+  
+    $this->headScript()->appendFile( $this->basePath() . '/assets/js/select2.min.js','text/javascript',array());
+	$this->headScript()->appendFile( $this->basePath() . '/js/custom.select2.js','text/javascript',array());
+
+?>
+
+<?php $form=$this->form; ?>
+
+<div class="col-xs-12 col-lg-12 col-md-12 no-padding-left" >
+
+
+     <div class="align-left no-padding-left" >
+        <div class="widget-title smaller no-padding-left" >    
+            <h3 class=" header smaller no-padding-left no-margin-top">
+            Request Office Bearer Assignment / Change    
+            </h3>
+        </div>
+    </div>
+  
+</div>
+
+<form class="form-horizontal" role="form" id="requestOfficeAssignmentForm" method="post" action="<?php echo $this->url("office-assignment/request") ?>"  >
+
+<div class="row">
+<div class="col-xs-12 col-lg-12 " >
+	<!-- use widget box for collapsable feature, however, applying panel, panel-default to the container so we can get ronded corners
+		 also note that we need to remove padding from container that will be added by panel classes
+		 as well as remove border from widget box
+		 --> 
+    <div class="col-xs-10 col-sm-10 col-md-6 col-lg-5 panel panel-default widget-container-col no-padding" > <!-- userinfo --> 
+    <div class="widget-box no-border" id="user_info_widget_box">
+        <div class="widget-header widget-header-small  ">
+            <h5 class="widget-title smaller"><?php echo $this->translate('User Information') ?></h5>
+        </div>
+        <div class="widget-body widget-main no-margin-bottom no-padding-bottom">    
+
+           <div class="form-group">
+              <label class="col-sm-4 control-label no-padding-right" for="full_name">Full Name</label>
+              <div class="col-sm-7">
+                <input type="text" class="form-control input-xlarge" placeholder=" of the office bearer" id="full_name" name="full_name"  required="true" value="<?=$form->get('full_name')->getValue()?>"></input>
+              </div>
+           </div>
+
+           <div class="form-group">
+              <label class="col-sm-4 control-label no-padding-right" for="member_code">Member Code</label>
+              <div class="col-sm-7">
+                <input class="form-control  input-xlarge" placeholder="Member Code" id="member_code" name="member_code" type="text" required="true" value="<?=$form->get('member_code')->getValue()?>"></input>
+              </div>
+           </div>
+
+           <div class="form-group">
+              <label class="col-sm-4 control-label no-padding-right" for="email">Email</label>
+              <div class="col-sm-7">
+                <input type="email" class="form-control  input-xlarge" placeholder="email is required" id="email" name="email" required="true" value="<?=$form->get('email')->getValue()?>"></input>
+              </div>
+           </div>
+
+
+           <div class="form-group">
+              <label class="col-sm-4 control-label no-padding-right" for="confirm_email">Confirm Email</label>
+              <div class="col-sm-7">
+                <input type="email" class="form-control  input-xlarge" placeholder="Renter email for confirmation" id="confirm_email" name="confirm_email" required="true" value="<?=$form->get('confirm_email')->getValue()?>"></input>
+              </div>
+           </div>
+
+           <div class="form-group">
+              <label class="col-sm-4 control-label no-padding-right" for="primary_phone">Primary Phone</label>
+              <div class="col-sm-7">
+                <input type="text" class="form-control input-xlarge" placeholder="Main phonenumber" id="primary_phone" name="primary_phone" required="true" value="<?=$form->get('primary_phone')->getValue()?>"></input>
+              </div>
+           </div>
+
+           <div class="form-group">
+              <label class="col-sm-4 control-label no-padding-right" for="alt_phone">Alternate Phone</label>
+              <div class="col-sm-7">
+                <input type="text" class="form-control  input-xlarge" placeholder="Alternate phonenumber" id="alt_phone" name="alt_phone" value="<?=$form->get('alt_phone')->getValue()?>"></input>
+              </div>
+           </div>
+           
+        <?php if( $this->request && $this->canProcess ): ?>    
+                <?php if(!$this->existing_user):?>
+                   <div class="col-sm-10">
+                       <b class="  bigger-120 bolder">New user will be created</b>
+                   </div>
+                    <div class="form-group">
+                      <label class="col-sm-4 control-label no-padding-right" for="user[username]">Username</label>
+                      <div class="col-sm-7">
+                          <input class="form-control input-xlarge" id="user[username]" name="user[username]" value="<?=$form->get('user')->get('username')->getValue()?>"></input>
+                          <input type="hidden" id="user[member_code]" name="user[member_code]" value="<?=$form->get('user')->get('member_code')->getValue()?>"></input>
+                          <?php $messages=$form->get('user')->get('username')->getMessages();
+                                if(!empty($messages)){
+                                    echo '<div class="alert no-padding alert-danger">';
+                                    //foreach ($form->get('user')->get('username')->getMessages() as $i => $message){
+                                        echo $messages[0];
+                                    //}
+                                echo '</div>';
+                                }
+                                    
+                          ?>
+                      </div>
+                   </div>              
+                <?php endif?>
+           <?php endif ?>
+           
+        </div>
+    </div> 
+    </div> <!-- / userinfo --> 
+    
+   <div class="col-xs-10 col-sm-10 col-md-6 col-lg-5 panel panel-default widget-container-col no-padding" > <!-- Office Info --> 
+    <div class="widget-box no-border">
+        <div class="widget-header widget-header-small ">
+            <h5 class="widget-title smaller"><?php echo $this->translate('Office Assignment') ?></h5>
+        </div>
+        <div class="widget-body widget-main no-padding-bottom">    
+
+           <div class="form-group">
+              <label class="col-sm-4 control-label no-padding-right" for="branch">Branch</label>
+              <div class="col-sm-7">
+                <input  id="branch" name="branch" required="true"  value="<?=$form->get('branch')->getValue()?>"></input>
+              </div>
+           </div>
+
+           <div class="form-group">
+              <label class="col-sm-4 control-label no-padding-right" for="department">Department</label>
+              <div class="col-sm-7">
+                <input  id="department" name="department" required="true"  value="<?=$form->get('department')->getValue()?>"></input>
+              </div>
+           </div>
+
+           <div class="form-group">
+              <label class="col-sm-4 control-label no-padding-right" for="term">Term</label>
+              <div class="col-sm-7">
+                <select class="populate select2" id="term" name="term" required="true">                    
+                    <option  value="2022-2025">2022-2025</option>
+                    <option  value="2019-2022">2019-2022</option>
+                    <option  value="2016-2019">2016-2019</option>
+                </select>
+              </div>
+           </div>
+           
+           <div class="form-group">
+              <label class="col-sm-4 control-label no-padding-right" for="expires_period">Expires after</label>
+              <div class="col-sm-7">
+                <input  id="expires_period" class="input-xlarge" name="expires_period" value="<?=$form->get('expires_period')->getValue()?>"></input>
+              </div>
+           </div>
+
+
+           <div class="form-group">
+              <label class="col-sm-offset-1 align-left col-sm-3 control-label no-padding-right" for="request_reason">Reference # </label>
+              <div class="col-sm-offset-1 col-sm-10">
+                <textarea class="form-control" placeholder="Provide reference number of approval letter "
+                             id="request_reason" name="request_reason" cols="30" rows="3" required="true"><?=$form->get('request_reason')->getValue()?></textarea>
+              </div>
+           </div>
+
+
+    
+                       
+        </div>
+    </div> 
+    </div> <!-- / Office Info -->
+</div>        
+
+<div class="col-xs-12 col-lg-12 " >
+<?php if( $this->request && $this->canProcess ): ?>     
+<?php if( ($this->existing_user) ): ?>
+  <div class="col-xs-10 col-sm-10 col-md-6 col-lg-5 panel panel-default widget-container-col no-padding" > <!-- Office assignment existing user -->  
+
+    <div class="widget-box no-border">
+        <div class="widget-header widget-header-small ">
+            <h5 class="widget-title smaller"><?php echo $this->translate('Existing User\'s Details') ?></h5>
+            <div class="widget-toolbar">
+
+                        <span class="title smaller">
+                            Copy over :
+
+                            <input id="copy_user_info_from_req" name="copy_user_info_from_req"  type="checkbox" class="ace ace-switch ace-switch-5" />
+                            <span class="lbl middle"></span>
+                        </span>
+			</div>
+        </div>
+        <div class="widget-body widget-main no-padding-bottom" style="min-height:300px!important">   
+		   
+		    <div class="form-group">
+              <label class="col-sm-4 control-label no-padding-right" for="user[username]">Username</label>
+              <div class="col-sm-7">
+	              <input disabled="true" class="form-control input-xlarge" id="user[username]_disabled" name="user[username]_disabled" value="<?=$form->get('user')->get('username')->getValue()?>"></input>
+	              <input type="hidden"  id="user[username]" name="user[username]" value="<?=$form->get('user')->get('username')->getValue()?>"></input>
+              </div>
+           </div>              
+
+            <div class="form-group">
+              <label class="col-sm-4 control-label no-padding-right" for="user[member_code]">Membercode</label>
+              <div class="col-sm-7">
+                  <input disabled="true" class="form-control input-xlarge" id="user[member_code]_disabled" name="user[member_code]_disabled" value="<?=$form->get('user')->get('member_code')->getValue()?>"></input>
+                  <input type="hidden" id="user[member_code]" name="user[member_code]" value="<?=$form->get('user')->get('member_code')->getValue()?>"></input>
+              </div>
+           </div>              
+
+            <div class="form-group">
+              <label class="col-sm-4 control-label no-padding-right" for="user[full_name]">Full Name</label>
+              <div class="col-sm-7">
+                  <input type="text" class="form-control input-xlarge" id="user[full_name]" name="user[full_name]" value="<?=$form->get('user')->get('full_name')->getValue()?>"></input>
+              </div>
+           </div>              
+
+            <div class="form-group">
+              <label class="col-sm-4 control-label no-padding-right" for="user[email]">Email</label>
+              <div class="col-sm-7">
+                  <input type="text"  class="form-control input-xlarge" id="user[email]" name="user[email]" value="<?=$form->get('user')->get('email')->getValue()?>"></input>
+              </div>
+           </div>              
+
+            <div class="form-group">
+              <label class="col-sm-4 control-label no-padding-right" for="user[primary_phone]">Primary Phone</label>
+              <div class="col-sm-7">
+                  <input  type="text" class="form-control input-xlarge" id="user[primary_phone]" name="user[primary_phone]" value="<?=$form->get('user')->get('primary_phone')->getValue()?>"></input>
+              </div>
+           </div>              
+
+            <div class="form-group">
+              <label class="col-sm-4 control-label no-padding-right" for="user[alt_phone]">Alt Phone</label>
+              <div class="col-sm-7">
+                  <input  type="text" class="form-control input-xlarge" id="user[alt_phone]" name="user[alt_phone]" value="<?=$form->get('user')->get('alt_phone')->getValue()?>"></input>
+              </div>
+           </div>              
+
+           
+        </div>
+    </div> 
+    </div><!-- / existing User -->
+    <?php endif ?>  
+<?php endif ?>    
+
+<?php if( $this->request && $this->canProcess ): ?>    
+<div class="col-xs-10 col-sm-10 col-md-6 col-lg-5 panel panel-default widget-container-col no-padding" > <!-- Office approval area-->
+
+    <div class="widget-box no-border">
+
+        <div class="widget-header widget-header-small ">
+           <div class="col-sm-10">
+               <b class=" bigger-120 bolder">Approval</b>
+           </div>
+        </div>
+        <div class="widget-body widget-main no-padding-bottom" style="min-height:300px!important">   
+
+           <?php if($this->existing_office):?>
+           <div class="form-group">
+              <label class="col-xs-5 control-label no-padding-right" >Currently Assigned to:</label>
+              
+              <label class="col-xs-7 control-label align-left" ><?=$existing_office->getUser()->getDisplayName()?><br/>Membercode: <?=$existing_office->getUser()->getMembercode()?> </label>
+          </div>
+          <?php endif?>
+
+           <?php if($this->current_assignments):?>
+           <div class="form-group">
+              <label class="col-xs-5 control-label no-padding-right" >Assigned to <?=$request->getFullName()?>:</label>
+              
+              <label class="col-xs-7 control-label align-left" >
+                <?php foreach($current_assignments as $office):?>
+                   <?=$office->getTitle(true)?><br/>
+                <?php endforeach?>                 
+                </label>
+          </div>
+          <?php endif?>
+           
+           <div class="form-group">
+              <label class="col-xs-5 control-label no-padding-right" >Approval Status:</label>
+              <div class="col-sm-7">
+              
+              <label class="control-label col-sm-12 align-left" style="font-weight: bold"><?=ucfirst($form->get('approval_status')->getValue())?></label>
+              
+              <input type="hidden" name="approval_status" id="approval_status" value="<?=$form->get('approval_status')->getValue()?>" />
+               <div class="btn-group btn-corner ">
+                   <button class="btn btn-primary btn-sm approval_action" value="approved">Approve</button>
+
+                   <button class="btn btn-danger btn-sm approval_action" value="denied">Denied</button>
+               </div>
+              </div>
+           </div>
+           <div class="form-group">
+              <label class="col-sm-offset-1 align-left col-sm-3 control-label no-padding-right" for="processor_comments">Comments</label>
+              <div class="col-sm-offset-1 align-left col-sm-10">
+                
+                <textarea class="form-control" placeholder="Provide a reason for this request "
+                             id="processor_comments" name="processor_comments" cols="30" rows="3" ><?=$form->get('processor_comments')->getValue()?></textarea>
+              </div>
+           </div>
+           
+        </div>
+    </div>   
+</div> <!-- Office approval area -->
+<?php endif?>    
+
+</div>
+
+</div> <!-- /row -->
+
+<!-- form-actions -->
+<div class="widget-container-col col-xs-10 col-sm-10 col-md-12 col-lg-10 col-xl-8">
+	
+<div role="toolbar" class=" btn-toolbar widget-box no-border align-center align-middle" data-test="clearfix  breadcrumbs-fixed">	
+    <div class="btn-group">
+        <button class="btn btn-info btn-group request-action-btn " type="submit">
+            <i class="ace-icon fa fa-check bigger-110 request-action-btn"></i>
+            Submit
+        </button>
+        
+        <button class="btn btn-group" type="reset">
+            <i class="ace-icon fa fa-undo bigger-110"></i>
+            Reset
+        </button>
+    </div>
+</div>
+</div>
+<!-- / form-actions -->
+    <input type="hidden" value="<?=$form->get('request_id')->getValue()?>"  id="request_id" name="request_id"/>
+    <input type="hidden" value="<?=$form->get('request_action')->getValue()?>"  id="request_action" name="request_action"/>
+</form>
+
+<script>
+    $(function(){
+    	
+       $('.approval_action').click(function(e){
+          btn = e.target;
+          if($(btn).val() != 'approved' && $('#requestOfficeAssignmentForm').find('#processor_comments').val()==""){
+              $.gritter.add({
+                title: 'Invalid input',
+                text: 'Comments are required by processor before status can be changed',
+                class_name: 'gritter-error  gritter-light'
+            });
+            
+            return false;
+          }
+
+          $('#requestOfficeAssignmentForm').find('#approval_status').val($(btn).val());
+          $('#requestOfficeAssignmentForm').find('#request_action').val('process');
+          $('#requestOfficeAssignmentForm').submit();
+       });
+    
+   <?php if($this->request && $this->request->getStatus()!='requested'):?>
+       $('.approval_action').prop('disabled', true);
+       $('.request-action-btn').prop('disabled', true);       
+   <?php endif?>
+
+       ReportForms.validate($('#requestOfficeAssignmentForm'),{
+												messages:{
+													'member_code':'Please enter valid member code'
+												},
+												rules: {
+												    'confirm_email': {
+												      equalTo: "#email"
+											    	}       	
+											    }
+											    });
+    
+      
+       $('#term').select2({'width':'90%'});
+       CustomSelect2.createSimple({
+					placeholder:"Select Department",
+					url:'<?php echo $this->url("config/department-json").'?elected=1' ?>',
+					id:'id',
+					label:'department_name',
+					element:$('#department'),
+					data_target:'data'					
+				});
+				
+       CustomSelect2.createSimple({
+                    placeholder:"After selected Term",
+                    url:'<?php echo $this->url("config/periods") ?>?filter=last',
+                    id:'period_code',
+                    label:'period_code',
+                    element:$('#expires_period')
+                    ,data_target:'data'                  
+                });			
+                	
+		CustomSelect2.createSimple({
+					placeholder:"Select Jama`at",
+					url:'<?php echo $this->url("config/user-branches")?>/json',
+					id:'id',
+					label:'branch_name',
+					element:$('#branch'),
+					data_target:'data'
+					
+			});	
+		
+		
+		//Copy user details from request item 
+		$("#copy_user_info_from_req").change("on",function(e){
+		      var copy=e.currentTarget.checked;
+		      $('#user_info_widget_box input').each(function(){
+		          var element=$(this);
+		          var copy_elem_id="user["+element.attr('id')+"]";
+		          var expr="input[name='"+copy_elem_id+"']";
+		          //console.log(expr+' > '+$(expr).length)
+		          var copy_element=$(expr);
+		         if(copy_element.length==1 && !copy_element.attr('disabled')){
+		             if(copy){
+		                 copy_element.attr('data-original_value',copy_element.val());
+                         copy_element.val(element.val());		                 
+		             }else{
+	                     copy_element.val(copy_element.attr('data-original_value'));
+		             }
+		         }
+		      })  
+		    
+		    });
+			
+		$('#form-body-content').ace_scroll({size:500});	
+				
+    });
+    
+</script>

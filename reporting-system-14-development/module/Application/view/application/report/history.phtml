@@ -1,0 +1,45 @@
+<?php if( isset($this->history[0]) ) { 
+    
+    if( $this->history[0]->getQuestion()->getQuestionType() == 'MEMO' ) {
+        $col1 = 2;
+        $col2 = 2;
+        $col3 = 8;
+    }
+    else {
+        $col1 = $col2 = $col3 = 4;
+    }
+
+    $questionType = $this->history[0]->getQuestion()->getQuestionType();   
+    ?>
+    <div class="col-md-12">
+    <div class="row">
+        <div class="col-md-12"><h3><?=$this->history[0]->getQuestion()->getCaption()?></h3></div>
+    </div>
+    <hr />
+    <div class="row text-left" style="font-weight: bold; font-size: 14px; padding: 5px 0;">
+        <div class="col-md-<?=$col1?>">Month</div>
+        <div class="col-md-<?=$col2?>">Report Status</div>
+        <div class="col-md-<?=$col3?>">Answer</div>
+    </div>
+    <?php
+    foreach($this->history as $answer) {
+
+            $answerText = $answer->getValue();
+            if( $questionType == 'YES_NO' ) {
+                $answerText = $answerText == 1 ? 'Yes' : 'No';
+            }
+    ?>
+    <div class="row text-left" style="font-size: 12px; border-bottom: 1px solid #f3ecec; padding: 5px 0;">
+        <div class="col-md-<?=$col1?>"><?=$answer->getReport()->getPeriodFrom()?></div>
+        <div class="col-md-<?=$col2?>"><?=$answer->getReport()->getStatus()?></div>
+        <div class="col-md-<?=$col3?>"><?=$answerText?></div>
+    </div>
+    <?php
+    }
+    ?>
+</div>
+<?php } else { ?>
+    <div class="row">
+        <div class="col-md-12"><h4>No record found.</h4></div>
+    </div>    
+<?php } ?>

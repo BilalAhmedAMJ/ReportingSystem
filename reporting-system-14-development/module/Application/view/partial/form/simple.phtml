@@ -1,0 +1,36 @@
+<?php
+   $element = $this->element;
+   $options = $element->getOptions();
+   $label_col = isset($options['label_col'])?$options['label_col']:7;
+   $control_col = isset($options['control_col'])?$options['control_col']:5;
+   $label_col_class=sprintf("col-sm-%s",$label_col);
+   $control_col_class=sprintf("col-sm-%s",$control_col);
+
+   $locked = $element->getAttribute('data-rollup');
+   $div_start='';
+   $div_end='';
+   if($locked){
+         $locked_icon='<i class="fa fa-lock field-icon-r"></i>';
+         $element->setAttribute('readonly','true');
+         $element->setAttribute('class',$element->getAttribute('class')." rollup");
+         $div_start="<div class='field-icon-div'>";
+         $div_end="<i class='fa fa-lock field-icon-r-simple'></i></div>";
+
+   }
+
+?>
+   <div class="column  clearfix input-field-container report-input-simple">
+      <label class="<?=$label_col_class?> no-padding-right col-xs-6 input-lable" for="<?=$element->getName()?>">
+          <i class="fa fa-history report-history-btn" aria-hidden="true" data-question="<?=$element->getName()?>"></i>
+          <?=$element->getLabel()?>:
+          
+          </label>
+      <div class="<?=$control_col_class?> col-xs-6">
+          
+      <?php
+         echo $div_start;
+         echo $this->formElement($element);
+         echo $div_end;
+      ?>
+      </div>
+   </div>

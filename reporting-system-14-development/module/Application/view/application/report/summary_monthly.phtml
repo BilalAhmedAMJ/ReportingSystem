@@ -1,0 +1,51 @@
+<style>
+    .r_title {text-align: center; font-size: 18px;}
+    .r_row {border-bottom: 1px solid #a29a9a;     background-color: #f1f1f1;}
+    .r_sub_row {border-bottom: 1px solid #d2cdcd}
+    .r_month {padding-left: 50px}
+    .r_sno {min-width:20px}
+</style>
+
+<table>
+    <tr class="r_row">
+        <th colspan="50" class="r_title">Summary Report</th>
+    </tr>
+    <tr>
+        <th class="r_sno">S. No.</th>
+        <th class="r_dep">Department</th>
+        <th colspan="2">Question</th>
+        <?php foreach($this->reportData['data'][0]['data'] as $key => $data) { ?>
+        <th><?=$key?></th>
+        <?php } ?>
+    </tr> 
+    <?php 
+        $count = 1;
+        foreach($this->reportData['data'] as $question) { 
+            if( in_array($question['action'], ['sum', 'countif', 'ifempty', 'ifnotempty', 'sumOfLastAnswerOfEach']) ) { ?>
+                <tr class="r_row">
+                    <td class="r_sno"><?=($count++)?></td>
+                    <td class="r_dep"><?=$question['department']?></td>
+                    <td colspan="2"><?=$question['caption']?></td>
+                    <?php foreach($question['data'] as $data) { ?>
+                    <td><?=$data?></td>
+                    <?php } ?>
+                </tr> <?php
+            }
+            else if( in_array($question['action'], ['list','listLastAnswerOfEach'] )) { /*  ?>
+                <tr class="r_row">
+                    <td class="r_sno"><?=($count++)?></td>
+                    <td class="r_dep"><?=$question['department']?></td>
+                    <td colspan="3"><?=$question['caption']?></td>
+                </tr>            
+        <?php   foreach($question['data'] as $data) { ?>
+                    <tr class="r_sub_row">
+                        <td class="r_sno">&nbsp;</td>
+                        <td class="r_dep"><?=$question['department']?></td>
+                        <td width="20%" class="r_month"><?=$data['month']?></td>
+                        <td width="20%"><?=$data['branch']?></td>
+                        <td><?=$data['value']?></td>
+                    </tr>
+        <?php   } ?>
+        <?php      */ } ?>
+<?php   } ?>
+</table>

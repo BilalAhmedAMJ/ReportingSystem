@@ -1,0 +1,8 @@
+<h1>
+<?php
+echo
+$this->getHelperPluginManager()->getServiceLocator()->get('application')->getMvcEvent()->getRouteMatch()->getParam('controller')
+.'=>'.
+$this->getHelperPluginManager()->getServiceLocator()->get('application')->getMvcEvent()->getRouteMatch()->getParam('action')
+?>
+</h1>

@@ -1,0 +1,1425 @@
+<html lang="en"><head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta charset="utf-8">
+
+        <title>AMJ Canada Reporting System</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+        <link href="/assets/css/select2.css" media="screen" rel="stylesheet" type="text/css">
+<link href="/img/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon">      <!-- bootstrap & fontawesome -->
+        
+        <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
+
+        <!-- text fonts -->
+        <link rel="stylesheet" href="/assets/css/ace-fonts.css">
+
+        <!-- ace styles -->
+        <link type="text/css" rel="stylesheet" class="ajax-stylesheet" href="/assets/css/jquery-ui.custom.min.css">     
+
+        <link type="text/css" rel="stylesheet" class="ajax-stylesheet" href="/assets/css/jquery.gritter.css">     
+
+        <link type="text/css" rel="stylesheet" class="ajax-stylesheet" href="/css/daterangepicker-bs3.css">     
+
+        <link rel="stylesheet" href="/assets/css/select2.css">
+
+        <link rel="stylesheet" href="/assets/css/ace.min.css" id="main-ace-style">
+
+        <!--[if lte IE 9]>
+            <link rel="stylesheet" href='/assets/css/ace-part2.min.css'/>
+        <![endif]-->
+        
+        <link rel="stylesheet" href="/assets/css/ace-skins.min.css">
+
+        <link rel="stylesheet" href="/assets/css/datepicker.css">
+
+    
+        <link rel="stylesheet" href="/assets/css/ace-skins.min.css">
+
+        <link rel="stylesheet" href="/css/style.css">
+
+
+
+        <!--[if lte IE 9]>
+          <link rel="stylesheet" href='/assets/css/ace-ie.min.css' />
+        <![endif]-->
+ 
+
+
+
+        <!-- ace settings handler -->
+        <script src="/assets/js/ace-extra.min.js"></script>
+        <script src="/assets/js/ace/ace.settings.js"></script>
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+        <!--[if lte IE 8]>
+        <script src='/assets/js/html5shiv.js'></script>
+        <script src='/assets/js/respond.min.js'></script>
+        <![endif]-->
+        
+
+
+        <!-- basic scripts -->
+
+        <!--[if !IE]> -->
+            <script type="text/javascript">
+                window.jQuery || document.write("<script src='/assets/js/jquery.min.js'>"+"<"+"/script>");
+            </script><script src="/assets/js/jquery.min.js"></script>
+        <!-- <![endif]-->
+
+        <!--[if IE]>
+            <script type="text/javascript">
+             window.jQuery || document.write("<script src='/assets/js/jquery1x.min.js'>"+"<"+"/script>");
+            </script>
+        <![endif]-->
+
+        <script type="text/javascript">
+            if('ontouchstart' in document.documentElement) document.write("<script src='/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+        </script>
+
+        <script src="/assets/js/bootstrap.min.js"></script>
+
+
+        <script src="/assets/js/jquery.ui.touch-punch.min.js"></script>
+
+        <script src="/assets/js/bootstrap-wysiwyg.min.js"></script>
+
+        <script src="/assets/js/jquery.validate.min.js"></script>
+
+        <script type="text/javascript" src="/js/moment.min.js"></script>
+
+        <!-- ace scripts -->
+        <script src="/assets/js/ace.min.js"></script>
+        <script src="/assets/js/ace-elements.min.js"></script>
+
+
+        <script src="/assets/js/additional-methods.min.js"></script>
+
+
+        <script src="/assets/js/select2.min.js"></script>
+        <script src="/js/custom.select2.js"></script>
+  
+ 
+        <script src="/assets/js/jquery.gritter.min.js"></script>
+
+       <script src="/assets/js/date-time/bootstrap-datepicker.min.js"></script>
+
+        <!-- default creation scafolding for various plugins -->
+        <script src="/js/reporting.additions.js"></script>
+
+
+
+        <script type="text/javascript" src="/assets/js/select2.min.js"></script>
+<script type="text/javascript" src="/js/custom.select2.js"></script>
+        <style>
+        .navbar-brand-amj{
+            background-image: url('/img/logo.png');
+             background-size: 40px 40px;
+            background-repeat:no-repeat;
+            background-position: 0px 2px; 
+            padding-left:50px;
+        }
+
+        .navbar>.container .navbar-brand, .navbar>.container-fluid .navbar-brand{
+            margin-left:0px!important;
+        }
+
+        </style>
+    <!-- START Zend Developer Toolbar Style -->
+<style type="text/css" media="all">
+#zend-developer-toolbar {
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    color: #eee;
+    z-index: 1337;
+    position: fixed;
+    border-top: 1px solid #111;
+    background: #2C2C2C;
+    background: -moz-linear-gradient(to bottom, #333, #222);
+    background: -ms-linear-gradient(to bottom, #333, #222);
+    background: -webkit-gradient(linear, 0 0, 0 100%, from(#333), to(#222));
+    background: -webkit-linear-gradient(to bottom, 333, #222);
+    background: -o-linear-gradient(to bottom, #333, #222);
+    background: linear-gradient(to bottom, #333, #222);
+    font: normal 13px/40px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    direction: ltr;
+}
+
+#zend-developer-toolbar a {
+    color: #80dc09;
+    text-decoration: none;
+}
+
+#zend-developer-toolbar a:hover {
+    text-decoration: underline;
+}
+
+.zdt-toolbar-bold {
+    font-weight: bold;
+}
+
+.zdt-toolbar-entry,.zdt-toolbar-detail {
+    float: left;
+    display: block;
+    padding: 0 8px;
+    background: transparent;
+}
+
+.zdt-toolbar-info {
+    vertical-align: middle;
+}
+
+.zdt-toolbar-info abbr {
+    border: 0;
+    font-size: 100%;
+    cursor: pointer;
+    text-transform: none;
+}
+
+.zdt-toolbar-detail .zdt-toolbar-info {
+    clear: both;
+    display: block;
+    max-width: 300px;
+    white-space: normal;
+}
+
+.zdt-toolbar-detail .zdt-toolbar-info-heading {
+    color: #80dc09;
+    font-weight: bold;
+}
+
+.zdt-toolbar-detail .zdt-toolbar-info-heading:before {
+    content: '» ';
+}
+
+.zdt-toolbar-info .zdt-toolbar-spacing {
+    padding: 0;
+    margin-right: 7px;
+}
+
+.zdt-toolbar-detail .zdt-toolbar-spacing {
+    padding-bottom: 15px;
+}
+
+.zdt-toolbar-detail .zdt-toolbar-topspacing {
+    padding-top: 15px;
+}
+
+.zdt-toolbar-detail {
+    bottom: 40px;
+    display: none;
+    line-height: 20px;
+    padding: 7px 10px;
+    position: absolute;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.zdt-toolbar-detail:before,.zdt-toolbar-detail:after {
+    content: '';
+    width: 0;
+    height: 0;
+    left: 14px;
+    bottom: -10px;
+    position: absolute;
+    border-top: 10px solid #68B604;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+}
+
+.zdt-toolbar-detail-overflow {
+    overflow-y: auto !important;
+    overflow-x: hidden;
+    max-height: 475px;
+}
+
+.zdt-toolbar-detail-overflow:before, .zdt-toolbar-detail-overflow:after {
+    display: none;
+}
+
+.zdt-toolbar-detail-redundant {
+    display: none;
+    opacity: 0;
+}
+
+.zdt-toolbar-detail .zdt-toolbar-info-redundant,.zdt-toolbar-detail .zdt-toolbar-extra-info-redundant
+    {
+    display: none;
+}
+
+.zdt-toolbar-preview img {
+    border: 0;
+    width: auto;
+    display: inline;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+.zdt-toolbar-entry:hover .zdt-toolbar-detail {
+    display: block;
+    background: #333;
+    box-shadow: rgba(0, 0, 0, 0.75) 0 0 7px;
+}
+
+.zdt-toolbar-info .zdt-detail-label {
+    float: left;
+    display: block;
+    text-align: left;
+    min-width: 100px;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+.zdt-toolbar-info .zdt-detail-context {
+    text-align: left;
+    clear: both;
+    min-width: 100px;
+    color: #aaaaaa;
+    font-size: 9px;
+    margin-bottom: 3px;
+    line-height: 10px;
+    white-space: nowrap;
+}
+
+.zdt-toolbar-detail-overflow .zdt-detail-context {
+    padding-right: 15px;
+}
+
+.zdt-toolbar-info .zdt-detail-label:after {
+    content: ':';
+}
+
+.zdt-toolbar-info .zdt-detail-value {
+    float: left;
+    display: block;
+    white-space: nowrap;
+}
+
+.zdt-toolbar-info .zdt-detail-pre {
+    display: block;
+    font-family: monospace;
+    overflow-y: auto !important;
+    overflow-x: hidden;
+    line-height: 15px;
+    max-height: 400px;
+    unicode-bidi: embed;
+    white-space: pre-wrap;
+    word-break: break-all;
+    word-wrap: break-word;
+}
+
+.zdt-toolbar-info .zdt-detail-extra-value {
+    margin-left: 100px;
+}
+
+.zdt-toolbar-info .zdt-detail-value-right {
+    float: right;
+}
+
+.zdt-toolbar-info .zdt-toolbar-status {
+    color: #fff;
+    padding: 0 3px;
+    text-align: center;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.zdt-toolbar-status-green {
+    background: #558f0b;
+}
+
+.zdt-toolbar-status-red {
+    background: #8f2727;
+}
+
+.zdt-toolbar-color-green {
+    color: #80dc09;
+}
+
+.zdt-toolbar-color-red {
+    color: #e83535;
+}
+
+.zdt-toolbar-color-yellow {
+    color: #d9cd0f;
+}
+
+.zdt-toolbar-color-grey {
+    color: #9d9d9d;
+}
+
+#zend-developer-toolbar .zdf-toolbar-hide-button {
+    top: 0;
+    right: 8px;
+    color: #bebebe;
+    display: block;
+    cursor: pointer;
+    position: absolute;
+    text-decoration: none;
+}
+
+#zend-developer-toolbar .zdf-toolbar-hide-button:hover {
+    color: #eb4a4a;
+    text-decoration: none;
+}
+
+#zend-developer-toolbar .zdt-toolbar-entry .zdt-toolbar-detail,#zend-developer-toolbar .zdt-toolbar-entry .zdt-toolbar-info
+    {
+    font-size: 11px;
+    max-width: 700px;
+}
+
+#zend-developer-toolbar .zdt-toolbar-info .zdt-detail-value pre {
+    max-height: 350px;
+    max-width: 650px;
+    overflow-y: scroll;
+    overflow-x: scroll;
+    display: inline-block;
+    white-space: pre;
+    word-break: keep-all;
+    word-wrap: normal;
+}
+
+@media screen and (max-width: 780px) {
+    .zdt-toolbar-preview .zdt-toolbar-extra-info {
+        display: none;
+    }
+    .zdt-toolbar-entry:hover .zdt-toolbar-extra-info-redundant {
+        display: block;
+    }
+    .zdt-toolbar-preview .zdt-toolbar-spacing {
+        margin: 0;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .zdt-toolbar-preview .zdt-toolbar-info {
+        display: none;
+    }
+    .zdt-toolbar-entry:hover .zdt-toolbar-detail-redundant {
+        display: block;
+        opacity: 1;
+    }
+    .zdt-toolbar-entry:hover .zdt-toolbar-info-redundant {
+        display: block;
+    }
+}
+
+@media screen and (max-width: 420px) {
+    .zdt-toolbar-preview img {
+        margin: 0;
+    }
+}
+
+@media print {
+    #zend-developer-toolbar {
+        display: none;
+    }
+}
+
+</style>
+<!-- END Zend Developer Toolbar Style -->
+
+</head>
+
+
+
+    <body class="no-padding no-skin">
+        <!-- #section:basics/navbar.layout -->
+        <div id="navbar" class="navbar navbar-default navbar-fixed-top container" style="margin: auto;">
+            <script type="text/javascript">
+                
+                try{
+                     ace.settings.set('navbar_fixed', 'fixed',true);//@ ace-extra.js
+                     ace.settings.set('sidebar_fixed','fixed',true);//@ ace-extra.js
+                     ace.settings.set('main_container','fixed',true);//@ ace-extra.js
+                     
+                }catch(e){console.log(e);}
+                
+            </script>
+
+            <div class="navbar-container no-padding" id="navbar-container">
+                <!-- #section:basics/sidebar.mobile.toggle -->
+                
+                <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler">
+                    <span class="sr-only">Toggle sidebar</span>
+
+                    <span class="icon-bar"></span>
+
+                    <span class="icon-bar"></span>
+
+                    <span class="icon-bar"></span>
+                </button>
+
+                <!-- /section:basics/sidebar.mobile.toggle -->
+                <div class="navbar-header pull-left no-margin" style="margin-left: 8px!important;">
+                    <!-- #section:basics/navbar.layout.brand -->
+                    &nbsp;
+                    <a href="http://www.ahmadiyya.ca" class="navbar-brand navbar-brand-amj">
+                        <!-- 
+                            <img alt="AMJ Canada" title="AMJ Canada" src='/img/logo.png'/>
+                         -->
+                        <small>
+                            AMJ Reporting System
+                        </small>
+                    </a>
+
+                    <!-- /section:basics/navbar.layout.brand -->
+
+                    <!-- #section:basics/navbar.toggle -->
+
+                    <!-- /section:basics/navbar.toggle -->
+                </div>
+
+
+        
+                <!-- #section:basics/navbar.dropdown -->
+
+                <div class="navbar-buttons navbar-header pull-right " role="navigation">
+
+                    <ul class=" nav ace-nav">
+
+                                                                    
+                        
+                        
+                                                                        
+                        
+                        
+                                            
+              <li class="green">
+                <a href="/report" class="dropdown-toggle ">
+                    <i class="menu-icon fa fa-list"></i>                    <span class="menu-text">
+                       Reports                    </span>
+                </a>
+
+            </li>
+                                            
+                        
+                        
+                                            
+              <li class="red">
+                <a href="/document" class="dropdown-toggle ">
+                    <i class="menu-icon fa fa-folder-open-o"></i>                    <span class="menu-text">
+                       Documents                    </span>
+                </a>
+
+            </li>
+                                            
+                        
+                        
+                                            
+              <li class="light-blue">
+                <a href="/email" class="dropdown-toggle ">
+                    <i class="menu-icon fa fa-envelope-o"></i>                    <span class="menu-text">
+                       Email                    </span>
+                </a>
+
+            </li>
+                                            
+                        
+                        
+                                            
+              <li class="purple">
+                <a href="/office-assignment" class="dropdown-toggle ">
+                    <i class="menu-icon fa fa-users"></i>                    <span class="menu-text">
+                       Office Bearers                    </span>
+                </a>
+
+            </li>
+                                            
+            
+
+<!--
+        <li class="grey">
+            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                <i class="ace-icon fa fa-tasks"></i>
+                <span class="badge badge-grey">4</span>
+            </a>
+
+            <ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
+                <li class="dropdown-header">
+                    <i class="ace-icon fa fa-check"></i>
+                    4 Tasks to complete
+                </li>
+
+                <li>
+                    <a href="#">
+                        <div class="clearfix">
+                            <span class="pull-left">Software Update</span>
+                            <span class="pull-right">65%</span>
+                        </div>
+
+                        <div class="progress progress-mini">
+                            <div style="width:65%" class="progress-bar"></div>
+                        </div>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        <div class="clearfix">
+                            <span class="pull-left">Hardware Upgrade</span>
+                            <span class="pull-right">35%</span>
+                        </div>
+
+                        <div class="progress progress-mini">
+                            <div style="width:35%" class="progress-bar progress-bar-danger"></div>
+                        </div>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        <div class="clearfix">
+                            <span class="pull-left">Unit Testing</span>
+                            <span class="pull-right">15%</span>
+                        </div>
+
+                        <div class="progress progress-mini">
+                            <div style="width:15%" class="progress-bar progress-bar-warning"></div>
+                        </div>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        <div class="clearfix">
+                            <span class="pull-left">Bug Fixes</span>
+                            <span class="pull-right">90%</span>
+                        </div>
+
+                        <div class="progress progress-mini progress-striped active">
+                            <div style="width:90%" class="progress-bar progress-bar-success"></div>
+                        </div>
+                    </a>
+                </li>
+
+                <li class="dropdown-footer">
+                    <a href="#">
+                        See tasks with details
+                        <i class="ace-icon fa fa-arrow-right"></i>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="purple">
+            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                <i class="ace-icon fa fa-bell icon-animated-bell"></i>
+                <span class="badge badge-important">8</span>
+            </a>
+
+            <ul class="dropdown-menu-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close">
+                <li class="dropdown-header">
+                    <i class="ace-icon fa fa-exclamation-triangle"></i>
+                    8 Notifications
+                </li>
+
+                <li>
+                    <a href="#">
+                        <div class="clearfix">
+                            <span class="pull-left">
+                                <i class="btn btn-xs no-hover btn-pink fa fa-comment"></i>
+                                New Comments
+                            </span>
+                            <span class="pull-right badge badge-info">+12</span>
+                        </div>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        <i class="btn btn-xs btn-primary fa fa-user"></i>
+                        Bob just signed up as an editor ...
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        <div class="clearfix">
+                            <span class="pull-left">
+                                <i class="btn btn-xs no-hover btn-success fa fa-shopping-cart"></i>
+                                New Orders
+                            </span>
+                            <span class="pull-right badge badge-success">+8</span>
+                        </div>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        <div class="clearfix">
+                            <span class="pull-left">
+                                <i class="btn btn-xs no-hover btn-info fa fa-twitter"></i>
+                                Followers
+                            </span>
+                            <span class="pull-right badge badge-info">+11</span>
+                        </div>
+                    </a>
+                </li>
+
+                <li class="dropdown-footer">
+                    <a href="#">
+                        See all notifications
+                        <i class="ace-icon fa fa-arrow-right"></i>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="green">
+            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                <i class="ace-icon fa fa-envelope icon-animated-vertical"></i>
+                <span class="badge badge-success">5</span>
+            </a>
+
+            <ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
+                <li class="dropdown-header">
+                    <i class="ace-icon fa fa-envelope-o"></i>
+                    5 Messages
+                </li>
+
+                <li class="dropdown-content">
+                    <ul class="dropdown-menu dropdown-navbar">
+                        <li>
+                            <a href="#">
+                                <img src="../assets/avatars/avatar.png" class="msg-photo" alt="Alex's Avatar" />
+                                <span class="msg-body">
+                                    <span class="msg-title">
+                                        <span class="blue">Alex:</span>
+                                        Ciao sociis natoque penatibus et auctor ...
+                                    </span>
+
+                                    <span class="msg-time">
+                                        <i class="ace-icon fa fa-clock-o"></i>
+                                        <span>a moment ago</span>
+                                    </span>
+                                </span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#">
+                                <img src="../assets/avatars/avatar3.png" class="msg-photo" alt="Susan's Avatar" />
+                                <span class="msg-body">
+                                    <span class="msg-title">
+                                        <span class="blue">Susan:</span>
+                                        Vestibulum id ligula porta felis euismod ...
+                                    </span>
+
+                                    <span class="msg-time">
+                                        <i class="ace-icon fa fa-clock-o"></i>
+                                        <span>20 minutes ago</span>
+                                    </span>
+                                </span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#">
+                                <img src="../assets/avatars/avatar4.png" class="msg-photo" alt="Bob's Avatar" />
+                                <span class="msg-body">
+                                    <span class="msg-title">
+                                        <span class="blue">Bob:</span>
+                                        Nullam quis risus eget urna mollis ornare ...
+                                    </span>
+
+                                    <span class="msg-time">
+                                        <i class="ace-icon fa fa-clock-o"></i>
+                                        <span>3:15 pm</span>
+                                    </span>
+                                </span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#">
+                                <img src="../assets/avatars/avatar2.png" class="msg-photo" alt="Kate's Avatar" />
+                                <span class="msg-body">
+                                    <span class="msg-title">
+                                        <span class="blue">Kate:</span>
+                                        Ciao sociis natoque eget urna mollis ornare ...
+                                    </span>
+
+                                    <span class="msg-time">
+                                        <i class="ace-icon fa fa-clock-o"></i>
+                                        <span>1:33 pm</span>
+                                    </span>
+                                </span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#">
+                                <img src="../assets/avatars/avatar5.png" class="msg-photo" alt="Fred's Avatar" />
+                                <span class="msg-body">
+                                    <span class="msg-title">
+                                        <span class="blue">Fred:</span>
+                                        Vestibulum id penatibus et auctor  ...
+                                    </span>
+
+                                    <span class="msg-time">
+                                        <i class="ace-icon fa fa-clock-o"></i>
+                                        <span>10:09 am</span>
+                                    </span>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="dropdown-footer">
+                    <a href="inbox.html">
+                        See all messages
+                        <i class="ace-icon fa fa-arrow-right"></i>
+                    </a>
+                </li>
+            </ul>
+        </li>
+-->
+        <!-- #section:basics/navbar.user_menu -->
+        <!-- User inforation -->
+        <li class="grey">
+            <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                <i class="ace-icon fa fa-user"></i>
+                <span class="user-info">
+                    <small>Assalamu Alaikum,</small>
+                    <!-- display the 'display name' of the user -->
+                    Saeed Khalid                </span>
+
+                <i class="ace-icon fa fa-caret-down"></i>
+            </a>
+
+            <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+
+                <li>
+                    <a href="profile.html">
+                        <i class="ace-icon fa fa-user"></i>
+                        Profile
+                    </a>
+                </li>
+
+                <li class="divider"></li>
+
+                <li>
+                    <a href="/login/logout">
+                        <i class="ace-icon fa fa-power-off"></i>
+                        Logout
+                    </a>
+                </li>
+            </ul>
+        </li>
+        
+        <style>
+            .btn-text-size{
+                background-color:none!important;        
+                padding-left:5px!important;
+                padding-right:5px!important;
+                vertical-align: bottom!important;
+                border-left: solid 1px blue;
+                border-width: 1px!important;
+            }
+            .text-size-1{
+                padding-top:22px;
+                height:45px;
+                font-size:100%;
+            }
+            .text-size-2{
+                padding-top:16px;
+                height:45px;
+                font-size:140%;
+            }
+            .text-size-3{
+                padding-top:12px;
+                height:45px;
+                font-size:160%;
+            }
+            .btn-text-size.btn.btn-white.active, .btn-text-size.btn.btn-white:focus{
+                box-shadow:none!important;
+                height:45px;
+            }
+            
+        </style>
+
+        <li class="" style="vertical-align: bottom!important">
+            <div data-toggle="buttons" class="btn-group btn-overlap  " style="vertical-align: bottom!important">
+                <label class="btn active btn-white  btn-primary  btn-text-size text-size-1">
+                    <input value="no-zoom" type="radio">A
+                </label>
+
+                <label class="btn btn-primary btn-text-size text-size-2">
+                    <input value="zoom-115" type="radio">A
+                </label>
+
+                <label class="btn  btn-primary  btn-text-size text-size-3">
+                    <input value="zoom-125" type="radio">A
+                </label>
+            </div>
+            <script>
+                $(function(){
+                    $('.btn-text-size').on('click',function(){ 
+                        $('.btn-text-size').removeClass('btn-white');
+                        $(this).addClass('btn-white');
+
+                        var value=$(this).find('input').val();
+                        
+                        if( ! $('body').hasClass(value)){
+                            $('body').removeClass('no-zoom zoom-115 zoom-125');
+                            $('body').addClass(value);
+                        }
+                        
+                        // $('body').removeClass('bigger-140');
+                        // $('body').removeClass('bigger-160');
+                        // var fclass=('bigger-'+(value*2*10+100));                        
+                        // if(value>0){
+                            // if(fclass!=''){
+                            // }
+                        // }
+                     });
+                });
+                
+            </script>
+        </li>
+        <li class="green">
+            <!-- help -->
+                <a href="/help" class=" align-middle success no-padding" style="padding-top: 16px;">
+                    <span class="glyphicon glyphicon-question-sign middle" style="font-size: 20pt;"></span>
+                 </a>
+        </li>
+
+
+                        
+                        <!-- #section:basics/navbar.user_menu -->
+                        <!--
+                        <li class="blue-light2">                      
+                            < ? php include __DIR__.'/../partial/userinfo.phtml'  ? >
+                        </li>
+                        < ? php if($this->zfcUserIdentity()): ? >
+                        < ? php endif ? >
+                        -->
+                    </ul>
+                </div>
+
+                <!-- /section:basics/navbar.dropdown -->
+            </div><!-- /.navbar-container -->
+        </div>
+
+        <!-- /section:basics/navbar.layout -->
+        <div class="main-container responsive row-fluid container" id="main-container">
+
+
+            <!-- #section:basics/sidebar -->
+            <div id="sidebar" class="sidebar responsive sidebar-fixed" data-sidebar="true" data-sidebar-scroll="true" role="navigation">
+               <div class="nav-wrap-up pos-rel">
+                   <div class="nav-wrap">
+                       <div id="sidebar-container-id" style="position: relative; top: 0px; transition-property: top; -webkit-transition-property: top; transition-duration: 0.15s; -webkit-transition-duration: 0.15s;">
+                           <div style="position: relative;"><div class="nav-wrap"><div style="position: relative; top: 0px; transition-property: top; transition-duration: 0.2s;"><ul class=" nav nav-list">
+            
+                                    
+                                            
+                        
+                        
+                                                    <li class="">
+                    <a href="/members">
+                        <i class="menu-icon fa fa-home"></i>                        <span class="menu-text">
+                        Home                        </span>
+                    </a>
+                </li>
+                                                        
+                        
+                        
+                                                    <li class="">
+                    <a href="/report">
+                        <i class="menu-icon fa fa-list"></i>                        <span class="menu-text">
+                        Reports                        </span>
+                    </a>
+                </li>
+                                                        
+                        
+                        
+                                                  <li class="open  hsub">
+                <a href="#" class="dropdown-toggle ">
+                    <i class="menu-icon fa fa-folder-open-o"></i>                    <span class="menu-text">
+                       Documents                    </span>
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+
+                <b class="arrow"></b>
+                <ul class="submenu ">
+
+                                                                                                                    <li class="">
+                            <a data-url="/document/list?docType=form" href="/document/list?docType=form">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                                                <span>
+                                                                Forms                                </span>
+                            </a>
+                           <b class="arrow"></b>
+                        </li>
+                                                                                                                    <li class="">
+                            <a data-url="/document/list?docType=policies" href="/document/list?docType=policies">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                                                <span>
+                                                                Policies                                </span>
+                            </a>
+                           <b class="arrow"></b>
+                        </li>
+                                                                                                                    <li class="">
+                            <a data-url="/document/list?docType=others" href="/document/list?docType=others">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                                                <span>
+                                                                Others                                </span>
+                            </a>
+                           <b class="arrow"></b>
+                        </li>
+                                                                                    </ul>
+            </li>
+                                                        
+                        
+                        
+                                                  <li class="open  hsub">
+                <a href="#" class="dropdown-toggle ">
+                    <i class="menu-icon fa fa-envelope-o"></i>                    <span class="menu-text">
+                       Email                    </span>
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+
+                <b class="arrow"></b>
+                <ul class="submenu ">
+
+                                                                                                                    <li class="">
+                            <a data-url="/email/inbox?action=inbox" href="/email/inbox?action=inbox">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                                                <span>
+                                <i class="menu-icon fa fa-inbox"></i>                                Inbox                                </span>
+                            </a>
+                           <b class="arrow"></b>
+                        </li>
+                                                                                                                    <li class="">
+                            <a data-url="/email/send?action=send" href="/email/send?action=send">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                                                <span>
+                                <i class="menu-icon fa fa-send-o"></i>                                Send Email                                </span>
+                            </a>
+                           <b class="arrow"></b>
+                        </li>
+                                    </ul>
+            </li>
+                                                        
+                        
+                        
+                                                  <li class="open active hsub">
+                <a href="#" class="dropdown-toggle ">
+                    <i class="menu-icon fa fa-users"></i>                    <span class="menu-text">
+                       Office Bearers                    </span>
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+
+                <b class="arrow"></b>
+                <ul class="submenu ">
+
+                                                                                                                    <li class="">
+                            <a data-url="/office-assignment/requests" href="/office-assignment/requests">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                                                <span>
+                                                                Requests                                </span>
+                            </a>
+                           <b class="arrow"></b>
+                        </li>
+                                                                                                                    <li class="active">
+                            <a data-url="/office-assignment/request" href="/office-assignment/request">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                                                <span>
+                                                                New Request                                </span>
+                            </a>
+                           <b class="arrow"></b>
+                        </li>
+                                                                                                                    <li class="">
+                            <a data-url="/office-assignment/list" href="/office-assignment/list">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                                                <span>
+                                                                List(s)                                </span>
+                            </a>
+                           <b class="arrow"></b>
+                        </li>
+                                    </ul>
+            </li>
+                                                        
+                                        
+                            </ul></div></div><div class="ace-scroll nav-scroll"><div style="display: none;" class="scroll-track"><div style="top: 0px; transition-property: top; transition-duration: 0.13s;" class="scroll-bar"></div></div><div style="" class="scroll-content"><div></div></div></div></div>
+                       </div>
+                   </div>                   
+               </div>
+
+                <!-- #section:basics/sidebar.layout.minimize -->
+                <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse" style="z-index: 1;">
+                    <i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+                </div>
+            
+                
+                <div class="nav-wrap-up pos-rel">
+                  <!-- #section:settings.box -->
+  <div>
+       <style>
+
+/*       
+           .btn.ace-settings-btn{
+               float:left !important;
+               position:relative!important;
+               display:block;
+           }
+
+           .ace-settings-box{
+               float:right !important;
+               position:relative!important;
+           }
+  */        
+       </style>
+        <div class="ace-settings-container no-margin no-padding" id="ace-settings-container">
+
+            <div style="width: 100%;">
+                <div class="btn btn-app pull-left btn-xs btn-primary ace-settings-btn" id="ace-settings-btn">
+                    <i class="ace-icon fa fa-cog bigger-150"></i>
+                </div>
+            </div>
+            
+            <div class="col-xs-12  ace-settings-box clearfix" id="ace-settings-box" style="width: 100%;">
+                <div class="pull-left1 width-501">
+                    <!-- #section:settings.skins -->
+                    <div class="ace-settings-item">
+                        <div class="pull-left">
+                            <select id="skin-colorpicker" class="hide">
+                                <option data-skin="no-skin" value="#438EB9">#438EB9</option>
+                                <option data-skin="skin-1" value="#222A2D">#222A2D</option>
+                                <option data-skin="skin-2" value="#C6487E">#C6487E</option>
+                                <option data-skin="skin-3" value="#D0D0D0">#D0D0D0</option>
+                            </select><div class="dropdown dropdown-colorpicker">        <a data-toggle="dropdown" class="dropdown-toggle" data-position="auto" href="#"><span class="btn-colorpicker" style="background-color:#438EB9"></span></a><ul class="dropdown-menu dropdown-caret"><li><a class="colorpick-btn selected" href="#" style="background-color:#438EB9;" data-color="#438EB9"></a></li><li><a class="colorpick-btn" href="#" style="background-color:#222A2D;" data-color="#222A2D"></a></li><li><a class="colorpick-btn" href="#" style="background-color:#C6487E;" data-color="#C6487E"></a></li><li><a class="colorpick-btn" href="#" style="background-color:#D0D0D0;" data-color="#D0D0D0"></a></li></ul></div>
+                        </div>
+                        <span>&nbsp; Choose Skin</span>
+                    </div>
+
+                    <!-- /section:settings.skins -->
+
+                    <!-- #section:settings.navbar -->
+                    <div class="ace-settings-item">
+                        <input class="ace ace-checkbox-2" id="ace-settings-navbar" type="checkbox">
+                        <label class="lbl" for="ace-settings-navbar"> Fixed Navbar</label>
+                    </div>
+
+                    <!-- /section:settings.navbar -->
+
+                    <!-- #section:settings.sidebar -->
+                    <div class="ace-settings-item">
+                        <input class="ace ace-checkbox-2" id="ace-settings-sidebar" type="checkbox">
+                        <label class="lbl" for="ace-settings-sidebar"> Fixed Sidebar</label>
+                    </div>
+
+                    <!-- /section:settings.sidebar -->
+
+                    <!-- #section:settings.breadcrumbs -->
+                    <!--
+                    <div class="ace-settings-item">
+                        <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-breadcrumbs" />
+                        <label class="lbl" for="ace-settings-breadcrumbs"> Fixed Breadcrumbs</label>
+                    </div>
+                    -->
+                    
+                    <!-- /section:settings.breadcrumbs -->
+
+                    <!-- #section:settings.rtl -->
+                    <!--
+                    <div class="ace-settings-item">
+                        <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-rtl" />
+                        <label class="lbl" for="ace-settings-rtl"> Right To Left (rtl)</label>
+                    </div>
+                    -->
+                    <!-- /section:settings.rtl -->
+
+                    <!-- #section:settings.container -->
+                    <div class="ace-settings-item">
+                        <input class="ace ace-checkbox-2" checked="true" id="ace-settings-add-container" type="checkbox">
+                        <label class="lbl" for="ace-settings-add-container">
+                            Inside
+                            <b>.container</b>
+                        </label>
+                    </div>
+
+                    <!-- /section:settings.container -->
+                </div><!-- /.pull-left -->
+
+                <div class="pull-left1 width-501">
+                    <!-- #section:basics/sidebar.options -->
+                    <div class="ace-settings-item">
+                        <input class="ace ace-checkbox-2" id="ace-settings-hover" type="checkbox">
+                        <label class="lbl" for="ace-settings-hover"> Submenu on Hover</label>
+                    </div>
+
+                    <div class="ace-settings-item">
+                        <input class="ace ace-checkbox-2" id="ace-settings-compact" type="checkbox">
+                        <label class="lbl" for="ace-settings-compact"> Compact Sidebar</label>
+                    </div>
+
+                    <div class="ace-settings-item">
+                        <input class="ace ace-checkbox-2" id="ace-settings-highlight" type="checkbox">
+                        <label class="lbl" for="ace-settings-highlight"> Alt. Active Item</label>
+                    </div>
+
+                    <!-- /section:basics/sidebar.options -->
+                </div><!-- /.pull-left -->
+            </div><!-- /.ace-settings-box -->
+        </div><!-- /.ace-settings-container -->
+
+        <script>
+            $(function(){
+                
+                 $('#ace-settings-menu').on(ace.click_event, function(e){
+                    e.preventDefault();
+                
+                    //$(this).toggleClass('open');
+                    $('#ace-settings-box').toggleClass('open');
+                 });
+
+            });
+            
+        </script>
+        <!-- /section:settings.box -->        
+</div>                                    </div>
+                
+
+                <!-- /section:basics/sidebar.layout.minimize -->
+                <script type="text/javascript">
+                    
+                    $(document).ready(function(){
+                        if($('#sidebar > .nav-wrap-up > .nav-wrap > #sidebar-container-id .nav-list > li').size()==0){
+                            //hide side bar nothing to display
+                            $('#sidebar').hide();
+                            $('.main-content').css('margin-left','0px');
+                        }
+                    });
+                </script>
+            </div>
+
+            <!-- /section:basics/sidebar -->
+            
+            
+            <div class="main-content">
+                <div class="main-content-inner">
+                <!-- /section:basics/content.breadcrumbs -->
+                <div class="page-content" style="padding: 5px;">
+
+                    <div class="page-content-area no-padding-left">
+                            <!-- FLASH Messages -->
+                                
+                                <div class="col-xs-12 col-md-12 col-lg-12">
+                                                                    </div>
+
+
+                        <!-- page content goes here -->
+    
+                           
+
+
+
+<div class="wysiwyg-editor" id="editor1"></div>
+        
+<script>
+    
+    $(function(){
+        
+        $('#editor1').ace_wysiwyg({
+        height:'100px',
+        toolbar:
+        [
+            {name:'font',className:'btn-info btn-round btn-sm btn-white'},
+            null,
+            {name:'fontSize',className:'btn-info btn-round btn-white'},
+            null,
+            {name:'bold', className:'btn-info btn-round btn-white'},
+            {name:'italic', className:'btn-info btn-round btn-white'},
+            //{name:'strikethrough', className:'btn-info btn-round btn-white'},
+            {name:'underline', className:'btn-info btn-round btn-white'},
+            null,
+            {name:'insertunorderedlist', className:'btn-success btn-round  btn-white'},
+            {name:'insertorderedlist', className:'btn-success btn-round  btn-white'},
+            {name:'outdent', className:'btn-purple btn-round btn-white'},
+            {name:'indent', className:'btn-purple btn-round btn-white'},
+            null,
+            /*
+            {name:'justifyleft', className:'btn-primary btn-round btn-white'},
+            {name:'justifycenter', className:'btn-primary btn-round'},
+            {name:'justifyright', className:'btn-primary btn-round'},
+            {name:'justifyfull', className:'btn-inverse btn-round'},
+            null,
+            */
+            {name:'createLink', className:'btn-pink btn-round btn-white'},
+            {name:'unlink', className:'btn-pink btn-round btn-white'},
+            null,
+            {name:'insertImage', className:'btn-success btn-round btn-white'},
+            null,
+            {name:'foreColor',className:'btn-round btn-white'},
+            null,
+            {name:'undo', className:'btn-grey btn-round btn-white'},
+            {name:'redo', className:'btn-grey btn-round btn-white'}
+        ],
+        'wysiwyg': {
+            //fileUploadError: showErrorAlert
+            hotKeys: {} //disable hotkeys
+            
+        }
+      }).prev().css('background-color','#e1e1e1');
+      
+        
+        
+    //RESIZE IMAGE
+    
+    //Add Image Resize Functionality to Chrome and Safari
+    //webkit browsers don't have image resize functionality when content is editable
+    //so let's add something using jQuery UI resizable
+    //another option would be opening a dialog for user to enter dimensions.
+    if ( typeof jQuery.ui !== 'undefined' && ace.vars['webkit'] ) {
+        
+        var lastResizableImg = null;
+        function destroyResizable() {
+            if(lastResizableImg == null) return;
+            lastResizableImg.resizable( "destroy" );
+            lastResizableImg.removeData('resizable');
+            lastResizableImg = null;
+        }
+
+        var enableImageResize = function() {
+            $('.wysiwyg-editor')
+            .on('mousedown', function(e) {
+                var target = $(e.target);
+                if( e.target instanceof HTMLImageElement ) {
+                    if( !target.data('resizable') ) {
+                        target.resizable({
+                            aspectRatio: e.target.width / e.target.height,
+                        });
+                        target.data('resizable', true);
+                        
+                        if( lastResizableImg != null ) {
+                            //disable previous resizable image
+                            lastResizableImg.resizable( "destroy" );
+                            lastResizableImg.removeData('resizable');
+                        }
+                        lastResizableImg = target;
+                    }
+                }
+            })
+            .on('click', function(e) {
+                if( lastResizableImg != null && !(e.target instanceof HTMLImageElement) ) {
+                    destroyResizable();
+                }
+            })
+            .on('keydown', function() {
+                destroyResizable();
+            });
+        }
+
+        enableImageResize();
+
+        /**
+        //or we can load the jQuery UI dynamically only if needed
+        if (typeof jQuery.ui !== 'undefined') enableImageResize();
+        else {//load jQuery UI if not loaded
+            $.getScript($path_assets+"/js/jquery-ui.custom.min.js", function(data, textStatus, jqxhr) {
+                enableImageResize()
+            });
+        }
+        */
+    }//if chrome set image resize
+    
+            
+    });
+    
+    
+</script>
+
+
+    
+                        
+                    </div><!-- /.page-content-area -->
+                    
+                </div><!-- /.page-content -->
+                </div>
+            </div><!-- /.main-content -->
+
+
+            <!-- #section:basics/footer -->
+            <!--
+            <div class="footer">
+                <div class="footer-inner">
+                    <div class="footer-content">
+                        <span class="bigger-120">
+                            <span class="blue bolder">Ace</span>
+                            Application &copy; 2013-2014
+                        </span>
+
+                        &nbsp; &nbsp;
+                        <span class="action-buttons">
+                            <a href="#">
+                                <i class="ace-icon fa fa-twitter-square light-blue bigger-150"></i>
+                            </a>
+
+                            <a href="#">
+                                <i class="ace-icon fa fa-facebook-square text-primary bigger-150"></i>
+                            </a>
+
+                            <a href="#">
+                                <i class="ace-icon fa fa-rss-square orange bigger-150"></i>
+                            </a>
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+            -->
+            <!-- /section:basics/footer -->
+
+            <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+                <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+            </a>
+        </div><!-- /.main-container -->
+                    
+        
+        
+        <!-- Inline Scripts -->
+                <!-- / Inline Scripts -->
+        
+        <script>
+            
+            $(function(){
+                if($.select2){
+                    $('.select2').select2( {
+                        minimumResultsForSearch: -1,
+                        dropdownCssClass : 'no-search'                    
+                    } );
+                }
+                
+                $('#ace-settings-add-container').on('change',function(e){
+                    
+                    if( $('#ace-settings-add-container').length >0 ){
+                        console.log($('#ace-settings-add-container').prop('checked'));
+                        if($('#ace-settings-add-container').prop('checked')){
+                            $('#navbar').addClass('container');
+                            $('#navbar-container').css('padding-left','8px;');
+                        }else{
+                            $('#navbar').removeClass('container');
+                        }
+                        
+                    }
+                    
+                });                
+            } );
+            
+        </script>
+
+
+
+</body></html>

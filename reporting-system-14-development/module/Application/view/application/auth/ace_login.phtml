@@ -1,0 +1,192 @@
+<?php
+    
+    $redirect_parts=explode('?',urldecode($this->target));
+    $base_part=$redirect_parts[0];
+    $query_part='?'.(count($redirect_parts)>1?$redirect_parts[1]:'');
+
+    if($base_part==''){
+        $base_part='home';
+    }
+?>
+
+<div class="no-border no-padding col-sm-12">
+    
+    <div class="no-border no-padding col-sm-6">
+        <img class="pull-left" src="<?=$this->basePath().'/img/logo_2.png'?>"/>
+    </div>
+       
+    <div class="no-border no-padding col-sm-6">
+        <img class="pull-right" src="<?=$this->basePath().'/img/l4ablue.png'?>"/>
+    </div>
+    
+    
+</div>
+
+
+<div  class="login-layout light-login align-center align-middle" style="background-image: none;background-color: white;">
+    <div class=" "> <!-- div-size -->
+
+
+
+        <div id="login-box" class="login-box visible widget-box" style="margin: auto !important;max-height: 314 !important;max-width: 440px !important">
+
+
+            <div class="widget-body">
+                <div class="widget-main">
+    
+                    <?php
+                        // Usable in any of your .phtml files
+                        //echo $this->flashMessenger()->render('login-form',array('alert','alert-danger'));
+                    ?>
+                    <div class="space-6"></div>
+                    <h3 class="title blue lighter bigger">
+                        <i class="ace-icon middle fa bigger-120 fa-lock"></i>
+                       Login is required for access
+                    </h3>
+                    <div class="space-20"></div>
+    
+                    <form action="/login/authenticate" method="post">
+                        <fieldset>
+                            <label class="block clearfix">
+                                <span class="block input-icon input-icon-right">
+                                    <input type="text" class="form-control" name="username" placeholder="Username" />
+                                    <i class="ace-icon fa fa-user"></i>
+                                </span>
+                            </label>
+    
+                            <label class="block clearfix">
+                                <span class="block input-icon input-icon-right">
+                                    <input type="password" class="form-control" name="userpassword" placeholder="Password" />
+                                    <i class="ace-icon fa fa-lock"></i>
+                                </span>
+                            </label>
+
+                            <div class="space"></div>
+    
+                            <div class="clearfix">
+                                <input type="hidden" name="target" value="<?=(isset($this->target))?$this->url($base_part).$query_part:''?>"/>
+    
+                                <button type="submit" class="width-35 pull-right btn btn-sm btn-primary btn-round btn-bold ">
+                                    <i class="bigger-130 bolder ace-icon fa fa-key"></i>
+                                    <span class="bigger-130 bolder">Login</span>
+                                </button>
+                                <!-- Button with type submit is not same as input with type submit
+                                    Input with submit allows submit of form on enter
+                                    But we need to style button so use a hiddn submit input
+                                    -->
+                                <input type="submit" class="hide"  style='position: absolute; left: -9999px; width: 1px; height: 1px;' tabindex='-1'/>
+                            </div>
+    
+                            <div class="space-4"></div>
+                        </fieldset>
+                    </form>
+                    <!--
+                    <h4 class="header blue lighter bigger">
+                        <i class="ace-icon fa fa-chevron-circle-right orange"></i>
+                        Contact General Secretary for username/password?</br/>
+                         
+                    </h4>
+                    -->
+
+  
+                </div><!-- /.widget-main -->
+    
+                <div class="toolbar clearfix">
+                    <div style="width: 100%">
+                        <a href="#" data-target="#forgot-box" class="forgot-password-link">
+                            <i class="ace-icon fa fa-arrow-left"></i>
+                            I forgot my password or username
+                        </a>
+                    </div>
+                        
+                </div>
+            </div><!-- /.widget-body -->
+        </div><!-- /.login-box -->
+    
+        <div id="forgot-box" class="forgot-box widget-box no-border " style="margin: auto !important;max-height: 314 !important;max-width: 440px !important">
+            <div class="widget-body">
+                <div class="widget-main align-left">
+                    <h4 class="header blue lighter bigger">
+                        <i class="ace-icon fa fa-key"></i>
+                        Recover your username or password
+                    </h4>
+                        
+                    <form >
+                        <fieldset>
+                            <label class="col-sm-3 no-padding">Send me </label>
+                            <div class="col-sm-9">
+                            <label class="padding-4" >
+                                <input name="form-field-radio" type="radio" class="ace" />
+                                <span class="lbl padding-4">&nbsp;Password</span>
+                            </label>
+                            <label class="padding-4">
+                                <input name="form-field-radio" type="radio" class="ace" />
+                                <span class="lbl">&nbsp;Username</span>
+                            </label>
+                            </div>
+                            <label class="block clearfix">Username
+                                <span class="block input-icon input-icon-right">
+                                    <input type="text" class="form-control" name="user_name" placeholder="Username" />
+                                    <i class="ace-icon fa fa-profile"></i>
+                                </span>
+                            </label>
+                            <label class="block clearfix">Email associated with your account
+                                <span class="block input-icon input-icon-right">
+                                    <input type="email" class="form-control" name="user_email" placeholder="Email" />
+                                    <i class="ace-icon fa fa-envelope"></i>
+                                </span>
+                            </label>
+
+                            <label class="block clearfix">Member Code
+                                <span class="block input-icon input-icon-right">
+                                    <input type="password" class="form-control" name="member_code" placeholder="Membercode" />
+                                    <i class="ace-icon fa fa-lock"></i>
+                                </span>
+                            </label>
+
+                            <span class="lbl">
+                                Instructions will be emailed to your registered email address
+                            </span>
+    
+                            <div class="clearfix">
+                                <button type="button" class="width-35 pull-right btn btn-sm btn-danger btn-white btn-round">
+                                    <i class="ace-icon fa fa-lightbulb-o"></i>
+                                    <span class="bigger-110">Send Me!</span>
+                                </button>
+                                <button type="button" class="width-35 pull-right btn btn-sm btn-primary btn-white btn-round">
+                                    <i class="ace-icon fa fa-refresh"></i>
+                                    <span class="bigger-110">Reset</span>
+                                </button>
+                            </div>
+                        </fieldset>
+                    </form>
+                    
+                </div><!-- /.widget-main -->
+    
+                <div class="toolbar center">
+                    <a href="#" data-target="#login-box" class="back-to-login-link">
+                        Back to login
+                        <i class="ace-icon fa fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div><!-- /.widget-body -->
+        </div><!-- /.forgot-box -->
+    
+    </div><!-- div-size -->
+</div>
+
+<script type="text/javascript">
+    $(function(){                
+         $(document).on('click', '.toolbar a[data-target]', function(e) {
+            e.preventDefault();
+            var target = $(this).data('target');
+            console.log($('.widget-box.visible').attr('id'));
+            $('.widget-box.visible').removeClass('visible');//hide others
+            $(target).addClass('visible');//show target
+         });
+         
+         $('.login-layout').prepend('<div style="height:100px"></div>');
+         
+         console.log($('.login-layout').css('top'));
+    });
+</script>

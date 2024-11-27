@@ -1,0 +1,1 @@
+docker run -p 3306:3306 -p 8080:8080 --rm -itd --name reports-dev -v /Users/haroon/workspace/reporting_system:/var/www/html/app -v $HOME/.ssh/rep-key:/docker/key  -e bin_data=/docker/key -e APP_ROOT=/var/www/html/app reports-dev

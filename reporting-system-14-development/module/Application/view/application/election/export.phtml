@@ -1,0 +1,97 @@
+<h2 class="title header blue">
+	
+	Export Election Results
+	
+</h2>
+
+<form class="form-horizontal" role="form" id="election_export_form" method="post" action="<?=$this->url('election/export') ?>"  name="election_export_form" >
+
+	<?=$this->formElement($this->form->get('user_action'))?>
+
+<div class="row">
+<div class="col-xs-12 col-lg-12 " >
+
+    <div class="col-sm-6 panel panel-default widget-container-col no-padding" >
+    	  
+    <div class="widget-box no-border" id="user_info_widget_box">
+
+        <div class="widget-body widget-main no-margin-bottom no-padding-bottom">    
+
+		<div class="col-sm-12 ">
+			
+		   <div class="col-sm-12 no-padding no-margin">
+           <div class="form-group">
+              <label class="col-sm-4 control-label no-padding-right" for="period_from">Filter Type: </label>
+              <div class="col-sm-8">
+                <?=$this->formElement($form->get('export_filter')) ?>
+              </div>
+           </div>
+		  </div><!--field -->
+
+          <div class="col-sm-12 no-padding no-margin"></div>
+
+           <div class="col-sm-12 no-padding no-margin">
+           <div class="form-group">
+              <label class="col-sm-4 control-label no-padding-right" for="period_from">Election Type: </label>
+              <div class="col-sm-8">
+                <?=$this->formElement($form->get('election_type')) ?>
+              </div>
+           </div>
+          </div><!--field -->
+			
+		  <div class="col-sm-12 no-padding no-margin"></div>
+			
+		   <div class="col-sm-12 no-padding no-margin">
+           <div class="form-group">
+              <label class="col-sm-4 control-label no-padding-right" for="period_from">Branches to Export: </label>
+              <div class="col-sm-8">
+                <?=$this->formElement($form->get('branches'))?>
+              </div>
+           </div>
+		  </div>
+		  
+		  <!--field -->
+		  		  
+		</div> <!-- Form Col -->
+		
+		<div class="space-24"></div>
+		<div class="space-24"></div>
+		<div class="space-24"></div>
+	</div> <!-- body -->
+
+        <div class="widget-header2 widget-header-small  ">
+            <div class="widget-toolbar">
+	            <div class="btn-group">
+	                <button class="btn btn-info btn-group" type="submit">
+	                    <i class="ace-icon fa fa-save bigger-110"></i>
+	                    Export
+	                </button>
+	                
+	                <button class="btn btn-group" type="reset">
+	                    <i class="ace-icon fa fa-undo bigger-110"></i>
+	                    Reset
+	                </button>
+	            </div>
+            </div><!--Tool Bar-->
+        </div><!--Header-->
+	
+	</div> <!--Widget box -->
+	</div> <!--Panel Container -->
+	
+</div> <!-- Col-->
+</div><!-- Row-->
+</form>
+
+<script>
+
+    $(function(){
+       
+      	$('select').attr('autocomplete','off').select2({
+        	width:'225px',
+        	minimumResultsForSearch: 10,
+       });
+        
+    });
+    
+</script>
+

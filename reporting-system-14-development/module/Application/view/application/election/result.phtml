@@ -1,0 +1,724 @@
+<!--
+<script src="<?=$this->basePath()?>/assets/js/ckeditor/ckeditor.js" ></script>
+<script src="<?=$this->basePath()?>/assets/js/ckeditor/adapters/jquery.js"></script>
+< ? php include __DIR__.'/../../partial/grid_includes.phtml'  ? >
+-->
+
+<style>
+	.dropdown-preview {
+		margin: 0 5px;
+		display: inline-block;
+	}
+	.dropdown-preview  > .dropdown-menu {
+		display: block;
+		position: static;
+		margin-bottom: 3px;
+	}
+	
+	.table-input-grid>tbody>tr>td{
+		padding:0px!important;
+	}
+	.table-input-grid>tbody>tr>td>input{
+		border:0px!important;
+	}
+	
+	.dropdown-menu>li.completed{
+		background-color:#5cb85c!important;
+		color:white!important;
+	}
+	.dropdown-menu>li.completed>a{
+		background-color:#5cb85c!important;
+		color:white!important;
+	}
+
+	.dropdown-menu>li>a{
+		padding-top: 2px!important;
+		padding-bottom: 2px!important;
+		line-height: 1.3!important;
+	}
+
+	/* The CSS */
+	.table-input-grid>select {
+	    padding:3px!important;
+	    margin: 0!important;
+	    -webkit-border-radius:4px!important;
+	    -moz-border-radius:4px!important;
+	    border-radius:4px!important;
+	    -webkit-box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset!important;
+	    -moz-box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset!important;
+	    box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset!important;
+	    background: #f8f8f8!important;
+	    color:#888!important;
+	    border:none!important;
+	    outline:none!important;
+	    display: inline-block!important;
+	    -webkit-appearance:none!important;
+	    -moz-appearance:none!important;
+	    appearance:none!important;
+	    cursor:pointer!important;
+	}
+		
+</style>
+<script>
+	function edit_dept(election_report_id){
+		$('#next_election_report_id').val(election_report_id);
+		$('form[name="election_edit_form"]').find('button[type="submit"]')[0].click()
+	}	
+</script>
+
+<?php
+
+  $election = $this->election; 
+  $election_report = $this->election_report; 
+  $status = $election->getElectionStatus();
+  $status_name=$status;
+  $next_status_submit='Next Dept';
+  $election_report_form=$this->form->get('election_report');
+  
+  $read_only = ($election->getElectionStatus()!='draft');
+    
+  foreach ($this->config['election_status'] as $status_list) {
+      if($status_list['id']==$status){
+      	$status_name=$status_list['label'];
+      }
+  }
+   
+  if ($election->getElectionType()!='office_bearer'){
+      $next_status_submit='Submit';
+  } 
+   
+?>
+
+
+<form  name="election_edit_form" id="election_edit_form" class="form-horizontal" role="form" enctype="multipart/form-data" method="post" action="<?=$this->url('election/result')?>" data-description="Election" >
+
+<div class="hidden hide">
+	<!-- hidden form elements -->
+	<input type="hidden"  name="election_id" value="<?=$this->election->getId()?>"/>
+	<input type="hidden"  name="id" value="<?=$this->election->getId()?>"/>
+	<input type="hidden"  name="branch_id"  value="<?=$this->election->getBranch()->getId()?>"/>
+	<input type="hidden"  id="election_report_id" name="election_report_id" value="<?=$this->election_report->getId()?>"/>
+	<!-- next_election_report_id is only set by client side in JS when user clicks on right side dept list otherwise it's empty
+		 So, in control when we have a value here we go to that dept, always, otherwise we load current dept
+		-->
+	<input type="hidden"  id="next_election_report_id" name="next_election_report_id" value=""/>
+</div>
+
+<div class="row clearfix">
+<div class="col-sm-12 col-md-12 no-margin no-padding report-panel-del row-panel " >
+	
+    <div class="col-sm-10">
+            <span class="col-sm-12 title bolder blue bigger-150">
+				<?=$election->getBranch()->getBranchLevel()?> <?=$election->getBranch()->getBranchName()?> &ndash;
+				<?=$election_report->getOfficeTitle()?> &ndash; Election Report
+            </span>
+            
+            <span class="col-sm-12 space-4"></span>
+    </div>
+
+    <div class="col-sm-2 col-xs-12 pull-right  no-margin no-padding" >        
+
+		<div class="dropdown dropdown-preview col-sm-11 no-padding no-margin">
+			<ul class="dropdown-menu">
+			
+		    <?php foreach($election->getElectionReports() as $er):?>
+		    	<?php
+		    	  $selected='';
+		    	  $completed='';
+				  if($er->getDepartment()->getId()==$election_report->getDepartment()->getId()){
+				  	$selected='active';
+				  }
+				  if($er->getReportStatus()=='completed' || $er->getNotApplicable()=='on'){
+				  	  $completed='completed';	
+				  }
+		    	?>
+				<li style="max-width:200px;word-wrap:break-word" class="<?=$selected?> <?=$completed?>">
+					<a onclick="edit_dept(<?=$er->getId()?>);" style="word-wrap:break-word;white-space:normal!important" href="#" tabindex="-1">
+						<?=$er->getOfficeTitle()?>
+					</a>
+				</li>
+				<li class="divider" style="margin: 0px!important"></li>
+		    <?php endforeach ?>        
+		</ul>
+	</div>
+
+</div>
+    <div class="col-sm-10 col-xs-12 ">
+    <div class="col-sm-12 no-padding  col-xs-12  no-margin bigger-120 " >
+        <div class="col-sm-12 col-xs-12  no-padding no-margin" >
+            <label class="col-sm-2 col-xs-6 input-lable"><?=$election->getBranch()->getBranchType()?>: </label>
+            <span class="col-sm-5 col-xs-6 label label-xlg label-light field-holder "><?=$election->getBranch()->getBranchName()?></span>
+            <label class="col-sm-2 col-xs-6 input-lable">Election Term: </label>
+            <span class="col-sm-3 col-xs-6 label label-xlg label-light field-holder "><?=$election->getElectionTerm()?></span> 
+        </div>
+        <div class="space-6 col-sm-12 col-xs-12 "></div>
+        <div class="col-sm-12 no-padding no-margin">
+            <label class="col-sm-2  col-xs-6 input-lable">Last Modified By: </label>
+            <span class="col-sm-5 col-xs-6 label label-xlg label-light field-holder "><?=$election->getModifiedBy()->getDisplayName()?></span>
+                        
+            <label class="col-sm-2 col-xs-6 input-lable"> Status: </label>
+            <span class="col-sm-3 col-xs-6 label label-xlg label-light field-holder "><?=$status_name?></span>
+        </div>
+        <div class="space-6 col-sm-12"></div>        
+    </div>    
+    
+    
+        
+    <div class="widget-box col-xs-12  col-sm-12 no-border-del ">
+          
+        <div class="widget-body ">
+
+            <!-- Buttons top-->
+          <div class="widget-header widget-header-small no-padding no-margin default-widget-header-border" >
+          <div class="navbar-default toolbar no-padding no-margin nav navbar-form padding-8 clearfix" style="border-bottom: 1px;display:table;width:100%" >
+
+          <div style="display:table-row;width:100%">
+              
+         <div class="toolbar " style="text-align:center;margin: auto!important">
+         	                       
+         <button type="submit" class="btn  btn-primary btn-white  btn-round btn-sm margin-4 submit-btn" value="save" name="user_action">
+            <i class="ace-icon fa fa-floppy-o"></i>
+
+            <?php if (! $read_only):?>
+            <span class="bigger-110">Save as <?=$status_name?></span>
+            <?php else:?>
+            <span class="bigger-110">Save</span>
+            <?php endif?>
+        </button>
+        <a  class="btn btn-success  btn-white  btn-round btn-sm margin-4 back-to-reports" value="back" name="back-to-reports" id="back-to-reports"
+            href="<?=$this->url('election/list')?>">
+            <i class="ace-icon fa fa-"></i>
+            <i class="ace-icon fa ace fa-arrow-left"></i>
+            <span class="bigger-110">Back to Elections</span>
+        </a>
+        <a href="<?=$this->url('election/print')?>?id=<?=$election->getId()?>" target="_blank" class="print-report btn btn-primary  btn-white  btn-round btn-sm margin-4 ">
+            Print
+            <i class="fa fa-print icon ace-icon"></i>
+        </a>
+
+  <?php if ($election->getElectionType() == 'office_bearer'): ?>
+        
+        <a href="<?=$this->url('election/submit')?>?id=<?=$election->getId()?>" class="submit-report btn btn-success  btn-white  btn-round btn-sm margin-4 ">
+            Submit All &nbsp;
+            <i class="fa fa-check-square icon ace-icon"></i>
+        </a>
+        
+        <?php if ($this->last_report) :?>
+            <a href="<?=$this->url('election/submit')?>?id=<?=$election->getId()?>" class="submit-report btn btn-success  btn-white  btn-round btn-sm margin-4 ">
+                <?=$next_status_submit?> &nbsp;
+                <i class="fa fa-check-square icon ace-icon"></i>
+            </a>
+       <?php else: ?>
+        <button type="submit"  class="  btn btn-success btn-white  btn-round btn-sm margin-4 submit-btn" value="complete" name="user_action">
+            <i class="ace-icon fa fa-"></i>
+            <?php if (! $read_only):?>
+            <span class="bigger-110"><?=$next_status_submit?></span>
+            <?php else:?>
+            <span class="bigger-110">Submit</span>
+            <?php endif?>
+            <i class="ace-icon fa fa-sign-in icon-on-right"></i>
+        </button>
+        <?php endif?>
+<?php else:?>
+        <button type="submit"  class="  btn btn-success btn-white  btn-round btn-sm margin-4 submit-btn" value="complete" name="user_action">
+            <i class="ace-icon fa fa-"></i>
+            <span class="bigger-110">Submit</span>
+            <i class="ace-icon fa fa-sign-in icon-on-right"></i>
+        </button>
+<?php endif?>
+        
+        </div>
+      </div>  
+
+
+         </div>
+         </div><!-- header -->
+            
+          <div class="widget-main no-padding no-margin form-body-del " style="background-color:#FFFFFF!important">
+							<div class="col-sm-12 space-6"></div>
+
+					<?php if($this->errors):?>
+							<div class="col-sm-12 alert alert-danger no-padding no-margin " style="" id="result_form_DetailsArea">
+								<span class="alert-danger"><?=$errors[0]['message']?></span>
+								<ul class="alert">
+								<?php foreach($this->errors as $error): ?>
+									<?php if($error['type']=='summary') {continue;} ?>									
+									<?php $type= ($error['type']=='error'?'alert-danger':'alert-warning');?>
+									<li class=" <?=$type?>"><?=$error['message']?></li>
+								<?php endforeach?>			
+								</ul>
+							</div>
+							<div class="col-sm-12 space-6"></div>
+					<?php endif?>
+
+								<?php if($this->acknowledged_warnings):?>
+									<div class="col-sm-12 no-padding no-margin " style="background-color: #f5f5f5;" id="result_form_DetailsArea">
+										<div class="col-sm-12 space-6"></div>
+										<div class="col-sm-12 no-margin padding-4">
+											<div class="column  clearfix input-field-container">
+											      <label class="col-sm-5 no-padding-right col-xs-6 input-lable" for="dept_name">
+											          Check to acknowledge above warning(s)
+											          </label>
+												<div class="col-sm-4 col-xs-6">
+      												<?=$this->formElement($election_report_form->get('warnings_acknowledged'))?>
+
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-12 space-6"></div>
+									</div>
+									<div class="col-sm-12 space-6"></div>
+								<?php endif?>
+					
+							<div class="col-sm-12 no-padding no-margin " style="background-color: #f5f5f5;" id="result_form_DetailsArea">
+
+								<div class="col-sm-12 space-6"></div>
+	
+								<div class="col-sm-12 no-padding no-margin one-row-of-columns">
+
+									<div class="col-sm-6 no-margin padding-4">
+
+										<div class="column  clearfix input-field-container">
+										      <label class="col-sm-5 no-padding-right col-xs-6 input-lable" for="dept_name">
+										          Office:
+										          </label>
+											<div class="col-sm-4 col-xs-6">
+										        <span style="height:auto!important;white-space:normal;width:200px!important;" id="dept_name" class="label label-xlg label-light field-holder "><?=$this->election_report->getOfficeTitle()?></span>  
+											</div>
+										</div>
+
+									</div>
+									<div class="col-sm-6 no-margin no-padding">
+										<div class="column  clearfix input-field-container">
+									      <label class="col-sm-7 no-padding-right col-xs-6 input-lable" for="eligible_voters_present">
+									          Eligible Voters Present:
+									          </label>
+											<div class="col-sm-4 col-xs-6">
+												<!--
+												<input type="text" name="eligible_voters_present" class="form-input-style input-small " value="<?=$election_report_form->get('eligible_voters_present')->getValue()?>">
+												-->
+												<?=$this->formElement($election_report_form->get('eligible_voters_present'))?>
+											</div>
+										</div>
+
+									</div>
+								</div>
+								
+								<div class="col-sm-12 space-6"></div>
+								<div class="col-sm-12 no-padding no-margin one-row-of-columns">
+
+                                <?php if ($election->getElectionType() == 'shura' ) :?>
+                                    <div class="col-sm-6 no-margin padding-4">
+
+                                        <div class="column  clearfix input-field-container">
+                                              <label class="col-sm-5 no-padding-right col-xs-6 input-lable" for="allowed_delegates">
+                                                  Allowed Delegates:
+                                                  </label>
+                                            <div class="col-sm-4 col-xs-6">
+                                                <span style="height:auto!important;white-space:normal;width:200px!important;" id="allowed_delegates" class="label label-xlg label-light field-holder ">
+                                                    <?=$election->getAllowedDelegates()?>
+                                                 </span>  
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                <?php elseif ($election->getElectionType() == 'majlis_intikhab' ) :?>
+                                    <div class="col-sm-6 no-margin padding-4">
+
+                                        <div class="column  clearfix input-field-container">
+                                              <label class="col-sm-5 no-padding-right col-xs-6 input-lable" for="allowed_delegates">
+                                                  Allowed Majlis Intikhab Members:
+                                                  </label>
+                                            <div class="col-sm-4 col-xs-6">
+                                                <span style="height:auto!important;white-space:normal;width:200px!important;" id="allowed_delegates" class="label label-xlg label-light field-holder ">
+                                                    <?=$election->getAllowedElectors()?>
+                                                 </span>  
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                <?php else: ?>
+									<div class="col-sm-6 no-margin padding-4">
+
+										<div class="column  clearfix input-field-container">
+										      <label class="col-sm-5 no-padding-right col-xs-6 input-lable" for="dept_name">
+										          Not Applicable:
+										          </label>
+											<div class="col-sm-4 col-xs-6">
+												<!-- input id="election_report_not_applicable" type="checkbox" name="not_applicable" class="form-input-style input-small " value="<?=$election_report_form->get('not_applicable')->getValue()?>" -->
+												<?=$this->formElement($election_report_form->get('not_applicable'))?>
+											</div>
+										</div>
+
+									</div>
+							    <?php endif ?>
+									<div class="col-sm-6 no-margin no-padding">
+										<div class="column  clearfix input-field-container">
+									      <label class="col-sm-7 no-padding-right col-xs-6 input-lable" for="eligible_voters_present">
+									          Report Status:
+									          </label>
+											<div class="col-sm-4 col-xs-6">
+												<span class=" label label-xlg label-light field-holder " id="report_status"><?=ucfirst($election_report->getReportStatus())?></span>
+											</div>
+										</div>
+
+									</div>
+								</div>			
+								<div class="col-sm-12 space-6"></div>
+					
+							</div><!-- Election Report Section-->
+			
+							<div class="table-responsive"> 
+							<table  class="table table-input-grid table-bordered table-hover table-scondensed " id="election_proposals_table" style="border:2px solid #d5d5d5;">
+							    <thead>
+							        <tr>
+							            <th style="width:30px;text-align: left">No.</th>
+							            <th style="width:55px">Code</th>
+							            <th>Proposed Name</th>
+							            <th style="width:55px">Regular in Prayers</th>
+							            <th style="width:55px">Basharah Chanda</th>
+							            <th style="width:80px">Have Beard</th>
+							            <th>Proposed By</th>
+							            <th>Seconded By</th>
+
+								    <th>Branch</th>
+
+							            <th style="width:55px">Votes</th>
+							            <?php if($election_report->getNeedIntroduction()):?>
+							            <th style="width:50px!imortant">Intro</th>
+							            <?php endif?>							            	
+							        </tr>
+							    </thead>
+							    <tbody id="election_proposals_body">
+							        <?php foreach ($this->form->get('election_proposal') as $proposal_form): ?>
+							        	<?php 
+							        		$proposal_form->get('election_report_id')->setValue($election_report->getId());
+											$proposal_id = $proposal_form->get('id')->getValue();
+											$proposal_num = $proposal_form->get('proposal_number')->getValue();
+											$proposed_name = $proposal_form->get('proposed_name')->getValue();
+							        	?>
+							        <tr class="election_proposals_row" style2="border:2px solid #d5d5d5;">
+							            <td><?=$this->formElement($proposal_form->get('id'))?>
+							            	<?=$this->formElement($proposal_form->get('election_report_id'))?>
+							            	<?=$this->formElement($proposal_form->get('proposal_number'))?>
+							            </td>
+							            <td><?=$this->formElement($proposal_form->get('member_code'))?></td>
+							            <td data-intro-title-id="intro_title_<?=$proposal_id?>"><?=$this->formElement($proposal_form->get('proposed_name'))?></td>
+							            <td style="text-align: center;"><?=$this->formElement($proposal_form->get('regular_in_prayers'))?></td>
+							            <td style="text-align: center;"><?=$this->formElement($proposal_form->get('basharah_chanda'))?></td>
+							            <td style="text-align: center;"><?=$this->formElement($proposal_form->get('have_beard'))?></td>
+
+							            <td><?=$this->formElement($proposal_form->get('proposed_by'))?></td>
+							            <td><?=$this->formElement($proposal_form->get('seconded_by'))?></td>
+
+								    <td><?=$this->formElement($proposal_form->get('branch_name'))?></td>
+
+							            <td><?=$this->formElement($proposal_form->get('votes'))?></td>
+							            <?php if($election_report->getNeedIntroduction()):?>
+							            <td>
+							            	<button type="button" class="btn btn-primary btn-white btn-round btn-sm intro-dialog-btn " data-toggle="modal" 
+							            			data-target=".intro-<?=$proposal_id?>-modal-sm">
+							            		Intro
+												<i class="ace-icon fa fa-info-circle"></i>
+											</button>
+											<div class="modal fade intro-<?=$proposal_id?>-modal-sm intro-dialog-element" tabindex="-1" role="dialog" >
+											  <div class="modal-dialog ">
+											    <div class="modal-content">
+											    	  <div class="space-6"></div>
+														<h4 class="text-center modal-title" data-proposal-num="<?=$proposal_num?>" id="intro_title_<?=$proposal_id?>" >
+															Introduction for <?=(!empty($proposed_name))?$proposed_name:('proposal # '.$proposal_num)?>
+														</h4>
+												      <div class="modal-body">
+												      	
+											      		<?=$this->formElement($proposal_form->get('introduction'))?>
+											      		
+											      		<table class="results-table width-100" >
+											      		<tr><td colspan="2">
+											      		<b>Introduction to include:</b>
+											      		</td></tr>
+											      		<tr><td>
+											      												      		
+											      		Age of person, <br/>
+														Duration he has held existing office,<br/>
+														Other offices he has held in the past, <br/> 
+														</td><td>
+														
+														Education, <br/>
+														Full Introduction of the person<br/>
+														</td></tr>
+														</table>
+											      	</div>
+													<div class="modal-footer">
+													    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+													</div>
+      											    </div>
+											  </div>
+											</div>							            	
+							            </td>
+							            <?php endif?>							            	
+							                
+							        </tr>
+							        <?php endforeach ?>
+							    </tbody>
+							</table>														
+							<div class="col-sm-12 space-6"></div>
+							
+							<div class="col-sm-9 pull-left">
+								<div class="column  clearfix input-field-container">
+									
+								      <label class="col-sm-2 col-xs-6  no-padding-right input-lable" for="dept_name">
+								          Comments:
+								          </label>
+									<div class="col-sm-10 col-xs-6">
+        									<?=$this->formElement($election_report_form->get('comments'))?>  
+									</div>
+								</div>
+
+								</div>
+							</div>
+							<div class="col-sm-2 pull-right">
+							<a class="btn btn-primary btn-round btn-white padding-4 btn-sm" href="#" id='add_row_btn'>
+						        &nbsp;
+						        <i class="ace-icon fa fa-plus bigger-110"></i>
+						        Add Row
+						        &nbsp;
+						    </a>
+					   		</div>								
+					</div> <!-- election report table -->
+
+
+             
+          </div><!-- //MAIN Form Body -->             
+
+
+          <!-- Buttons bottom-->  
+          <div class="col-sm-12 no-padding no-margin" style="padding-top: 15px!important">
+          <div class="widget-header widget-header-small no-padding no-margin default-widget-header-border" style="display:table;width:100%" >
+
+		<div class="toolbar " style="text-align:center;margin: auto!important">
+         	                       
+         <button type="submit" class="btn  btn-primary btn-white  btn-round btn-sm margin-4 submit-btn" value="save" name="user_action">
+            <i class="ace-icon fa fa-floppy-o"></i>
+
+            <?php if (! $read_only):?>
+            <span class="bigger-110">Save as <?=$status_name?></span>
+            <?php else:?>
+            <span class="bigger-110">Save</span>
+            <?php endif?>
+        </button>
+        <a  class="btn btn-success  btn-white  btn-round btn-sm margin-4 back-to-reports" value="back" name="back-to-reports" id="back-to-reports"
+            href="<?=$this->url('election/list')?>">
+            <i class="ace-icon fa fa-"></i>
+            <i class="ace-icon fa ace fa-arrow-left"></i>
+            <span class="bigger-110">Back to Elections</span>
+        </a>
+        <a href="<?=$this->url('election/print')?>?id=<?=$election->getId()?>" target="_blank" class="print-report btn btn-primary  btn-white  btn-round btn-sm margin-4 ">
+            Print
+            <i class="fa fa-print icon ace-icon"></i>
+        </a>
+
+<?php if ($election->getElectionType() == 'office_bearer'): ?>
+        <a href="<?=$this->url('election/submit')?>?id=<?=$election->getId()?>" class="submit-report btn btn-success  btn-white  btn-round btn-sm margin-4 ">
+            Submit All &nbsp;
+            <i class="fa fa-check-square icon ace-icon"></i>
+        </a>
+ 
+        <button type="submit"  class="  btn btn-success btn-white  btn-round btn-sm margin-4 submit-btn" value="complete" name="user_action">
+            <i class="ace-icon fa fa-"></i>
+            <?php if (! $read_only):?>
+            <span class="bigger-110"><?=$next_status_submit?></span>
+            <?php else:?>
+            <span class="bigger-110">Submit</span>
+            <?php endif?>
+            <i class="ace-icon fa fa-sign-in icon-on-right"></i>
+        </button>
+
+<?php else:?>
+        <button type="submit"  class="  btn btn-success btn-white  btn-round btn-sm margin-4 submit-btn" value="complete" name="user_action">
+            <i class="ace-icon fa fa-"></i>
+            <span class="bigger-110">Submit</span>
+            <i class="ace-icon fa fa-sign-in icon-on-right"></i>
+        </button>
+        
+<?php endif?>        
+        </div>
+        
+         </div>
+         </div>
+         
+                             
+    </div><!-- //Widget body -->
+
+    </div><!-- //Widget box for form -->
+
+    
+    </div> <!-- Report section -->
+
+
+</div><!-- //row -->    
+
+</form>
+
+<div class="space-20"></div>
+
+<script>
+	var fetch_name = function(args){ 
+  				var source = args['target'];
+  				var code  = source.value;
+  				var ajaxUrl = "<?=$this->url('election/mlist')?>";
+  				$.ajax({
+  					url:ajaxUrl ,
+  					dataType: 'json',
+  					data: {'id':code,'target':source.name},
+  					success: function(resp){
+  						var display_name='';
+  						var branch_name='';
+
+  						if(resp['status'] == 'success'){
+  							display_name = resp.data[0].display_name;
+							branch_name = resp.data[0].branch_name;
+  						}
+
+  						var target = resp['target'].replace('member_code','proposed_name');
+  						$('input[name="'+target+'"]').val(display_name);
+  						var target = resp['target'].replace('member_code','branch_name');  				
+  						$('input[name="'+target+'"]').val(branch_name);
+
+  					},
+  					fail: function(edata){console.log(edata)}
+					});
+  				};
+
+	$(function(){
+		
+		$('#add_row_btn').click(function(){
+			
+			var cloned = $('#election_proposals_table').find('tr.election_proposals_row:last').clone();
+
+			var new_index=$('#election_proposals_table').find('tr.election_proposals_row').size()
+			var last_index=new_index-1;
+			
+			$(cloned).find('input[type="TEXT"]').attr('value','');
+			$(cloned).find('option').removeAttr('selected');
+			$(cloned).find('textarea').attr('value','');
+			
+
+			$(cloned).find('input[name="election_proposal['+last_index+'][proposal_number]"]').attr('value',new_index+1);
+			
+			
+			var dialog_id=$(cloned).find('input[name="election_proposal['+last_index+'][id]"]').val();
+			dialog_id = 'intro_dialog_'+ dialog_id+'_'+new_index;
+			
+			$(cloned).find('.intro-dialog-btn').attr('data-target','.'+dialog_id);
+			
+			$(cloned).find('.intro-dialog-element').attr('class','modal fade intro-dialog-element '+dialog_id)
+
+			$(cloned).find('.modal-dialog').find('.modal-title').html('Introduction for proposal number # '+ (new_index+1));	
+						
+			var template=$('<div>').append(cloned).html();
+			
+			var new_row = template.replace(new RegExp('\\['+last_index+'\\]','g'),'['+new_index+']');
+
+			$('#election_proposals_body').append(new_row);
+			
+			$('input').filter(
+				function() {
+	    			return this.name.match(/election_proposal\[.*\]\[member_code\]/);
+	  		}).blur(fetch_name);
+
+  			return false;
+		});
+		
+		$('#election_report_not_applicable').on("change",function(){
+			
+			var val=this.checked;
+			var votes = $('#eligible_voters_present');
+			var proposals=$('#election_proposals_table').find('input,select');
+			if(val){
+				votes.attr('disabled','disabled');
+				proposals.attr('disabled','disabled');
+			}else{
+				votes.removeAttr('disabled');
+				proposals.removeAttr('disabled');
+			}			
+
+		});
+		
+		if($('#election_report_not_applicable').attr('checked')=='checked'){
+			$('#eligible_voters_present').attr('disabled','disabled');
+			$('textarea').attr('disabled','disabled');
+			$('#election_proposals_table').find('input,select').attr('disabled','disabled');
+		}
+		
+		$('button[name="user_action"][value="complete"]').on("click",function(){
+			if($('#eligible_voters_present').val()<1 && !($('#election_report_not_applicable').is(':checked')) ){
+	             $.gritter.add({
+	                title: 'Incomplete Election Report',
+	                text: 'Field "Eligible Voters Present" is required if election was held.<br/>If election was not held for this department, "Not Applicable" must be checked!',
+	                class_name: 'gritter-error  gritter-light',
+	                
+	            });
+				return false;
+			}
+		});
+		
+		//change title for intro dialog upon entering proposed name
+		//proposal-num
+		$('.proposed_name_intput').on("change",function(){
+			var input=$(this); 
+			var intro_title_id=input.parent().data('intro-title-id');
+			var intro_title = $('#'+intro_title_id); 
+			if(input.val()==''){
+				intro_title.html('Introduction for proposal number '+intro_title.data('proposal-num'));	
+			}else{
+				intro_title.html('Introduction for '+input.val());	
+			}
+						
+		});
+		
+        <?php if ($this->read_only): ?>                                         
+		$('#election_proposals_table').find('input,select,textarea').attr('disabled','disabled');
+		$('textarea').attr('disabled','disabled');
+		$('#eligible_voters_present').attr('disabled','disabled');
+		$('#election_report_not_applicable').attr('disabled','disabled');
+        <?php endif ?> 
+
+        //Javascript to support autocomplete of propoed named based on code
+        //mark all proposed name fields as readonly
+		$('input').filter(
+			function() {
+    			return this.name.match(/election_proposal\[.*\]\[proposed_name\]/);
+  			}
+  		).prop('readonly','readonly');
+		$('input').filter(
+			function() {
+    			return this.name.match(/election_proposal\[.*\]\[branch_name\]/);
+  			}
+  		).prop('readonly','readonly');
+
+		//Add lookup onblur
+		$('input').filter(
+			function() {
+    			return this.name.match(/election_proposal\[.*\]\[member_code\]/);
+  			}
+		).blur(fetch_name);
+
+		$('form[name="election_edit_form"]').submit(
+			function(){
+					$('input').filter(
+						function() {
+			    			return this.name.match(/election_proposal\[.*\]\[proposed_name\]/);
+			    			}
+			  		).prop('readonly','');
+			  		$('input').filter(
+						function() {
+			    			return this.name.match(/election_proposal\[.*\]\[branch_name\]/);
+			    			}
+			  		).prop('readonly','');
+			}
+		)
+
+	});
+</script>

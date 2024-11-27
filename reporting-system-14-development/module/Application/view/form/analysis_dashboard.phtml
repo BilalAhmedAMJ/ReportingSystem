@@ -1,0 +1,54 @@
+<?php
+
+return array(
+    'hydrator'  => 'Zend\Stdlib\Hydrator\ArraySerializable'
+    
+    ,'simple_specs'=>array(
+            
+        'office' =>array(
+            'type'=>'Text',
+            'value'=>'All',
+        )
+        ,'year'=>array(
+            'type'=>'Text',
+            'value'=>date('Y'),
+        )
+        ,'branch'=>array(
+            'type'=>'Text',
+            'value'=>'All',
+        )
+        ,'report_status'=>array(
+            'type'=>'Text',
+            'value'=>'All',
+        )
+        ,'office_names'=>array(
+            'type'=>'Checkbox',
+            
+        )
+        ,'saiq_report'=>array(
+            'type'=>'Checkbox',
+        )
+
+        ,'user_action'=>array(
+            'type'=>'hidden',
+            
+        )
+        
+    )//end simple_spec
+        
+    // Configuration to pass on to
+    // Zend\InputFilter\Factory::createInputFilter()
+    ,'input_filter' => array(
+        /* ... */
+        'type' => 'Zend\InputFilter\InputFilter',
+        'office' => array(
+            'name' => 'office',
+            'required' => true,
+            'validators' => array(
+                array(
+                    'name' => 'not_empty',
+                ),
+            )
+        )//not-empty
+    )
+);

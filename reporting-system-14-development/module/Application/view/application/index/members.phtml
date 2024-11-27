@@ -1,0 +1,261 @@
+<script src="<?=$this->basePath()?>/js/highcharts.js"></script>
+<script src="<?=$this->basePath()?>/js/no-data-to-display.js"></script>
+<!--[if lte IE 8]>
+  <script src="<?=$this->basePath()?>/assets/js/excanvas.js"></script>
+<![endif]-->
+
+<script src="<?=$this->basePath()?>/assets/js/jquery-ui.custom.min.js"></script>
+<script src="<?=$this->basePath()?>/assets/js/jquery.easypiechart.min.js"></script>
+<script src="<?=$this->basePath()?>/assets/js/flot/jquery.flot.min.js"></script>
+<script src="<?=$this->basePath()?>/assets/js/flot/jquery.flot.pie.min.js"></script>
+<script src="<?=$this->basePath()?>/assets/js/flot/jquery.flot.resize.min.js"></script>
+<script src="<?=$this->basePath()?>/assets/js/flot/jquery.flot.resize.min.js"></script>
+
+<script src="<?=$this->basePath()?>/assets/js/bootbox.min.js"></script>
+
+<style>
+    
+    .btn-app-sm > .btn-app {
+        width:60px!important;
+        font-size:12px!important;
+        line-height:0.7!important;
+        font-weight: 600;
+    }
+    .btn.btn-app.btn-sm>.ace-icon{
+        font-size:22px!important;
+    }
+    
+</style>
+
+<div class="row">
+    <div class="space-10"></div>
+</div>
+
+<div class="row">
+    <!-- Top Widgets Row -->
+   <div class="col-sm-12 responsive row-fluid">       
+
+	   <div class="col-sm-6 ">
+	       <div class="no-padding no-margin col-sm-12 btn-group-sm btn-app-sm">
+               <a class="btn btn-app btn-sm btn-sm2 btn-block btn-success" href="<?=$this->url('report')?>">        
+                    <i class="ace-icon fa fa-newspaper-o "></i>
+                    Report 
+                </a>
+               <a class="btn btn-app btn-sm btn-sm2 btn-block  btn-danger" href="<?=$this->url('document')?>">        
+                    <i class="ace-icon fa fa-folder-open-o "></i>
+                    Docs
+                </a>
+               <a class="btn btn-app btn-sm btn-sm2  btn-block btn-primary" href="<?=$this->url('message')?>">        
+                    <!-- add messages -->
+                    <?php if($this->messages()->outstandingCount() > 0):?>    
+                        <span class="badge badge-important  "><?=$this->messages()->outstandingCount()?></span>
+                        <i class="ace-icon fa fa-envelope-o icon-animated-vertical"></i>
+                    <?php else: ?>
+                        <i class="ace-icon fa fa-envelope-o "></i>
+                    <?php endif?>
+                    Message
+                </a>
+               <a class="btn btn-app btn-sm btn-sm2  btn-block  btn-pink btn-purple purple" href="<?=$this->url('office-assignment')?>">        
+                    <i class="ace-icon fa fa-users "></i>
+                    Lists
+                </a>
+               <a class="btn btn-app btn-sm btn-sm2  btn-block  btn-grey" href="<?=$this->url('user-profile')?>">        
+                    <i class="ace-icon fa fa-user"></i>
+                    Profile
+                </a>
+        
+               <a class="btn btn-app btn-sm btn-sm2 btn-block btn-danger " href="<?=$this->url('home/help')?>">        
+                    <i class="ace-icon glyphicon glyphicon-question-sign "></i>
+                    Help
+                </a>
+            </div>
+           <div class=" col-sm-12 no-margin no-padding">
+               <div class="space-4"></div>
+               <div class="infobox-blue2 info-title bigger-120 no-margin no-padding">
+                Assslam o Alaikum and welcome to Reporting System,<br/> 
+                <!-- display the 'display name' of the user -->
+                You are logged in as <?php echo $this->zfcUserIdentity()->getDisplayname(); ?>
+            </div>
+
+           </div>
+        </div>
+        <div class="col-sm-6 align-left" >
+           <!-- Office Bearer own reports graph-->
+           <div class="no-padding no-margin col-sm-12">
+               <?php echo $this->partial('application/index/own_office_reports_dash',array('height'=>300,'office'=>$this->office[0],'data'=>$this->dashboard_data) );?>
+           </div>
+           <!--
+           <div class="no-padding no-margin col-sm-12 ">
+               <span class="bigger-130 " style="font-weight: bold!important">
+                    Reports for <?=$this->office[0]->getDepartment()->getOfficeBearer()?>, <?=$this->office[0]->getBranch()->getBranchName()?>
+               </span>
+           </div>
+           -->
+        </div>
+
+   </div>
+
+    <!-- / Top Widgets Row -->
+
+</div>
+<div class=" space-2 col-sm-12 "></div>
+<div class=" hr col-sm-12 no-margin no-padding"></div>
+<div class=" space-4 col-sm-12 "></div>
+<div class="row clearfix">
+<!-- Notifications Row-->
+<div class="col-sm-6 ">
+    <?php
+    
+        $notfications = $this->messages()->notifications();
+        $collapsed_notifications = count($notfications)>0?'':'collapsed';
+        $close_icon_notifications = count($notfications)>0?'':'<div class="widget-toolbar pull-right"><a href="#" data-action="collapse">
+                                                              <i class="1 ace-icon fa fa-chevron-up bigger-125"></i>
+                                                              </a></div>';
+        $notification_alert = count($notfications)>0?'icon-animated-bell':'';
+    ?>
+    <div class="widget-box no-margin  <?=$collapsed_notifications?> " >
+        <div class="widget-header">
+            <h4 class="widget-title lighter smaller">
+                <i class="ace-icon fa fa-bell-o bigger-125 <?=$notification_alert?> blue"></i>
+                <span class="bolder">Notifications</span>
+            </h4>
+            <?=$close_icon_notifications?>
+        </div>
+
+        <div class="widget-body ">
+            <div class="widget-main no-padding ">
+                <!-- #section:pages/dashboard.conversations -->
+
+            <div class="no-padding pre-scrollable " style="height: 250px;background: #f7f7f7 repeat-x">
+            
+                <div class="timeline-items " >
+                    <!-- #section:pages/timeline.item -->
+                    <?php
+                    
+                        $messages = $this->messages;
+                                                
+                        $this->partialLoop()->setObjectKey('message');
+                        
+                        echo $this->partialLoop('messages/notification_list', $this->messages()->notifications());
+                        
+                    ?>
+                    
+                </div><!-- /.timeline-items -->
+                
+                
+            </div>
+                <!-- /section:pages/dashboard.conversations -->
+                
+            </div><!-- /.widget-main -->
+        </div><!-- /.widget-body -->
+    </div><!-- /.widget-box -->
+</div>
+
+
+<div class="col-sm-6 " style="padding-bottom: 5px;">
+    <?php
+    
+        $feedback = $this->messages()->feedback();
+        $collapsed_feedback = count($feedback)>0?'':'collapsed';
+        $close_icon_feedback = count($feedback)>0?'':'<div class="widget-toolbar pull-right"><a href="#" data-action="collapse">
+                                                              <i class="1 ace-icon fa fa-chevron-up bigger-125"></i>
+                                                              </a></div>';
+    ?>
+    <div class="widget-box no-margin  <?=$collapsed_feedback?> " >
+        <div class="widget-header">
+            <h4 class="widget-title lighter smaller">
+                <i class="ace-icon fa fa-comment-o bigger-125  blue"></i>
+                <span class="bolder">Report Feedback</span>
+            </h4>
+            <?=$close_icon_feedback?>
+        </div>
+
+        <div class="widget-body ">
+            <div class="widget-main no-padding ">
+                <!-- #section:pages/dashboard.conversations -->
+
+            <div class="no-padding pre-scrollable " style="height: 250px;background: #f7f7f7 repeat-x">
+            
+                <div class="timeline-items " >
+                    <!-- #section:pages/timeline.item -->
+                    <?php
+                    
+                        //$messages = $this->messages;
+                                                
+                        $this->partialLoop()->setObjectKey('message');
+                        
+                        echo $this->partialLoop('messages/notification_list', $feedback );
+                        
+                    ?>
+                    
+                </div><!-- /.timeline-items -->
+                
+                
+            </div>
+                <!-- /section:pages/dashboard.conversations -->
+                
+            </div><!-- /.widget-main -->
+        </div><!-- /.widget-body -->
+    </div><!-- /.widget-box -->
+</div>
+<!-- / Notifications Row -->
+</div>
+
+
+<?php if($this->dashboard_data['has_samebranch']): ?>
+<div class="row clearfix">
+    <div class="col-sm-12 "  style="padding-top:15px!important;"><hr class="hr-thick"/></div>
+    <div class="col-sm-12">
+       <!-- Office Bearer subordinate reports graph-->
+       <?php 
+       echo $this->partial('application/index/same_branch_reports',array('height'=>300,'office'=>$this->office[0],'dashboard_data'=>$this->dashboard_data));
+       ?>
+    </div>
+</div>
+<?php endif ?>
+
+<?php if($this->dashboard_data['has_subordinates']): ?>
+<div class="row clearfix">
+    <div class="col-sm-12 "  style="padding-top:15px!important;"><hr class=" hr-thick" /></div>
+    <div class="col-sm-12">
+       <!-- Office Bearer subordinate reports graph-->
+       <?php 
+       echo $this->partial('application/index/sub_office_reports',array('height'=>300,'subordinate_title'=>$this->subordinate_title,'office'=>$this->office[0],'subordinate_graph_data'=>$this->subordinate_graph_data,'dashboard_data'=>$this->dashboard_data));
+       ?>
+    </div>
+</div>
+<?php endif ?>
+
+
+
+<div class="row clearfix">
+    <form class="hide" id="message_form" name="message_form" method="post" action="<?=$this->url('message/inbox')?>">
+        <input type="hidden" name="operation" value="open"/>
+        <input type="hidden" name="message_id" value=""/>
+    </form>
+</div>
+
+<script>
+$(function(){
+      
+      $('.read-message').on('click',function (e){
+          window.message_form.message_id.value=$(e.target).closest('.read-message').data('message-id');
+          window.message_form.submit();
+      });  
+
+    $('.widget-collapsing-header').each(
+        function(){
+            $(this).click(function(e) {
+            var widget = $(e.currentTarget).parent('.widget-box');
+            ///console.log(widget.siblings());
+            ///$(widget).siblings().toggleClass('collapsed');
+            widget.toggleClass('collapsed');
+            
+        })
+    });
+
+
+});
+ 
+</script>
+

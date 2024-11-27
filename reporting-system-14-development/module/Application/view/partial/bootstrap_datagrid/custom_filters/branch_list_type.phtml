@@ -1,0 +1,22 @@
+
+<select name='list_type'  id='list_type' class="">
+    <option value="all">All</option>
+    <option value="same_branch">Same Branch</option>
+    <option value="other_branches">Other Branches</option>
+</select>
+
+<script>
+ $(function(){
+    $('#list_type').select2({
+        width:'135px',
+        minimumResultsForSearch: Infinity
+        }).select2('val',"<?=$this->list_type?>");  
+    $('#list_type').change(function(){
+            
+            document.forms["form_defaultGrid"].submit();
+            //console.log($('#list_type').val());
+            
+    });    
+ });   
+    
+</script>

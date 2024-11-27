@@ -1,0 +1,52 @@
+<?php
+ ob_start();
+?>
+
+<?php 
+//If user is not logged in redirect to login page
+if(! $this->zfcUserIdentity()): ?>
+
+<h1>Authentication Error</h1>
+<p class="alert alert-danger">
+    This application reqiures a valid account.
+</p>    
+
+<a href='<?php echo $this->url("config/user-role/json") ?>' class="button button-primary">If you have an account login here >></a>
+
+<?php endif?>
+
+<?php  if($this->zfcUserIdentity()):  ?>
+    
+<h2 class="red ">Unauthorized Access!</h2>
+
+<p class="alert alert-danger">
+    <?php if (\BjyAuthorize\Guard\Controller::ERROR === $error) : ?>
+        User <strong><b>"<?php echo ($this->zfcUserIdentity()->getDisplayName()) ?>"</b></strong>
+        is not authorized to access <a><strong><em><?php echo($controller);?><?php if ($action) : ?>/<?php echo($action);?><?php endif;?>
+        </em></strong></a>
+        <?php
+            $roles = $this->zfcUserIdentity()->getRoles();
+            echo count($roles);
+        ?>
+        <pre>
+            <?php
+                foreach ($roles as $role) {
+                    echo $role->getRoleId()."\n";
+                }
+            ?>
+        </pre>.
+    <?php elseif (\BjyAuthorize\Guard\Route::ERROR === $error)  : ?>
+        You are not authorized to access <?php echo $route;?>.
+    <?php elseif ($error == 'error-unauthorized') : ?>
+        You are not authorized <?php echo $reason; ?>.
+    <?php else : ?>
+    An unknown error occurred.
+    <?php endif;?>
+</p>
+<?php endif ?>
+
+<?php
+ $content = ob_get_clean();
+ echo $content;
+?>
+

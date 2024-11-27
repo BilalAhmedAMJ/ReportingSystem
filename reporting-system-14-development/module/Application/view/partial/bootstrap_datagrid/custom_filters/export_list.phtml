@@ -1,0 +1,56 @@
+<?php 
+
+$url = $this->url(null, array(), array(), true);
+
+$print_view='view=print';
+
+if(strpos($url, '?',1)>1){
+    $url =$url.'&'.$print_view;
+}else{
+    $url =$url.'?'.$print_view;
+}
+?>
+
+<a class="btn btn-round  btn-primary btn-white btn-sm" href="<?=$url;?>" target='_blank' style="padding:2px 10px 2px 10px;margin-top: 0px;">
+    Print
+</a>
+
+<?php 
+/*
+$url = $this->url(null, array(), array(), true);
+if($this->overwriteUrl != ''){
+    $url = $this->overwriteUrl;
+}
+
+$parametersAdd = '';
+foreach($this->parameters as $name => $value){
+    $parametersAdd .= '&' . $name . '=' . $value;
+}
+
+foreach($this->exportRenderers as $type => $name){
+    $urlExport = $url . '?' . $this->generalParameterNames['rendererType'] . '=' . $type . $parametersAdd;
+ 
+   echo '<a class="btn btn-round  btn-primary btn-white btn-sm" href="<?php echo $urlExport; ?>" style="padding:2px 10px 2px 10px;margin-top: 0px;">';
+    echo $name; 
+    echo '</a>';
+}
+
+
+<a id="export_list" class="btn btn-round  btn-primary btn-white btn-sm" style="padding: 2px 10px 2px 10px;margin-top: 0px;">
+    <i class="fa fa-print icon ace-icon"></i>
+    Print
+</a>
+<script>
+<!--
+    $(function(){
+        $('#export_list').on('click',function(){        
+            var form =$('#export_list').closest("form[name='form_defaultGrid']")
+            form.attr('action',addParamToUrl(form.attr('action'),'view','print'))
+            form.attr('target','_blank')
+            //form.submit();
+        });
+    });
+-->    
+</script>
+*/
+?>

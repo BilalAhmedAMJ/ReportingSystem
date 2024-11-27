@@ -1,0 +1,148 @@
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <!--[if lte IE 8]>
+      <script src="../assets/js/excanvas.js"></script>
+    <![endif]-->
+    <script src="<?=$this->basePath()?>/assets/js/jquery-ui.custom.min.js"></script>
+    <script src="<?=$this->basePath()?>/assets/js/freeze-table.js"></script>
+
+    <style>
+        .profile-info-row .profile-info-name{
+            width:200px;
+        }
+        .table {
+            table-layout: fixed;
+            word-wrap: break-word;
+        }        
+    </style>
+
+<div class="row">
+    <div class="space-10"></div>
+</div>
+
+<div class="row responsive clearfix " >
+    
+<div class="col-sm-12 col-md-8 col-md-offset-2 ">
+ 
+        
+        <form class="form-horizontal" id="report-form" method="post" action="/report/monthly-report-status" >
+
+                <div class="widget-box  ">
+                    
+                    <div class="widget-header ">
+                                                
+                        <div class="widget-title title blue bigger-125 bolder">
+                            <span class="padding-8">Monthly Report Status</span>
+                        </div>
+                    </div>
+
+                    <div class="widget-body no-padding">
+                        <div class="widget-main  no-padding">
+                                    <div class="profile-user-info profile-user-info-striped width-100">
+  
+                
+                                        <div class="profile-info-row">
+                                            <div class="profile-info-name"> Year </div>
+                
+                                            <div class="profile-info-value">
+                                                <input class="" name="year" type="text" value="<?=($this->form->get('year')->getValue())?$this->form->get('year')->getValue():$this->default_year?>" style="width:90%"></input>
+                                            </div>
+                                        </div>
+
+                                        <div class="profile-info-row">
+                                            <div class="profile-info-name"> Month </div>
+                                            <div class="profile-info-value">
+                                                <select class="" name="month">
+                                                    <option value="all">All</option>
+                                                    <optgroup label="Reporting Year">
+                                                        <?php for($i=7; $i<=12; $i++) { ?><option value="<?=$i?>"><?=date('F', strtotime("2000-{$i}-15"))?></option><?php } ?>
+                                                    </optgroup>
+                                                    <optgroup label="Next Year">
+                                                        <?php for($i=1; $i<=6; $i++) { ?><option value="<?=$i?>"><?=date('F', strtotime("2000-{$i}-15"))?></option><?php } ?>
+                                                    </optgroup>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="profile-info-row">
+                                            <div class="profile-info-name"> Status </div>
+                
+                                            <div class="profile-info-value">
+                                                <input type="checkbox" name="status[]" value="draft" id="st-draft" /> <label for="st-draft">Draft</label> &nbsp;&nbsp;
+                                                <input type="checkbox" name="status[]" value="completed" id="st-completed" /> <label for="st-completed">Completed</label> &nbsp;&nbsp;
+                                                <input type="checkbox" name="status[]" value="verified" id="st-verified" checked="checked" /> <label for="st-verified">Verified</label> &nbsp;&nbsp;
+                                                <input type="checkbox" name="status[]" value="received" id="st-received" checked="checked" /> <label for="st-received">Received</label>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="profile-info-row">
+                                            <div class="profile-info-name"> Generate PDF </div>
+                
+                                            <div class="profile-info-value">
+                                                <input type="checkbox" name="report_pdf" value="yes" id="report_pdf" /> <label for="report_pdf"></label> &nbsp;&nbsp;
+                                                <select name="page_size">
+                                                    <option value="A0">A0</option>
+                                                    <option value="A1">A1</option>
+                                                    <option value="A2" selected>A2</option>
+                                                    <option value="A3">A3</option>
+                                                    <option value="A4">A4</option>
+                                                    <option value="A5">A5</option>
+                                                    <option value="A6">A6</option>
+                                                    <option value="A7">A7</option>
+                                                    <option value="A8">A8</option>
+                                                </select>
+                                                <select name="page_orientation">
+                                                    <option value="landscape" selected>Landscape</option>
+                                                    <option value="portrait">Portrait</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+  
+
+                                        
+                                    </div><!-- / Profile Tab-->                                  
+                                    <div class="widget-toolbox padding-6 clearfix align-center">
+                                        <div class=" padding-6 btn-group-del   ">
+                                            <button class="btn btn-round  btn-danger btn-white " type="reset">
+                                                <i class="ace-icon fa fa-undo bigger-110"></i>
+                                                Reset
+                                            </button>
+                                            <span class="space-24"></span>
+                                            <button id="summary_report" class="btn  btn-round btn-success btn-white margin-2" type="submit" formtarget="_blank">
+                                                <i class="ace-icon fa fa-check bigger-110"></i>
+                                                Summary Report
+                                            </button>
+                                            <span class="space-24"></span>
+                                            <!-- <button id="detail_report" class="btn  btn-round btn-success btn-white margin-2" type="button">
+                                                <i class="ace-icon fa fa-check bigger-110"></i>
+                                                Detail Report
+                                            </button> -->
+                                            <input type="hidden" name="user_action" value="report"/>
+                                        </div>
+                                    </div>
+                        </div> <!-- /WidgetMain -->
+                    </div> <!-- WidgetBody-->
+                  </div> <!-- WidgetBox -->
+                        
+                </form>
+</div>    
+</div>
+
+
+<div class="report-content-1"></div>
+
+<script>
+    
+$(function(){
+
+    
+
+
+    
+});
+    
+    
+</script>
+
+

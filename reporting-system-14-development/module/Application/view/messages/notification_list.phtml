@@ -1,0 +1,43 @@
+<?php  $msg = $this->message; 
+?>
+
+      <div class="timeline-item clearfix no-margin-bottom ">
+        <div class="widget-box transparent no-margin collapsed">
+        
+        
+        <div class="widget-header widget-header-small no-padding widget-collapsing-header " style="cursor: pointer!important" >
+                <h5 class="widget-title smaller">
+                    <a href="#" class="blue"><?=$msg->getSentAs()?></a>
+                    <span class="grey bolder"><?=$this->truncate($msg->getSubject(),40,array('ending'=>'...'))?></span>
+                </h5>
+                
+               <!--?php if($this->message->isUnread()):?-->                
+                <!--span class="label label-yellow arrowed-in-right arrowed-in ">Unread</span-->
+               <!--?php endif?-->
+               
+                <span class="widget-toolbar no-padding">
+                    <i class="ace-icon fa fa-clock-o bigger-110"></i>
+                    <span class="padding-4 "><pre class="no-padding no-border" style="display: inline;padding: 3px!important;"><?=$msg->getDateSent()->format('M d/y')?></pre></span>
+                    <a href="#" data-action="collapse" class="widget-box-collapse-anchor">
+                        <i class="ace-icon fa fa-chevron-down"></i>
+                    </a>
+                </span>
+            </div>
+        
+          <div class="widget-body panel-body no-padding no-margin">
+                <div class="widget-main no-margin no-padding">
+                    <div style="padding-left: 6px;">
+                    <?=(($msg->getHtmlBody()))?>
+                    </div>
+                    <div class="widget-toolbox clearfix ">
+                        <div class="pull-right read-message" data-message-id="<?=$msg->getId()?>">
+                            <i class="ace-icon fa fa-hand-o-right grey bigger-115"></i>
+                            <a href="#"  class=" bigger-110">Click to read …</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+

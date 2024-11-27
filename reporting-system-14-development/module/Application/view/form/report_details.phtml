@@ -1,0 +1,47 @@
+<?php
+
+return array(
+    'hydrator'  => 'Zend\Stdlib\Hydrator\ArraySerializable'
+    
+    ,'simple_specs'=>array(
+    
+        'report_id' =>array(
+            'type'=>'Hidden',
+        ),
+        'report_status' =>array(
+            'type'=>'Hidden',
+            'value'=>'draft',
+        ),
+        'next_status' =>array(
+            'type'=>'Hidden',
+        ),
+        'department'=>array(
+            'type'=>'Hidden',
+        ),
+        'branch'=>array(
+            'type'=>'Hidden',
+        ),
+        'user_action'=>array(
+            'type'=>'Hidden',
+            'attributes'=>array('disabled','true'),
+        ),
+        'period_from'=>array(
+            'type'=>'Hidden',
+        ),
+        'feedback'=>array(
+            'type'=>'TextArea',
+            'style'=>'width: 90%; margin: 0 20px; box-sizing: border-box;',
+            'options'=>array(
+                'show_in_dialog' => true
+            )
+            
+        )
+        
+    )//end simple_spec
+        
+    // Configuration to pass on to
+    // Zend\InputFilter\Factory::createInputFilter()
+    ,'input_filter' => array(
+        /* ... */
+    )
+);

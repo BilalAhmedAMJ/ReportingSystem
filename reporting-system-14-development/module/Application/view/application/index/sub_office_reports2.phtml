@@ -1,0 +1,84 @@
+<div id="office_reports_chart"></div>
+
+<script >
+$(function () {
+    $('#office_reports_chart').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Monthly Report Submission'
+        },
+        xAxis: {
+            categories: ['J', 'A', 'S', 'O', 'N', 'D', 'J', 'F', 'M', 'A', 'M', 'J']
+        },
+        yAxis: {
+            min: 0,
+            max:1.1,
+            endOnTick:false,
+            allowDecimals:false,
+            lineWidth:1,
+            gridLineWidth:0,
+            title: {
+                text: ''
+            },
+            labels:{enabled:false},
+            stackLabels: {
+                enabled: false,
+                style: {
+                    fontWeight: 'bold',
+                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                }
+            }
+        },
+        legend: {
+            align: 'right',
+            x: -30,
+            verticalAlign: 'top',
+            y: 25,
+            floating: true,
+            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+            borderColor: '#CCC',
+            borderWidth: 1,
+            shadow: false
+        },
+        
+        tooltip: {
+        	enabled:false,
+            formatter: function () {
+                return '<b>' + this.x + '</b><br/>' +
+                    this.series.name + ': ' + this.y + '<br/>' +
+                    'Total: ' + this.point.stackTotal;
+            }
+        },
+
+        colors:['#333333','#FEE188','#3A87AD','#82AF6F'],
+        
+        plotOptions: {
+            column: {
+                stacking: 'normal',
+                dataLabels: {
+                    enabled: false,
+                    color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+                    style: {
+                        textShadow: '0 0 3px black'
+                    }
+                }
+            },
+        },
+        series: [{
+            name: 'Draft',
+            data: [0,1,0,0,0,0,0,0,1,0,0,0]
+        }, {
+            name: 'Completed',
+            data: [0,0,1,0,0,0,0,1,0,0,0,0]
+        }, {
+            name: 'Verified',
+            data: [0,0,0,0,0,0,1,0,0,1,0,0]
+        }, {
+            name: 'Received',
+            data: [0,0,0,1,1,1,0,0,0,0,0,0]
+        }]
+    });
+});    
+</script>

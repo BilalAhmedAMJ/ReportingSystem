@@ -1,0 +1,284 @@
+<!DOCTYPE html >
+<html lang="en">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+<meta charset="utf-8" />
+</head>
+
+<body style="margin: 0;">
+
+<div id="jpedal" style="overflow: hidden; position:relative; width: 935px; height: 1210px;">
+
+<!-- Begin shared CSS values -->
+<style type="text/css" >
+.t {
+	position: absolute;
+	-webkit-transform-origin: top left;
+	-moz-transform-origin: top left;
+	-o-transform-origin: top left;
+	-ms-transform-origin: top left;
+	-webkit-transform: scale(0.25);
+	-moz-transform: scale(0.25);
+	-o-transform: scale(0.25);
+	-ms-transform: scale(0.25);
+	z-index: 2;
+	position:absolute;
+	white-space:nowrap;
+	overflow:visible;
+}
+</style>
+<!-- End shared CSS values -->
+
+<!-- Begin shared JS -->
+<script type="text/javascript">
+
+// Ensure that we're not replacing any onload events
+function addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			if (oldonload) {
+				oldonload();
+			}
+			func();
+		}
+	}
+}
+addLoadEvent(function(){load14();});
+
+function adjustWordSpacing(widths) {
+    var i, allLinesDone = false;
+    var isDone = [];
+    var currentSpacing = [];
+    var elements = [];
+    
+    // Initialise arrays
+    for (i = 0; i < widths.length; i++) {
+        elements[i] = document.getElementById(widths[i][0]);
+        elements[i].style.wordSpacing = '0px';//Required if rerunning
+    }
+    for (i = 0; i < widths.length; i++) {
+        if (isIE) widths[i][1] = widths[i][1] * 4;
+        currentSpacing[i] = Math.floor((widths[i][1] - elements[i].offsetWidth) / elements[i].innerHTML.match(/\s.|&nbsp;./g).length);//min
+        if (isIE) currentSpacing[i] = Math.floor(currentSpacing[i] / 4);
+        isDone[i] = false;
+    }
+    
+    while (!allLinesDone) {
+        // Add each adjustment to the render queue without forcing a render
+        for (i = 0; i < widths.length; i++) {
+            if (!isDone[i]) {
+                elements[i].style.wordSpacing = currentSpacing[i] + 'px';
+            }            
+        }
+        
+        allLinesDone = true;
+        // If elements still need to be wider, add 1 to the word spacing
+        for (i = 0; i < widths.length; i++) {
+            if (!isDone[i] && currentSpacing[i] < 160) {
+                if (elements[i].offsetWidth >= widths[i][1]) {
+                    isDone[i] = true;
+                } else {
+                    currentSpacing[i]++;
+                    allLinesDone = false;
+                }
+            }
+        }
+    }
+    
+    for (i = 0; i < widths.length; i++) {
+        elements[i].style.wordSpacing = (currentSpacing[i] - 1) + 'px';
+    }
+}
+
+</script>
+<!-- End shared JS -->
+
+
+<!-- Begin inline CSS -->
+<style type="text/css" >
+
+#t1_14{left:103px;top:88px;}
+#t2_14{left:103px;top:142px;}
+#t3_14{left:103px;top:168px;}
+#t4_14{left:103px;top:240px;}
+#t5_14{left:103px;top:1050px;}
+#t6_14{left:103px;top:1072px;}
+#t7_14{left:489px;top:319px;}
+#t8_14{left:613px;top:319px;}
+#t9_14{left:731px;top:319px;}
+#ta_14{left:489px;top:345px;}
+#tb_14{left:489px;top:386px;}
+#tc_14{left:516px;top:386px;}
+#td_14{left:516px;top:413px;}
+#te_14{left:544px;top:413px;}
+#tf_14{left:628px;top:413px;}
+#tg_14{left:704px;top:413px;}
+#th_14{left:812px;top:413px;}
+#ti_14{left:846px;top:413px;}
+#tj_14{left:544px;top:439px;}
+#tk_14{left:489px;top:464px;}
+#tl_14{left:516px;top:464px;}
+#tm_14{left:516px;top:491px;}
+#tn_14{left:544px;top:491px;}
+#to_14{left:544px;top:517px;}
+#tp_14{left:489px;top:543px;}
+#tq_14{left:516px;top:543px;}
+#tr_14{left:516px;top:569px;}
+#ts_14{left:544px;top:569px;}
+#tt_14{left:544px;top:595px;}
+#tu_14{left:489px;top:621px;}
+#tv_14{left:516px;top:621px;}
+#tw_14{left:516px;top:648px;}
+#tx_14{left:544px;top:648px;}
+#ty_14{left:644px;top:940px;}
+#tz_14{left:644px;top:961px;}
+#t10_14{left:644px;top:981px;}
+
+.s2_14{
+	FONT-SIZE: 85px;
+	FONT-FAMILY: ABCDEE-Calibri-Italic14;
+	color: rgb(0,0,0);
+}
+
+.s1_14{
+	FONT-SIZE: 110px;
+	FONT-FAMILY: ABCDEE-Calibri-Bold14;
+	color: rgb(0,112,192);
+}
+
+.s5_14{
+	FONT-SIZE: 73px;
+	FONT-FAMILY: ABCDEE-Calibri14;
+	color: rgb(0,0,0);
+}
+
+.s6_14{
+	FONT-SIZE: 73px;
+	FONT-FAMILY: Symbol14;
+	color: rgb(0,0,0);
+}
+
+.s4_14{
+	FONT-SIZE: 73px;
+	FONT-FAMILY: ABCDEE-Calibri-Bold14;
+	color: rgb(0,0,0);
+}
+
+.s3_14{
+	FONT-SIZE: 85px;
+	FONT-FAMILY: ABCDEE-Calibri-Bold14;
+	color: rgb(0,0,0);
+}
+
+.s7_14{
+	FONT-SIZE: 67px;
+	FONT-FAMILY: ABCDEE-Calibri14;
+	color: rgb(0,0,0);
+}
+
+</style>
+<!-- End inline CSS -->
+
+<!-- Begin embedded font definitions -->
+<style id="fonts14" type="text/css" >
+
+@font-face {
+	font-family: ABCDEE-Calibri14;
+	src :url("14/fonts/ABCDEE-Calibri.woff") format("woff");
+}
+
+@font-face {
+	font-family: ABCDEE-Calibri-Bold14;
+	src :url("14/fonts/ABCDEE-Calibri-Bold.woff") format("woff");
+}
+
+@font-face {
+	font-family: ABCDEE-Calibri-Italic14;
+	src :url("14/fonts/ABCDEE-Calibri-Italic.woff") format("woff");
+}
+
+@font-face {
+	font-family: Symbol14;
+	src :url("14/fonts/Symbol.woff") format("woff");
+}
+
+</style>
+<!-- End embedded font definitions -->
+
+<!-- Begin text definitions (Positioned/styled in CSS) -->
+<div id="t1_14" class="t s1_14">BRANCH USERS </div>
+<div id="t2_14" class="t s2_14">This section is for Local Amir/President and General Secretary only. The following </div>
+<div id="t3_14" class="t s2_14">section explains the use of Branch User option in the menu. </div>
+<div id="t4_14" class="t s3_14">Viewing Branch Users </div>
+<div id="t5_14" class="t s4_14">NOTE: Only the local Amir/Sadr or General Secretary of a Jama‘at has the ability to add or edit an </div>
+<div id="t6_14" class="t s4_14">Office Bearer.</div>
+<div id="t7_14" class="t s5_14">Clicking on the </div>
+<div id="t8_14" class="t s4_14">Office Bearers</div>
+<div id="t9_14" class="t s5_14">button will bring up </div>
+<div id="ta_14" class="t s5_14">the drop down menu with the following options: </div>
+<div id="tb_14" class="t s4_14">1.</div>
+<div id="tc_14" class="t s4_14">Office Bearers List </div>
+<div id="td_14" class="t s6_14"></div>
+<div id="te_14" class="t s5_14">Contains </div>
+<div id="tf_14" class="t s5_14">contact </div>
+<div id="tg_14" class="t s5_14">information </div>
+<div id="th_14" class="t s5_14">of </div>
+<div id="ti_14" class="t s5_14">office </div>
+<div id="tj_14" class="t s5_14">bearers. </div>
+<div id="tk_14" class="t s4_14">2.</div>
+<div id="tl_14" class="t s4_14">Edit Users </div>
+<div id="tm_14" class="t s6_14"></div>
+<div id="tn_14" class="t s5_14">Modify and change information about office </div>
+<div id="to_14" class="t s5_14">bearers. </div>
+<div id="tp_14" class="t s4_14">3.</div>
+<div id="tq_14" class="t s4_14">New Requests </div>
+<div id="tr_14" class="t s6_14"></div>
+<div id="ts_14" class="t s5_14">Submit a request to change or add office </div>
+<div id="tt_14" class="t s5_14">bearers.</div>
+<div id="tu_14" class="t s4_14">4.</div>
+<div id="tv_14" class="t s4_14">Pending Requests </div>
+<div id="tw_14" class="t s6_14"></div>
+<div id="tx_14" class="t s5_14">Status of Office Assignment Requests.</div>
+<div id="ty_14" class="t s7_14">The list can be customized </div>
+<div id="tz_14" class="t s7_14">be selecting the various filler </div>
+<div id="t10_14" class="t s7_14">fields on the top. </div>
+
+<!-- End text definitions -->
+
+<!-- Begin page background -->
+<div id="pg14Overlay" style="width:100%; height:100%; position:absolute; z-index:1; background-color:rgba(0,0,0,0); -webkit-user-select: none;"></div>
+<div id="pg14"><object width="935" height="1210" data="14/14.svg" type="image/svg+xml" id="pdf14" style="width:935px; height:1210px; background-color:white; -moz-transform:scale(1); z-index: 0;"></object></div>
+<!-- End page background -->
+
+<!-- Begin page loading JS -->
+<script id="ld14" type="text/javascript">
+
+var isIE = false;
+var f14 = [['t1_14',706],['t2_14',2800],['t3_14',2044],['t4_14',770],['t5_14',2956],['t6_14',421],['t7_14',464],['t8_14',443],['t9_14',627],['ta_14',1449],['tc_14',550],['tl_14',304],['tn_14',1377],['tq_14',434],['ts_14',1377],['tv_14',541],['tx_14',1128],['ty_14',719],['tz_14',785],['t10_14',464]];
+function load14(){
+	var timeout = 100;
+	if (navigator.userAgent.match(/iPhone|iPad|iPod|Android/i)) timeout = 500;
+	setTimeout(function() {adjustWordSpacing(f14);},timeout);
+}
+</script>
+<!--[if lt IE 9]><script type="text/javascript">
+isIE = true;
+
+var divCount = 37;
+for (var i = 1; i < divCount; i++) {
+    var div = document.getElementById("t" + i.toString(36) + "_14");
+    if (div !== null) {
+        div.style.top = (div.offsetTop * 4) + "px";
+        div.style.left = (div.offsetLeft * 4) + "px";
+        div.style.zoom = "25%";
+    }
+}
+</script><![endif]-->
+<!-- End page loading JS -->
+
+</div>
+</body>
+</html>

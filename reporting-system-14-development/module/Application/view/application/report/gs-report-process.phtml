@@ -1,0 +1,174 @@
+<style>
+body {
+    background-color: #FFF;
+    min-height: 100%;
+    padding-bottom: 0;
+    font-family: 'helvetica';
+    font-size: 13px;
+    color: #393939;
+}
+.report_status  { border-collapse: collapse;}
+.report_status th {text-align: center; padding: 0 10px; background-color: #d0d0d0; border: 1px solid #000}
+.report_status td {text-align: center; white-space: nowrap; border: 1px solid #000}
+.report_status tr:hover {background-color: #d0d0d0;}
+.branch_name {text-align: left !important; padding: 0 10px;}
+.branch_data {text-align: center !important; padding: 0 10px; width: 150px}
+.data-Yes {color: #3936d2; font-weight: bold; }
+.data-No { color: #000000;}
+.detail-Yes {color: #3936d2; font-weight: bold; padding: 0 10px; white-space: nowrap;}
+.detail-No { color: #000000; padding: 0 10px; white-space: nowrap;}
+.report_status_container {clear: both;}
+.iamimarat {background-color: #ebebeb}
+</style>
+<div class="col-sm-12 align-center center center-block" style="max-width: 1400px!important">
+    <table border="0" width="100%">
+        <tr>
+            <td align="left" nowrap><img src="<?=$this->basePath()?>/img/topbar-left.png" height="45"></td>
+            <td align="left"><img src="<?=$this->basePath()?>/img/bismillah.png" ></td>
+        </tr>   
+        <tr>
+            <td colspan="2">&nbsp;</td>
+        </tr>                                  
+        <tr>
+            <td align="left" nowrap><b>Date:&nbsp;</b><?php echo date("Y-m-d"); ?></td>
+            <td align="left">&nbsp;</td>
+        </tr>
+        <tr>
+            <td align="left" nowrap><b>Summary for the month of:&nbsp;</b><?=reset($this->reporting_month)?> - <?=end($this->reporting_month)?></td>
+            <td align="left">&nbsp;</td>
+        </tr>
+    </table>
+</div>
+<br />
+<div class="report_status_container">
+<br />
+<table class="report_status" border="1">
+    <thead>
+        <tr>
+            <th colspan="2">&nbsp;</th>
+            <?php foreach($this->summary as $key => $summary) { ?>
+            <th colspan="2"><?=$key?></th>
+            <?php } ?>
+        </tr>
+        <tr>
+            <th>Type</th>
+            <th>Total</th>
+            <?php foreach($this->summary as $summary) { ?>
+            <th>‘Āmila Meetings</th>
+            <th>Ijlasāt / Jalsas</th>
+            <?php } ?>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="branch_name">Large Jamā‘at</td>
+            <?php $first=true; foreach($this->summary as $summary) { ?>
+            <?php if($first) { ?><td class="branch_data"><?=$summary['Imarat']['count']?></td><?php $first=false;} ?>
+            <td class="branch_data"><?=$summary['Imarat']['amila']?></td>
+            <td class="branch_data"><?=$summary['Imarat']['ijlas']    ?></td>
+            <?php } ?>
+        </tr>
+        <tr>
+            <td class="branch_name">Halqa</td>
+            <?php $first=true; foreach($this->summary as $summary) { ?>
+            <?php if($first) { ?><td class="branch_data"><?=$summary['Halqa']['count']?></td><?php $first=false;} ?>
+            <td class="branch_data"><?=$summary['Halqa']['amila']?></td>
+            <td class="branch_data"><?=$summary['Halqa']['ijlas']    ?></td>
+            <?php } ?>
+        </tr>
+        <tr>
+            <td class="branch_name">Jamā‘at</td>
+            <?php $first=true; foreach($this->summary as $summary) { ?>
+            <?php if($first) { ?><td class="branch_data"><?=$summary['Jama`at']['count']?></td><?php $first=false;} ?>
+            <td class="branch_data"><?=$summary['Jama`at']['amila']?></td>
+            <td class="branch_data"><?=$summary['Jama`at']['ijlas']    ?></td>
+            <?php } ?>
+        </tr>
+
+    </tbody>
+</table>
+</div>
+<br /><br />
+
+
+
+<div class="report_status_container">
+<table class="gs_report" border="1">
+    <thead>
+        <tr style="background-color: #d0d0d0">
+            <th style="text-align: center" colspan="2">&nbsp;</th>
+            <?php foreach($this->summary as $key => $summary) { ?>
+            <th style="text-align: center" colspan="2"><?=$key?></th>
+            <?php } ?>
+        </tr>
+        <tr style="background-color: #d0d0d0">
+            <th style="text-align: center">Jamā‘at</th>
+            <th style="text-align: center; min-width: 200px">Halqa</th>
+            <?php foreach($this->summary as $summary) { ?>
+            <th style="text-align: center">‘Āmila Meetings</th>
+            <th style="text-align: center">Ijlasāt / Jalsas</th>
+            <?php } ?>
+        </tr>
+    </thead>
+    <tbody>
+
+        <tr style="background-color:#bdd5e2">
+            <th style="text-align: center" colspan="100">Large Jamā‘ats</th>
+        </tr>
+
+        <?php 
+        $small_jamaat_count = 0;
+        foreach($this->data as $data_val) { 
+            if( $data_val['branch_level'] == 'Markaz') continue;
+            
+            if( $data_val['branch_level'] == 'Jama`at') $small_jamaat_count++;
+                if( $small_jamaat_count == 1 ) { ?>
+
+                <tr style="background-color:#bdd5e2">
+                    <th style="text-align: center" colspan="100">Jamā‘ats</th>
+                </tr>
+                <?php }?>
+
+
+            <tr 
+                <?php if($data_val['branch_level']=='Halqa') { ?>style="display: none" class="imarat-<?=$data_val['parent_branch_id']?>"<?php }?> 
+                <?php if($data_val['branch_level']=='Imarat') { ?>class="iamimarat" data-jamatid=<?=$data_val['branch_id']?><?php }?> 
+            >
+                <td class="branch_name"><?=($data_val['branch_level']=='Jama`at' ? $data_val['branch_name'] : $data_val['parent_branch_name'])?></td>
+                <td class="branch_name"><?=($data_val['branch_level']=='Jama`at' || $data_val['branch_level']=='Imarat' ? '' : $data_val['branch_name'])?></td>
+                <?php foreach($this->summary as $key => $summary) { ?>
+                    <td class="branch_data">
+                        <?=($data_val['amila_meeting_held'][$key]?'<i class="fa fa-check" aria-hidden="true"></i>':' ')?>
+                        <?php if($data_val['branch_level'] == 'Imarat') { ?>
+                            (<?=intval($imarat_summary[$key][$data_val['branch_id']]['amila_meeting_held'])?> / <?=$imarat_summary[$key][$data_val['branch_id']]['count']?>)
+                        <?php } ?>
+                    </td>
+                    <td class="branch_data">
+                        <?=($data_val['ijlas_held'][$key]?'<i class="fa fa-check" aria-hidden="true"></i>':' ')?>
+                        <?php if($data_val['branch_level'] == 'Imarat') { ?>
+                            (<?=intval($imarat_summary[$key][$data_val['branch_id']]['ijlas_held'])?> / <?=$imarat_summary[$key][$data_val['branch_id']]['count']?>)
+                        <?php } ?>
+                    </td>
+                <?php } ?>
+            </tr>
+        <?php } ?>
+    </tbody>
+</table>
+</div>
+<br /><br /><br />
+<script>
+    
+$(function(){
+    $( "body" ).on( "click", ".iamimarat", function( e ) {
+        console.log($(this).data('jamatid'))
+        if( $(this).hasClass('halqajaat-visible') ) {
+            $(this).removeClass('halqajaat-visible');
+            $(".gs_report .imarat-"+$(this).data('jamatid')).hide();
+        }
+        else {
+            $(".gs_report .imarat-"+$(this).data('jamatid')).show();
+            $(this).addClass('halqajaat-visible');
+        }
+    });
+});
+</script>        

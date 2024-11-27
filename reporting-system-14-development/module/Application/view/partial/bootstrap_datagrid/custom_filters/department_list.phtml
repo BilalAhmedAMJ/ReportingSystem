@@ -1,0 +1,58 @@
+<?php
+
+    $col = $this->col; 
+    $value=$col->getFilterActiveValue();
+    $value = preg_replace('/\~ \*(.*)\*/','\1',$value);
+    $value = preg_replace('/\= (.*)/','\1',$value);
+      
+
+
+ echo $this->partial('partial/bootstrap_datagrid/custom_filters/select2_list'
+                           ,array(
+                                'id'=>$col->getUniqueId(),
+                                'label'=>'department_name',
+                                'index'=>'department_name',
+                                'url'=>$this->url("config/user-departments"),
+                                'value'=>$col->getFilterActiveValue(),
+                                'gridId'=>$this->gridId
+                            )
+                         );
+
+
+/*
+    $name = sprintf("toolbarFilters[%s]",$col->getUniqueId());
+    $id = sprintf("input_%s",$col->getUniqueId());
+    
+    $form->add(array(
+             'type' => 'Zend\Form\Element\Select',
+             'name' => $name,
+             'options' => array(
+                     'label' => 'Month',
+                     'value_options' => $form->getOption('departments'),
+                     'empty_option' => 'All',                     
+             ), 
+            'attributes' => array(
+                     'value'=>$value,
+                     'id'=>$id,
+                     'class'=>'select2',
+                     'style'=>'width:175px'
+                )                       
+    ));
+
+
+    echo $this->formSelect($form->get($name));
+ * 
+ */
+?>
+ 
+<script>
+    $(function(){
+        //$('# < ? = $id?>').select2({minimumResultsForSearch: 5});
+
+        //$('# < ? = $id?>').change(function(){
+        //    document.forms["form_<?=$this->gridId?>"].submit();
+        //});
+                     
+    });
+    
+</script> 

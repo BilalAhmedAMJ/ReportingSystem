@@ -1,0 +1,116 @@
+<?php 
+    $report = $this->report;
+    $complex_elem = $this->element;
+    $display_columns=$complex_elem->getAttribute('data-display_columns');
+    $display_label=$complex_elem->getAttribute('data-display_label');
+    
+    $widget_box_class=$widget_header_class=$widget_body_class=$widget_main_class=$widget_toolbar=$widget_title_class='';
+    
+    if($complex_elem->getAttribute('data-widget')){
+        $widget_box_class='widget-box ';
+        $widget_header_class='widget-header';
+        $widget_body_class='widget-body';
+        $widget_main_class='widget-main';
+        $widget_toolbar_class='widget-toolbar';
+        $widget_title_class='widget-title';
+        $first = $complex_elem->getAttribute('data-answer_no')==1;
+        if($first){
+            $widget_title_class='widget-title-not-first';    
+        }
+    }
+    
+?>
+<!-- -style="border-width: 1px 0px 0px 0px!important" -->
+<div class="col-sm-12 align-left no-margin no-padding <?=$widget_box_class?>" ><!--  Question Container <?=$complex_elem->getName() ?>-->
+
+
+    <?php if($display_label):?>
+     <div class="<?=$widget_header_class?>">
+        <div class="col-sm-122 no-margin no-padding complex-question-title  <?=$widget_title_class?>" >
+            <span style="padding-left: 6px;" class="pull-left bigger-120 bolder  blue lighter " ><?=$complex_elem->getLabel()?></span>
+        </div>
+
+        <?php if($complex_elem->getAttribute('data-widget')):?>
+            <div class="<?=$widget_toolbar_class?>">            
+                <a href="#"  data-action="collapse" class="  " >
+                    <i class="ace-icon fa fa-chevron-up"></i>
+                </a>
+            </div>
+        <?php endif?>
+
+        <?php if($element->getOption('multiple_answers') && $first):?>
+            <div class="<?=$widget_toolbar_class!=''?$widget_toolbar_class:'pull-right'?>">            
+            <a href="#" class="btn btn-default  btn-block btn-round btn-white add-more-btn" data-question-details="<?=$element->getName()?>_DetailsArea" data-answers="" >
+                &nbsp;Add More
+                 <i class="ace-icon ace-navbar-buttons fa fa-plus"></i>                
+            </a>
+            </div>                    
+        <?php endif?>    
+
+        <?php if($complex_elem->getAttribute('data-widget')):?>
+            <div class="col-sm-12 space-10"></div>
+        <?php endif?>    
+        
+    </div>
+    <?php endif?>
+
+
+
+    <?php 
+    $col_class='col-sm-12';
+    $display='vertical';
+    
+    if($display_columns && $display_columns > 1){
+        //we assume that display col is reasonable value based on boot strap rules
+        $col_size=(12/$display_columns);//bootstrap have 12 columns lets divide that equally
+        $col_class="col-sm-$col_size";
+        $display='horizontal';
+    }
+    ?>
+
+    
+    <div class=" <?=$widget_body_class?> widget-main-background">
+    <div class="no-padding no-margin  <?=$widget_main_class?> widget-main-background">
+    <div class="col-sm-12 no-padding no-margin widget-main-background" id="<?=$element->getName()?>_DetailsArea" >
+    
+    <?php if($display=='horizontal'):?>
+            
+        <?php $col_count=0;?>
+        <div class="col-sm-12 no-padding no-margin one-row-of-columns">
+        <!-- complex child one -->
+        <?php foreach ($complex_elem as $element):?>
+            <?php if ($col_count > 0 && $col_count % $display_columns == 0 ):?>
+                </div><!-- //reached col count end row -->
+                <div class='col-sm-12 space-6'></div>
+                <div class="col-sm-12 no-padding no-margin one-row-of-columns" ><!-- //reached col count new row -->        
+            <?php endif ?>
+            <?php $col_count++; ?>
+            <div class="<?=$col_class?> no-margin no-padding"  >
+              
+              <?php echo $this->partial('/partial/form/formrow.phtml',array('report'=>$report,'element'=>$element));  ?>     
+    
+            </div>
+        <?php endforeach //Child elements?>
+        </div><!-- end last row -->
+    <?php else:?>
+        <?php $first=true;?>
+        <?php foreach ($complex_elem as $element):?>
+            <?php if(!$first) {echo "<div class='col-sm-12 space-6'></div>\n";}else{$first=false;} ?>
+            <div class="<?=$col_class?> no-margin no-padding"  >
+              <?php echo $this->partial('/partial/form/formrow.phtml',array('report'=>$report,'element'=>$element));  ?>     
+            </div>
+        <?php endforeach //Child elements?>
+    <?php endif?>    
+    
+    <div class="hidden hide hideen-input-element">
+        <?php $complex_elem->setAttribute('class','hide');?> 
+        <?=$this->formHidden($complex_elem)?>
+    </div>
+
+    
+    </div><!-- //<?=$element->getName()?>_DetailsArea_DetailsArea -->
+    </div>
+    </div>
+
+</div> <!-- // Question Container <?=$complex_elem->getName() ?>-->
+

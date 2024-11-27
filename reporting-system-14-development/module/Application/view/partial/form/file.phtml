@@ -1,0 +1,53 @@
+<?php 
+$element = $this->element;
+$report = $this->report;
+?>
+
+<div class=" col-sm-12 file-question input-field-container" >
+ 
+
+    <?php $files = json_decode($element->getValue(),true) ?>
+        
+ 
+     <!-- #section:custom/file-input -->
+    <div style="display: table">
+    <div style="display: table-row">
+        <span class="align-middle input-label" style="display: table-cell; ">&nbsp;Attachment:&nbsp;</span>
+        <span class=" file-attachment-cell " style="display: table-cell">
+            <input type="file" name="<?=$element->getName()?>" id="<?=$element->getName()?>"  value="<?=json_encode($files)?>"/>
+        </span>
+     </div>
+    </div>
+
+    <!-- display files that are already uploaded -->
+    
+    <?php if($files && is_array($files) ):?>
+    <div class="files-attached no-border no-padding no-margin" >
+    <span class="bolder bigger-110">Files Attched:</span><br/>
+    <ul class="list-unstyled bigger-110">
+        <?php foreach ($files as $file) :?>
+            <li class="">
+                <a title="<?=$file['name']?>" href="<?=$this->url('report/attachment')?>?a=download&r=<?=$report->getId()?>&q=<?=$element->getName()?>&f=<?=$file['saved_as']?>">
+                <span class="fa-stack">
+                    <span class="fa-stack-1x filetype-text"><?=$file['ext']?></span>
+                    <i class="fa fa-file-o fa-stack-2x"></i>
+                </span>                
+                <span><?=$file['name']?></span>
+                </a>
+            </li>
+        <?php endforeach?>    
+    </ul>         
+    </div>
+    <?php endif?>    
+
+</div>
+      
+<script type="text/javascript">
+    $(function(){
+
+        ReportForms.file_input('<?=$element->getName()?>');
+        
+    });
+
+</script>
+

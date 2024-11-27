@@ -1,0 +1,55 @@
+<script src="https://www.google.com/recaptcha/api.js"></script>
+
+<?php
+    
+    $redirect_parts=explode('?',urldecode($this->target));
+    $base_part=$redirect_parts[0];
+    $query_part='?'.(count($redirect_parts)>1?$redirect_parts[1]:'');
+
+    $target_url = (isset($this->target))?$this->url($base_part).$query_part:'';
+
+    $key_f=dirname(getenv('bin_data')).'/recaptch_site';
+    $site_key=trim(file_get_contents($key_f));
+
+    if($base_part==''){
+        $base_part='home/members';
+    }
+
+?>
+     
+<form action="/login/authenticate" method="post">
+
+                                <h3 class="title blue">Login with AMJ Inc portal is required 
+</h3>
+
+                              <table width="375" height="" border="0">
+                                <tbody><tr>
+                                  
+                                </tr>
+                                <tr>
+                                  <td colspan="2">
+                                    &nbsp;<a class="btn btn-success btn-sm newstylebutton" style="width:100%; " href="/login/cognito/?target=/?">Login</
+                                </td>
+                                </tr><tr>
+                                  <td colspan="2" align="center">
+                                    
+                                    <div style="height:60px" class="title blue">&nbsp;</div>
+                                </td>
+                                </tr>
+
+                                
+                                
+                                
+                                
+                              </tbody></table>
+                                </form>
+     
+     
+<?php
+    if (strpos(strtolower($_SERVER['HTTP_USER_AGENT']), 'chrome') === false &&  strpos(strtolower($_SERVER['HTTP_USER_AGENT']), 'crios') === false ){
+        echo '<footer><div style="font-size:15pt;height:inherit;min-height:inherit;text-align:center;color:white;z-index:9999" class="navbar navbar-inverse navbar-fixed-top label-warning">';
+        echo '<p><b>WARNING:</b> This application works best on Google Chrome browser. Your current browser is not supported for the Reporting application.<br> Please use the supported browser only to ensure no errors are encountered.<p>';
+        echo '</div></footer>';
+error_log(strtolower($_SERVER['HTTP_USER_AGENT']));
+    }
+?>

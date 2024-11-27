@@ -1,0 +1,202 @@
+<!doctype html>
+ <html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="initial-scale=1.0" />
+  <meta name="format-detection" content="telephone=no" />
+  <title></title>
+  <style type="text/css">
+    body {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        -webkit-font-smoothing: antialiased;
+    }
+    @media only screen and (max-width: 600px) {
+        table[class="table-row"] {
+            float: none !important;
+            width: 98% !important;
+            padding-left: 20px !important;
+            padding-right: 20px !important;
+        }
+        table[class="table-row-fixed"] {
+            float: none !important;
+            width: 98% !important;
+        }
+        table[class="table-col"], table[class="table-col-border"] {
+            float: none !important;
+            width: 100% !important;
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+            table-layout: fixed;
+        }
+        td[class="table-col-td"] {
+            width: 100% !important;
+        }
+        table[class="table-col-border"] + table[class="table-col-border"] {
+            padding-top: 12px;
+            margin-top: 12px;
+            border-top: 1px solid #E8E8E8;
+        }
+        table[class="table-col"] + table[class="table-col"] {
+            margin-top: 15px;
+        }
+        td[class="table-row-td"] {
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
+        table[class="navbar-row"] , td[class="navbar-row-td"] {
+            width: 100% !important;
+        }
+        img {
+            max-width: 100% !important;
+            display: inline !important;
+        }
+        img[class="pull-right"] {
+            float: right;
+            margin-left: 11px;
+            max-width: 125px !important;
+            padding-bottom: 0 !important;
+        }
+        img[class="pull-left"] {
+            float: left;
+            margin-right: 11px;
+            max-width: 125px !important;
+            padding-bottom: 0 !important;
+        }
+        table[class="table-space"], table[class="header-row"] {
+            float: none !important;
+            width: 98% !important;
+        }
+        td[class="header-row-td"] {
+            width: 100% !important;
+        }
+    }
+    @media only screen and (max-width: 480px) {
+        table[class="table-row"] {
+            padding-left: 16px !important;
+            padding-right: 16px !important;
+        }
+    }
+    @media only screen and (max-width: 320px) {
+        table[class="table-row"] {
+            padding-left: 12px !important;
+            padding-right: 12px !important;
+        }
+    }
+    @media only screen and (max-width: 558px) {
+        td[class="table-td-wrap"] {
+            width: 100% !important;
+        }
+    }
+  </style>
+ </head>
+ <body style="font-family: Arial, sans-serif; font-size:13px; color: #444444; min-height: 200px;" bgcolor="#E4E6E9" leftmargin="0" topmargin="0" marginheight="0" marginwidth="0">
+
+<?php
+
+$report_branch_name =  $this->report->getBranch()->getBranchName();
+$user_to_title = $this->to_office->getTitle();
+$user_report_title = $this->report_office->getTitle();
+$user_from_title = $this->from_office->getTitle();
+$next_status = $this->next_status;
+
+$report_name = $this->report->getReportName();
+$period_code = $this->report->getPeriodFrom()->getPeriodCode();
+
+//error_log(print_r(['to'=>$user_to_title,$next_status,$period_code],true));
+?>
+<p>
+Dear <?=$user_to_title?> <?=$this->to_office->getBranch()->getBranchName()?>,
+</p>
+<p>
+Assalamo alaikum wa Rahmatullah!
+</p>
+
+<!-- Main Body -->
+
+<?php if($next_status == 'received'):?>
+This is an email notification that there is an update
+on the <?=$report_name?> (<?=$period_code?>) report. <!-- by <?=$user_report_title?> -->
+
+    <?php if(is_array($this->message)):?>
+        <?php foreach ($this->message as $from => $msg):?>
+            <div><?=$from.':'?>           
+            <blockquote>
+                <?=$msg?>
+            </blockquote>
+            </div>
+       <?php endforeach?>
+    <?php endif?>
+
+<?php endif ?>
+
+
+<?php if($next_status == 'draft'):?>
+Your <?=$user_from_title?> has returned your report for <?=$report_name?> (<?=$period_code?>) with the following comments. <!-- by <?=$user_report_title?> -->
+
+    <?php if(is_array($this->message)):?>
+        <?php foreach ($this->message as $from => $msg):?>
+            <div>           
+            <blockquote>
+                <?=$msg?>
+            </blockquote>
+            </div>
+       <?php endforeach?>
+    <?php endif?>
+
+<?php endif ?>
+
+
+<?php if($next_status == 'completed'):?>
+This is an email notification that the report for <?=$report_name?> (<?=$period_code?>) is now complete.
+Please use link below or login to Jama`at Reporting System to review and verify the report. Your feedback to the Secretary will help them improve their report. If the report is deemed incomplete, you may press the "Return" button so that the Secretary can fix the report and resubmit. 
+<?php endif?>
+
+<?php if($next_status == 'verified'):?>
+This is an email notification that the report for <?=$report_name?> (<?=$period_code?>) is now verified and available for your review.
+Please use link below or login to Jama`at Reporting System to review and receive the report. Please also provide your comments for the benifit of the <?=$user_report_title?>.
+<?php endif?>
+
+<!-- / Main Body -->
+
+
+<!-- Default fotter-->
+<p></p>
+<div>
+<p>
+    Click on the button below to open this report in Jama`at Reporting System    
+</p>
+
+<div>
+
+  <div align="center" style="width:150px ;background:#7db701;color:#ffffff;display:block;padding-left:10px;padding-right:10px;padding-top:10px;padding-bottom:10px;border-bottom:3px solid #679b08">
+      
+     <a href="<?=$this->serverUrl($this->url('report/report'));?>?report_id=<?=$this->report->getId()?>" style="color:#fffff6;font-size:18px;line-height:22px;font-family:Helvetica Neue Regular,Helvetica,Arial;text-decoration:none;display:inline-block" target="_blank">
+        <font color="#FFFFF6" face="'HelveticaNeue-Regular', 'Helvetica Neue Regular', 'Helvetica Neue', Helvetica, Arial, sans-serif">
+            
+            View Report
+            
+        </font>
+      </a>
+   </div>
+
+  </div>         
+</div>
+
+<p></p>
+<p>
+There is no need to reply to this email.
+</p>
+
+<p>
+        <br/>
+Wassalam!<br/>
+Office of National General Secretary
+</p>
+
+<!-- /Default fotter-->
+</body>
+</html>
+
+

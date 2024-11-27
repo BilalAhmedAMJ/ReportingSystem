@@ -1,0 +1,108 @@
+<?php
+    $report = $this->report;
+    $table_elem = $this->element;
+    $columns=$table_elem->getAttribute('data-cols');
+    $display_label=$table_elem->getAttribute('data-display_label');
+    $locked_field_class='';
+    $locked_div_class='no-margin no-padding';
+    $locked_icon='';
+?>
+
+
+<!-- -style="border-width: 1px 0px 0px 0px!important" -->
+<div class="col-sm-12 align-left no-margin no-padding widget-box table-question-container" ><!--  Table Question Container <?=$table_elem->getName() ?>-->
+
+     <div class=" widget-header">
+        <div class="col-sm-122 no-margin no-padding table-question-title widget-title" >
+            <span style="padding-left: 6px;" class="pull-left bigger-120 bolder  blue lighter " ><?=$table_elem->getLabel()?></span>
+        </div>
+
+        <div class="widget-toolbar">            
+            <a href="#"  data-action="collapse" class="  " >
+                <i class="ace-icon fa fa-chevron-up"></i>
+            </a>
+        </div>
+
+    </div>
+
+    
+    <div class=" widget-body widget-main-background-del no-padding" >
+    <div class="no-padding no-padding no-margin widget-main widget-main-background-del">
+    <div class="col-sm-12  widget-main-background-del no-padding no-margin" id="<?=$element->getName()?>_TableArea" >
+    
+        <table cellspacing="0" class="analysis-table2 table-striped" cellpadding="2" border="1" width="100%">
+        <!-- table display -->
+        <?php $row_num=1;?>
+        <?php $col=0;?>
+
+        <thead>
+        <tr bgcolor="#cccccc" style="padding: 4px!important;vertical-align:middle!important; text-align: center!important">
+        <?php foreach ($table_elem as $element):?>
+            <?php $colspan = $element->getAttribute('data-colspan');?>
+            <?php $colspan = ($colspan && $colspan > 0)?$colspan:1;?> 
+            
+           <?php if ($row_num == 1):?>
+            <th colspan="<?=$colspan?>" style="text-align: center;vertical-align: middle">
+                <?=$element->getLabel();?>
+            </th>       
+           <?php else:?>
+            <td colspan="<?=$colspan?>" style="vertical-align: middle">
+                
+                <?php 
+                    $element->setAttribute('style','width:100%!important');
+                    $locked = $element->getAttribute('data-rollup');
+                    if($locked){
+                        $locked_field_class='rollup';
+                        $locked_div_class='field-icon-div';
+                        $locked_icon='<i class="fa fa-lock field-icon-r"></i>';
+                        $element->setAttribute('readonly','true');
+                    }
+                    if(strtolower($element->getAttribute('data-qtype')) == 'label' ){
+                                                
+                        echo '<div style="padding-left:4px;">'.$element->getLabel().'</div>';
+                        
+                    }elseif( strtolower($element->getAttribute('data-qtype')) == 'text'  ||
+                             strtolower($element->getAttribute('data-qtype')) == 'number' ){
+
+                        $element->setAttribute('class',"$locked_field_class");
+                        echo "<div class='".$locked_div_class. "'>";
+                        echo $this->formText($element);
+                        echo $locked_icon;
+                        echo "</div>";
+                    }else{
+                        echo 'UNKNOWN '.$element->getAttribute('data-qtype');
+                    }
+                
+                
+                ?>
+                
+            </td>        
+            <?php endif?>
+            <?php $col=$col+$colspan;?>
+            
+            <?php if($col%$columns == 0):?>
+                </tr>
+                <?php if($row_num == 1){echo '</thead><tbody>';}?>
+                <tr style="vertical-align:top;text-align: left">
+                <?php $row_num++; ?>
+                <?php $col=0; ?>
+            <?php endif?>
+                
+        <?php endforeach //Child elements?>
+
+        </tr>        
+        </tbody>
+        </table>
+        
+    <div class="hidden hide hideen-input-element">
+        <?php $table_elem->setAttribute('class','hide');?> 
+        <?=$this->formHidden($table_elem)?>
+    </div>
+
+    
+    </div><!-- //<?=$element->getName()?>_TableArea -->
+    </div>
+    </div>
+
+</div> <!-- // Question Container <?=$table_elem->getName() ?>-->
+

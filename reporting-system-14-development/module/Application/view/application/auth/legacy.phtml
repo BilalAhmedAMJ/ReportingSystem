@@ -1,0 +1,103 @@
+<script src="https://www.google.com/recaptcha/api.js"></script>
+
+<?php
+    
+    $redirect_parts=explode('?',urldecode($this->target));
+    $base_part=$redirect_parts[0];
+    $query_part='?'.(count($redirect_parts)>1?$redirect_parts[1]:'');
+
+    $key_f=dirname(getenv('bin_data')).'/recaptch_site';
+    $site_key=trim(file_get_contents($key_f));
+
+    if($base_part==''){
+        $base_part='home/members';
+    }
+
+
+?>
+                              <form action="<?=$this->url('auth/authenticate')?>" method="post">
+
+                                <h3 class="title blue">Login is Required </h3>
+
+                              <table width="275" border="0">
+                                <tr>
+                                  <!--  
+                                  <td width="16%">
+                                     <select name="use_email" class="newstyleselect">
+                                        <option value="0" selected class="newstyletxt">User ID</option>
+                                        <option value="1" >Email</option>
+                                        </select>
+                                    </select>
+                                 </td>
+                                 -->
+                                  <td width="100%" colspan="2">
+                                      <fieldset>
+                                        <label class="block clearfix">                                      
+                                          <?php if($this->post && $this->users && count($this->users)>1):?>
+                                              <select class="select2" name="username" autofocus="true" placeholder="Select User">
+                                                  <option value="<?=$this->email?>" > Select a UserId </option>
+                                                  <?php foreach($this->users as  $user) :?>
+                                                  <option value="<?=$user->getUsername()?>" > <?=$user->getDisplayName() ?> </option>
+                                                  <?php endforeach ?>
+                                              </select>
+                                          <?php else:?>
+                                          <span class="block input-icon input-icon-right">
+                                          <input type="text" class="form-control newstyletxtinput" autofocus="autofocus" name="username" placeholder="Username or Email" />
+                                          <i class="ace-icon fa fa-user red"></i>
+                                          </span>
+                                          <?php endif?>
+                                      </label>
+                                      </fieldset>
+                                      </td>
+                                </tr>
+                                <tr>
+                                  <!--  
+                                  <td ><font color="black"><div id=passwdlbl><p class="newstyletxt">Password:</p></div></font></td>
+                                  -->
+                                  <td colspan="2" >
+                                      <fieldset>
+                                        <label class="block clearfix">                                      
+                                          <span class="block input-icon input-icon-right">
+                                          <input type="password" class="form-control newstyletxtinput" name="userpassword" placeholder="Your Password" />
+                                          <i class="ace-icon fa fa-key red"></i>
+                                          </span>
+                                      </label>
+                                      </fieldset>
+                                  </td>
+                                </tr>
+                                <!--
+                                <tr>
+                                  <td ><font color="black"><p  id=passwdlbl class="newstyletxt">Pin:</p></font></td>
+                                  <td ><input name="pin" type="password" class="newstyletxtinput" id="pin"></td>
+                                </tr>
+                                -->
+
+                                <tr>
+                                  <td colspan="2" align="center">
+					<br/>
+          <?php        
+           if( getenv('APPLICATION_ENV') == 'production' ) {?>
+              <div class="g-recaptcha" data-sitekey="<?=$site_key?>"></div>
+          <?php        }?>
+					<br/>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td >
+				  </td>
+                                  <td align=left>
+                                    <input type="hidden" name="target" value="<?=(isset($this->target))?$this->url($base_part).$query_part:''?>"/>
+                                    <input type="submit" name="Submit" value="Login" class="btn btn-primary btn-sm newstylebutton" >
+                                    &nbsp;<a class="btn btn-yellow  btn-sm newstylebutton" style="width:180px; color:#336699!important" href="<?=$this->url('reset-password')?>"> Forgot Password?</a>    
+                                  </td>
+                                </tr>
+                              </table>
+                                </form>
+<?php
+    if (strpos(strtolower($_SERVER['HTTP_USER_AGENT']), 'chrome') === false &&  strpos(strtolower($_SERVER['HTTP_USER_AGENT']), 'crios') === false ){
+        echo '<footer><div style="font-size:15pt;height:inherit;min-height:inherit;text-align:center;color:white;z-index:9999" class="navbar navbar-inverse navbar-fixed-top label-warning">';
+        echo '<p><b>WARNING:</b> This application works best on Google Chrome browser. Your current browser is not supported for the Reporting application.<br> Please use the supported browser only to ensure no errors are encountered.<p>';
+        echo '</div></footer>';
+error_log(strtolower($_SERVER['HTTP_USER_AGENT']));
+    }
+?>

@@ -1,0 +1,287 @@
+
+<style>
+	body{
+		background-color:#FFFFFF!important;
+	}	
+
+	.results-table,td ,th{
+		padding-left: 4px!important;
+		padding-right: 4px!important;
+
+	}
+	thead {display: table-header-group;}
+	.results-table {
+        -fs-table-paginate: paginate;    
+    }
+    
+    .results-table td,.results-table th{
+    	border:1px solid #C5C5C5;
+    }
+    td.errors:blank::before {
+ 		display: none!important;
+	}	
+
+@print{
+	.print{
+		width:670px;	
+	}
+}	
+</style>
+
+<div class="row clearfix">
+
+<table  cellspacing="0" cellpadding="0" border="0">
+  <tr><td>
+  <div class="print col-sm-12 align-center center center-block" style="min-width:1080px!important;max-width:1200px!important">
+    <table border="0" width="100%">
+    	<thead>
+        <tr style="">
+            <th align="left" style="padding-top: 4px!important;width:33%" nowrap><img src="<?=$this->basePath()?>/img/topbar-left.png" height="45"></th>
+            <th align="center" style="text-align:center;width:33%"><img src="<?=$this->basePath()?>/img/bismillah.png" ></th>
+            <th align="right" style="width:33%">
+            </th>
+        </tr>        
+        <tr><th colspan="3"><hr width="100%"></th></tr>
+        </thead>
+        <!-- All Depts -->
+        <tbody>
+        <tr><td colspan="3" style="width:100%">
+			<table class="results-table" style="width:100%">
+			<tbody>
+				<tr>
+					<td style="width:160px;text-align: right;"><?=htmlspecialchars($this->election->getBranch()->getBranchType())?>:</td> 					
+					<td style="text-align: left;"><?=htmlspecialchars($this->election->getBranch()->getBranchName())?></td>
+					 					
+					<td style="width:160px;text-align: right;">Election Term:</td>
+					<td style="text-align: left;"><?=htmlspecialchars($this->election->getElectionTerm())?></td>
+					 					
+
+				</tr>
+				<tr>
+					<td style="text-align: right;">Date of Election:</td>
+					<td style="text-align: left;"><?=htmlspecialchars($this->election->getElectionDate()->format('d-M-Y'))?></td> 					
+
+					<td style="text-align: right;">Election Call:</td>
+					<td style="text-align: left;"><?=htmlspecialchars($this->election->getElectionCall())?></td> 					
+				</tr>
+				<tr>
+
+				</tr>
+				<tr>
+					<td style="text-align: right;">Male Chanda Payers:</td>
+					<td style="text-align: left;"><?=htmlspecialchars($this->election->getChandaPayers())?></td>
+					 					
+					<td style="text-align: right;">Defaulters:</td>
+					<td style="text-align: left;"><?=htmlspecialchars($this->election->getDefaulters())?></td>
+				</tr>
+				<?php if($this->election->getElectionType()=='shura'):?>
+                <tr>
+                    <td style="text-align: right;">Lajna Payers:</td>
+                    <td style="text-align: left;"><?=htmlspecialchars($this->election->getLajnaPayers())?></td>
+                                        
+                    <td style="text-align: right;">Moosi / Moosiyat < 18:</td>
+                    <td style="text-align: left;"><?=htmlspecialchars($this->election->getUnderEighteenWassayat())?></td>
+                </tr>               
+                <tr>
+                    <td style="text-align: right;">Allowed Delegates:</td>
+                    <td style="text-align: left;"><?=htmlspecialchars($this->election->getAllowedDelegates())?></td>                   
+                    <td style="text-align: right;">Eligible Voters Present:</td>
+                    <td style="text-align: left;"><?=htmlspecialchars($this->election->getEligibleVotersPresent())?></td>                   
+                </tr>               
+                <?php else:?>
+                <tr>
+                    <td colspan="3" style="text-align: right;">Eligible Voters Present:</td>
+                    <td style="text-align: left;"><?=htmlspecialchars($this->election->getEligibleVotersPresent())?></td>                   
+                </tr>               
+                <?php endif?>
+				<tr>
+					<td colspan="4" >&nbsp;
+						<?php
+							$overall_errors='';
+							$validations = $this->election->validate($this->config['validations']);
+							if(is_array($validations) && !empty($validations) 
+							   && ($validations[0]['error']>0 || $validations[0]['warning']>0 ||$validations[0]['empty']>0)){
+								echo '<span class="label label-danger inline width-100" style="margin-top:-15px;height:100%;padding-top:4px;padding-bottom:4px;">
+									
+										This election report is not valid for submission. There are following error(s)<br/>';
+								if($validations[0]['empty']>0){
+									echo sprintf('%s empty office(s) ',$validations[0]['empty']);
+								}
+								echo sprintf('%s error(s) and %s warning(s)',$validations[0]['error'],$validations[0]['warning']);
+								echo '</span>';
+							}
+						?>
+						
+					</td>
+				</tr>				
+				<tr>
+ 					<td style="text-align: right;">Presided By:</td>
+					<td colspan="3" style="text-align: left;"><?=htmlspecialchars($this->election->getPresidedBy())?></td> 					
+
+				</tr>				
+				<tr>
+					<td style="text-align: right;">Comments by Presiding Offficer:</td>
+					<td colspan="3"  style="text-align: left;"><?=htmlspecialchars($this->election->getPresidingOfficerComments())?></td> 					
+
+				</tr>
+				<tr>
+					<td colspan="4">&nbsp;</td>
+				</tr>				
+				<tr>
+					<td style="text-align: right;">First Witness Name:</td> 					
+					<td style="text-align: left;"><?=htmlspecialchars($this->election->getWitnessNameOne())?></td>
+					 					
+					<td style="text-align: right;">First Witness Phone:</td>
+					<td style="text-align: left;"><?=htmlspecialchars($this->election->getWitnessPhoneOne())?></td>
+				</tr>
+				<tr>
+					 					
+					<td style="width:160px;text-align: right;">Second Witness Name:</td>
+					<td style="text-align: left;"><?=htmlspecialchars($this->election->getWitnessNameTwo())?></td> 					
+
+					<td style="text-align: right;">Second Witness Phone:</td>
+					<td style="text-align: left;"><?=htmlspecialchars($this->election->getWitnessPhoneTwo())?></td> 					
+ 
+				</tr>				
+				<tr>
+					<td style="text-align: right;">Completed By:</td>
+					<td style="text-align: left;"><?=htmlspecialchars($this->election->getCompletedByName())?></td>
+					 					
+					<td style="text-align: right;">Phone:</td>
+					<td style="text-align: left;"><?=htmlspecialchars($this->election->getCompletedByNumber())?></td>
+					 					
+				</tr>
+			</tbody>
+			</table>
+			<div class="space-6"></div>
+
+		</td></tr>
+        <tr><td colspan="3" style="width:100%">
+					<?php foreach ($this->election->getElectionReports() as $election_report):?>
+						
+						<?php
+						
+							$validations = $election_report->validate($this->config['validations']);
+							$labels='';
+							$errors='';
+							$na=$election_report->getNotApplicable();
+							$na=(!empty($na) && ($na=='1'||$na=='on'||$na=='yes')); 
+							if($na){
+								$labels .= '<span class="label label-yellow inline" style="float: right;">Not Applicable/Election was not held</span>';
+							}
+							 
+							if($election_report->isEmpty()){
+								$labels .= '<span class="label label-danger inline" style="float: right;">Election Report is empty!</span>';
+							}else{
+								
+								foreach ($validations as $validation) {
+									if($validation['type']=='summary' && $validation['error'] >	0 && (!$na) ){
+										$labels .= '<span class="label label-danger inline" style="float: right;">Validation failed, '.$validation['error'].' error(s)</span>';
+										
+									}elseif($validation['type']=='error' && (!$na) ){
+										$errors = $errors .'<br/>'. $validation['message'];
+									}										
+									
+								}//find errors in validations	
+							}//if report is not empty
+							
+						?>
+
+				<table class="results-table" style="width:100%">
+					<tbody>
+						<tr>
+							<td colspan="6" class="title bolder blue bigger-125 align-left"> 
+								<div class="space-6">&nbsp;</div>
+								<?=($election_report->getOfficeTitle() )?>
+								<?=($labels)?> 
+							</td>
+						</tr>
+						<?php if(!empty($errors)):?>
+						<tr style="min-height: 0px!important" class="errors-list">
+							<td colspan="6" class=" align-left alert alert-danger no-padding" ><?=($errors)?></td>
+						</tr>
+						<?php endif?>
+
+						<?php if(!$election_report->isEmpty() && (!$na) ):?>
+						<tr class="title bolder ">
+							<th style="width:15%;text-align: left">Member Code</th>
+							<th style="width:45%;text-align: left">Name Proposed</th>
+							<th style="width:10%;text-align: center;">Regular in Prayers</th>
+							<th style="width:10%;text-align: center;">Basharah Chanda</th>
+							<th style="width:10%;text-align: center;">Have Beard</th>
+							<th style="width:10%;text-align: center;">Votes</th>
+						</tr>
+						<?php endif?>
+						<?php foreach ($election_report->getElectionProposals() as $election_proposal):?>
+						<?php if($election_proposal->isEmpty()) {continue;} ?>						
+						<tr>
+							<td style="text-align: left"><?=htmlspecialchars($election_proposal->getMemberCode())?></td>
+							<td style="text-align: left"><?=htmlspecialchars($election_proposal->getProposedName())?></td>
+							<td><?=htmlspecialchars($election_proposal->getRegularInPrayers())?></td>
+							<td><?=htmlspecialchars($election_proposal->getBasharahChanda())?></td>
+							<td><?=htmlspecialchars($election_proposal->getHaveBeard())?></td>
+							<td><?=htmlspecialchars($election_proposal->getVotes())?></td>
+						</tr>
+						<?php if(!empty($election_report->getNeedIntroduction())):?>
+						<tr>
+							<td colspan="6" style="text-align: left;">
+								<i>Introduction for <?=htmlspecialchars($election_proposal->getProposedName())?></i>:<br/>
+								<?=htmlspecialchars($election_proposal->getIntroduction())?>
+								<br/>&nbsp;<br/>
+								</td>
+						</tr>
+						<?php endif?>
+						<?php endforeach?>
+						<?php if(!empty($election_report->getComments())):?>
+						<tr>
+							<td colspan="6" style="text-align: left">
+								<b>Comments for <?=htmlspecialchars($election_report->getOfficeTitle())?>:</b><br/>
+								<?=htmlspecialchars($election_report->getComments())?>
+								<br/>&nbsp;<br/>
+								</td>
+						</tr>
+						<?php endif?>
+				</tbody>
+			</table>
+			<div class="space-6"></div>
+					<?php endforeach?>					
+
+		</td></tr>
+	</td></tr>
+	</tbody>
+	</table>
+</div>
+    <div class="space-10"></div>
+</td></tr></table>
+</div> <!-- row -->
+
+
+<!--
+<?php if(!empty($this->election)):?>
+<div class="row responsive clearfix " >
+	
+	<table class="table table-striped table-bordered2 table-hover table-condensed table-normal table-datagrid table-hover">
+    <thead>
+    </thead>
+    <tbody>
+    </table>
+    <pre>
+    	<?php
+
+    	
+    	echo print_r($this->validations,true);
+    	
+    	?>
+    </pre>
+</div>
+<?php else:?>
+    <div class="row responsive clearfix " >    
+      <div class="col-sm-12">          
+        <h2>Report is empty</h2>
+    </div>
+    </div>
+<?php endif?>
+-->
+
+
+

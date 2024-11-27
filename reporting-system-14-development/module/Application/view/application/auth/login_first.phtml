@@ -1,0 +1,190 @@
+<style>
+td {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 9pt;
+    color: #333333;
+}
+.newstyletable {
+    border: 1px solid #CEE3F6;
+    border-radius: 15px;
+    BACKGROUND-COLOR: #CEE3F6;
+
+}
+.newstylemaintable {
+    border: 1px solid #EEEEEE;
+    border-radius: 10px;
+    BACKGROUND-COLOR: #EEEEEE;
+
+}
+
+.newstyletxt
+{
+    color: #336699;
+    font-size: 12pt;
+}
+
+
+.newstyletxtinput
+{
+    color: #336699;
+    background-color: #FCFCFC;
+    border: 0px solid #336699;
+    border-radius: 5px;
+    font-size: 12pt;
+    height: 25px;
+    line-height:15px;
+    padding: 5px 0px 5px 5px;
+    margin-bottom: 6px;
+    margin-right: 6px;
+    margin-top: 2px;
+}
+
+input[type=text], input[type=password]{
+    border-radius:5px!important;
+    height:35px!important;
+    width:100%;
+}
+.newstylebutton
+{
+    border-radius: 5px;
+    BACKGROUND-COLOR:#336699;
+    BORDER: 0px solid #FACC2E;
+    WIDTH: 80px;
+    font-size: 12pt;
+    FONT-WEIGHT: bold;
+    cursor: hand;
+margin-bottom: 6px;
+    margin-top: 6px;
+    COLOR: #fcfcfc;
+}
+
+.newstylebutton:hover
+{
+    color: black;
+    border-radius: 5px;
+    BACKGROUND-COLOR: #151B54;
+    BORDER: 0px solid #808080;
+    WIDTH: 80px;
+    font-size: 12pt;
+    FONT-WEIGHT: bold;
+    cursor: hand;
+    margin-bottom: 6px;
+    margin-top: 6px;
+    COLOR: #fcfcfc;
+}
+
+.newstyleselect
+{
+        color: #336699;
+    font-size: 12pt;
+    border-radius: 5px;
+    background-color: #FCFCFC;
+    border: 1px solid #336699;
+}
+
+.newstyletxtarea
+{
+        color: #336699;
+    background-color: #EBFAFF;
+    border: 1px solid #336699;
+    border-radius: 5px;
+    font-size: 10pt;
+    line-height:15px;
+    padding: 5px 0px 5px 5px;
+    margin-bottom: 6px;
+    margin-right: 6px;
+    margin-top: 2px;
+}
+</style>
+<div bgcolor="#808080" style="background-color: #808080;width: 100%;margin: 0px;border:0px;padding:0px">
+<table width="800" border="0" align="center" cellpadding="0" cellspacing="0"">
+  <tr>
+    <td align="right" valign="top">
+        <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+          <td colspan="2" valign="top"><table class="newstyletable" width="100%" border="0" cellpadding="0" cellspacing="0">
+              <tr valign="top">
+                <!--td valign="top" bgcolor="#CEE3F6" ><br><br><center-->
+                <td valign="top" ><br><br><center>
+                  <table width="770" height=450 border="0" cellspacing="0" cellpadding="0" background="<?=$this->basePath()?>/img/amjbanner_2013.png"> 
+                    <tr>
+                        <td width=50% align="center">       <br><br><br><br><br><br>
+                    <!--<center>-->
+                            
+                                                        <table border="0">
+                            <tr>
+                            <td><center>
+                              <form action="/login/authenticate" method="post">
+
+                              <table width="250" border="0">
+                                <tr>
+                                  <!--  
+                                  <td width="16%">
+                                     <select name="use_email" class="newstyleselect">
+                                        <option value="0" selected class="newstyletxt">User ID</option>
+                                        <option value="1" >Email</option>
+                                        </select>
+                                    </select>
+                                 </td>
+                                 -->
+                                  <td width="84%" colspan="2">
+                                      <fieldset>
+                                        <label class="block clearfix">                                      
+                                          <span class="block input-icon input-icon-right">
+                                          <input type="text" class="form-control newstyletxtinput" name="username" placeholder="Username or Email" />
+                                          <i class="ace-icon fa fa-user"></i>
+                                          </span>
+                                      </label>
+                                      </fieldset>
+                                      </td>
+                                </tr>
+                                <tr>
+                                  <!--  
+                                  <td ><font color="black"><div id=passwdlbl><p class="newstyletxt">Password:</p></div></font></td>
+                                  -->
+                                  <td colspan="2" >
+                                      <fieldset>
+                                        <label class="block clearfix">                                      
+                                          <span class="block input-icon input-icon-right">
+                                          <input type="password" class="form-control newstyletxtinput" name="userpassword" placeholder="Your Password" />
+                                          <i class="ace-icon fa fa-key"></i>
+                                          </span>
+                                      </label>
+                                      </fieldset>
+                                  </td>
+                                </tr>
+                                <!--
+                                <tr>
+                                  <td ><font color="black"><p  id=passwdlbl class="newstyletxt">Pin:</p></font></td>
+                                  <td ><input name="pin" type="password" class="newstyletxtinput" id="pin"></td>
+                                </tr>
+                                -->
+                                <tr>
+                                  <td ></td>
+                                  <td align=left>
+                                    <input type="submit" name="Submit" value="Login" class="newstylebutton" onclick="return submit_onclick()">
+                                    <br><br><a href="resetpwd.php"><font color="#808080">Forgot Password?</font></a>    
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td colspan="2" align="center"><br><br>
+                                    <!--<a href="newuser.php"><font color="#c0c0c0">New User</font></a>&nbsp;&nbsp;&nbsp;&nbsp;-->
+                                  </td>
+                                </tr>
+                              </table>
+                                </form>
+                            </td>
+<td width="50%" align=center valign=top ><img src="<?=$this->basePath()?>/img/l4ablue.png" border=0></td>
+                            </tr>
+                            </table>
+                        </td>
+                      </tr>
+                    </table></td>
+              </tr>
+            </table></td>
+          <!--td ></td-->
+        </tr>
+      </table></td>
+  </tr>
+</table>
+</div>

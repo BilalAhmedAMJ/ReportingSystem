@@ -1,0 +1,529 @@
+
+<title>User Profile</title>
+
+<link rel="stylesheet" href="<?=$this->basePath()?>/assets/css/bootstrap-editable.css" />
+<script src="<?=$this->basePath()?>/assets/js/jquery.maskedinput.min.js" ></script>
+
+
+<!-- ajax layout which only needs content area -->
+<div class="page-header">
+	<h1>
+		User Profile
+	</h1>
+</div><!-- /.page-header -->
+
+<style>
+    .profile-info-value>span+span:before{
+        content:'';
+    }
+    .profile-info-name{
+        width:170px;
+    }
+</style>
+<div class="row">
+	<div class="col-xs-12">
+		<!-- PAGE CONTENT BEGINS -->
+		<div>
+		<div class="">
+		    
+			<div id="user-profile-3" class="user-profile row clearfix no-padding" style="margin: auto">
+			    
+				<div class="col-sm-offset-1 col-sm-12 col-md-9 no-padding no-margin">
+				
+
+                <form class="form-horizontal " method="post" enctype="multipart/form-data" action="<?=$this->url('user-profile/update')?>">
+                <input type="hidden"  name="user_id" value="<?=$user->getId()?>"/>
+                <div class="widget-box   ">
+                    <div class="widget-header no-padding">
+												
+                        <div class="widget-toolbar pull-left no-border no-padding">
+
+                            <ul class="nav nav-tabs" id="myTab2">
+																
+								<li class="active">
+									<a data-toggle="tab" href="#user-info">
+										<i class="green ace-icon fa fa-pencil-square-o bigger-125"></i>
+										User Info
+									</a>
+								</li>
+
+
+								<li>
+									<a data-toggle="tab" href="#edit-password">
+										<i class="blue ace-icon fa fa-key bigger-125"></i>
+										Password
+									</a>
+								</li>
+
+                                <li>
+                                    <a data-toggle="tab" href="#edit-settings">
+                                        <i class="purple ace-icon fa fa-cog bigger-125"></i>
+                                        Settings
+                                    </a>
+                                </li>
+
+							</ul>
+							
+                        </div>
+                        
+                        <div class="widget-toolbar pull-right no-border no-padding btn-group  btn-group-sm">
+                                <button class="btn  btn-round btn-sm btn-success btn-white" type="submit">
+                                    <i class="ace-icon fa fa-check bigger-110"></i>
+                                    Save
+                                </button>
+                                <button class="btn btn-round btn-sm btn-danger btn-white" type="reset">
+                                    <i class="ace-icon fa fa-undo bigger-110"></i>
+                                    Reset
+                                </button>
+                            </div>
+
+                    </div>
+
+                    <div class="widget-body no-padding">
+                        <div class="widget-main  no-padding">
+                           
+							<div class="tab-content profile-edit-tab-content no-padding">
+						
+
+				
+								<div id="user-info" class="tab-pane in active">
+									<span class="space-10"></span>
+									
+									<div class="profile-user-info profile-user-info-striped width-100">
+										<div class="profile-info-row">
+											<div class="profile-info-name"> Username </div>
+				
+											<div class="profile-info-value">
+												<span class="" id="username"><?=$this->user->getUsername()?></span>
+											</div>
+										</div>
+				
+                                        <div class="profile-info-row">
+                                            <div class="profile-info-name"> Member Code </div>
+                
+                                            <div class="profile-info-value">
+                                                <span class="editable" id=""><?=$this->user->getMemberCode()?></span>
+                                            </div>
+                                        </div>
+                                        <div class="profile-info-row">
+                                            <div class="profile-info-name"> Email </div>
+                
+                                            <div class="profile-info-value">
+                                                <span class="editable-no" id="signup"><?=$this->user->getEmail()?></span>
+                                            </div>
+                                        </div>
+                
+
+										<div class="profile-info-row">
+											<div class="profile-info-name"> Full Name </div>
+				
+											<div class="profile-info-value">
+											    
+												<!--
+												    span class="" id="display_name"><?=$this->user->getDisplayName()?></span
+												-->
+												<input class="form-input-style input-medium" type="text" id="display_name" name="display_name" value="<?=$this->user->getDisplayName()?>" >
+											</div>
+										</div>
+
+										<div class="profile-info-row">
+											<div class="profile-info-name"> Phone Number </div>
+				
+											<div class="profile-info-value">
+												<input class="input-mask-phone form-input-style input-medium " name="primaryphone"  id="primaryphone" value="<?=$this->user->getPhonePrimary()?>" />
+											</div>
+										</div>
+				
+                                        <div class="profile-info-row">
+                                            <div class="profile-info-name"> Cell Phone </div>
+                
+                                            <div class="profile-info-value">
+                                                <input class="input-mask-phone form-input-style input-medium " name="alternatephone" id="alternatephone"  value="<?=$this->user->getPhoneAlternate()?>" />
+                                            </div>
+                                        </div>
+                                        <div class="profile-info-row">
+                                            <div class="profile-info-name">Office(s)</div>
+                
+                                            <div class="profile-info-value">
+                                                <span class="" id="assigned">
+                                                    <?php
+                                                        foreach ($this->user->getOfficeAssignments() as $office) {
+                                                            echo $office->getDepartment()->getOfficeBearer()
+                                                            ." ".
+                                                            ($office->getDepartment()->getOfficeBearer()==$office->getDepartment()->getDepartmentName()?'':$office->getDepartment()->getDepartmentName())
+                                                            .", ".
+                                                            $office->getBranch()->getBranchName()
+                                                            ."<br/>";
+                                                        }
+                                                    ?>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        
+
+                                        <div class="profile-info-row">
+                                            <div class="profile-info-name"> Status </div>
+                
+                                            <div class="profile-info-value">
+                                                <span class="editable" id="phone_alternate"><?=$this->user->getStatus()?></span>
+                                            </div>
+                                        </div>
+										
+									</div>									
+								</div>
+								
+                                <div id="edit-password" class="tab-pane">
+
+                                    <div class="profile-user-info profile-user-info-striped width-100">
+
+                                        <div class="profile-info-row">
+                                            <div class="profile-info-name"> Current</div>
+                
+                                            <div class="profile-info-value">
+                                            <input class="form-input-style input-medium "  placeholder="Current Password"  type="password" id="userpassword" name="userpassword" />
+                                          </div>
+                                       </div>
+                                        <div class="profile-info-row">
+                                            <div class="profile-info-name"> New </div>
+                
+                                            <div class="profile-info-value">
+                                            <input class="form-input-style input-medium "  placeholder="New Password"  type="password" id="newpassword" name="newpassword"/>
+                                          </div>
+                                       </div>
+
+                                        <div class="profile-info-row">
+                                            <div class="profile-info-name"> Confirm </div>
+                
+                                            <div class="profile-info-value">
+                                            <input class="form-input-style input-medium " placeholder="Confirm Password" type="password" id="confirmpassword" name="confirmpassword" />
+                                          </div>
+                                       </div>
+
+
+                                    </div>
+                                </div><!-- Password tab-->
+
+								<div id="edit-settings" class="tab-pane">
+
+                                    <div class="profile-user-info profile-user-info-striped width-100">
+
+                                        <div class="profile-info-row">
+                                            <div class="profile-info-name"> Text Size</div>
+                
+                                            <div class="profile-info-value" style="padding-top:1px!important" >
+                                                <div data-toggle="buttons" class="zoom-90 btn-group btn-overlap no-margin " style="height:20px!important;vertical-align: bottom!important">
+                                                    <label class="btn active btn-white  btn-primary  btn-text-size text-size-1" style="padding-top: 9px;height:30px;">
+                                                        <input type="radio" value="no-zoom">A
+                                                    </label>
+                                    
+                                                    <label class="btn btn-primary btn-text-size text-size-2" style="padding-top: 4px;height:30px;">
+                                                        <input type="radio" value="zoom-115">A
+                                                    </label>
+                                    
+                                                    <label class="btn  btn-primary  btn-text-size text-size-3" style="padding-top: 0px;height:30px;">
+                                                        <input type="radio" value="zoom-125">A
+                                                    </label>
+                                                </div>
+                                              </div>
+                                          </div>
+
+
+                                        <div class="profile-info-row">
+                                            <!-- #section:settings.skins -->
+                                            <div class="profile-info-name"> Choose Skin</div>
+                                            <div class="profile-info-value" >
+                                            <select id="skin-colorpicker" class="hide">
+                                                <option data-skin="no-skin" value="#438EB9">#438EB9</option>
+                                                <option data-skin="skin-1" value="#222A2D">#222A2D</option>
+                                                <option data-skin="skin-2" value="#C6487E">#C6487E</option>
+                                                <option data-skin="skin-3" value="#D0D0D0">#D0D0D0</option>
+                                            </select>
+                                            </div>
+                                            <!-- /section:settings.skins -->
+                                        </div>
+                                        
+                                        <div class="profile-info-row">
+                                            <div class="profile-info-name">
+                                                 Fixed Navbar
+                                                
+                                            </div>
+                                            <div class="profile-info-value" >
+                                                
+                                                <input type="checkbox" class="" checked="true" id="ace-settings-navbar" />
+                                                
+                                            </div>
+                                        </div>  
+                                                                              
+
+                                        <div class="profile-info-row">
+                                            <div class="profile-info-name">
+                                                Fixed Sidebar
+                                            </div>
+                                            <div class="profile-info-value" >
+                                                <input type="checkbox" class=""  checked="true"  id="ace-settings-sidebar" />
+                                            </div>
+                                        </div>  
+
+                                        <div class="profile-info-row">
+                                            <div class="profile-info-name" >
+                                                 Center Page / Full Screen
+                                            </div>
+                                            <div class="profile-info-value" >
+                                                <input type="checkbox" class=""  checked="true"  id="ace-settings-add-container" />                                                
+                                            </div>
+                                        </div>  
+
+
+                                        <div class="profile-info-row">
+                                            <div class="profile-info-name">
+                                                    Submenu on Hover
+                                                
+                                            </div>
+                                            <div class="profile-info-value" >
+                                                <input type="checkbox" class=""  checked="true"  id="ace-settings-hover" />
+                                                
+                                            </div>
+                                        </div>  
+
+
+                                        <div class="profile-info-row">
+                                            <div class="profile-info-name">
+                                            Compact Sidebar
+                                                
+                                            </div>
+                                            <div class="profile-info-value" >
+                                                <input type="checkbox" class=" "  checked="true"  id="ace-settings-compact" />
+                                                
+                                            </div>
+                                        </div>  
+
+
+                                        <div class="profile-info-row">
+                                            <div class="profile-info-name">
+                                                Alt. Active Item
+                                            </div>
+                                            <div class="profile-info-value" >
+
+                                                <input type="checkbox" class=""  checked="true"  id="ace-settings-highlight" />
+                                                
+                                            </div>
+                                        </div>  
+
+  
+
+                                   </div>
+
+                                    <!-- #section:settings.navbar -->
+
+                                    <!-- /section:settings.navbar -->
+
+                                    <!-- #section:settings.sidebar -->
+
+                                    <!-- /section:settings.sidebar -->
+
+                                    <!-- #section:settings.breadcrumbs -->
+                                    <!--
+                                    <div class="ace-settings-item">
+                                        <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-breadcrumbs" />
+                                        <label class="lbl" for="ace-settings-breadcrumbs"> Fixed Breadcrumbs</label>
+                                    </div>
+                                    -->
+                                    <!-- /section:settings.breadcrumbs -->
+
+                                    <!-- #section:settings.rtl -->
+                                    <!--
+                                    <div class="ace-settings-item">
+                                        <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-rtl" />
+                                        <label class="lbl" for="ace-settings-rtl"> Right To Left (rtl)</label>
+                                    </div>
+                                    -->
+                                    <!-- /section:settings.rtl -->
+
+                                    <!-- #section:settings.container -->
+
+                                    <!-- #section:basics/sidebar.options -->
+
+								</div><!-- //settings tab -->
+
+							</div>
+							
+							
+						</div>
+                      </div>
+                     </div>
+                    </div>
+                    
+						
+					</form>
+				</div><!-- /.span -->
+			</div><!-- /.user-profile -->
+		</div>
+
+		<!-- PAGE CONTENT ENDS -->
+	</div><!-- /.col -->
+</div><!-- /.row -->
+
+<!-- page specific plugin scripts -->
+
+<!--[if lte IE 8]>
+  <script src="../../assets/js/excanvas.min.js"></script>
+<![endif]-->
+<script type="text/javascript">
+	var scripts = [null,"<?=$this->basePath()?>/assets/js/jquery-ui.custom.min.js",
+	                   "<?=$this->basePath()?>/assets/js/jquery.ui.touch-punch.min.js",
+	                   "<?=$this->basePath()?>/assets/js/jquery.gritter.min.js",
+	                   "<?=$this->basePath()?>/assets/js/bootbox.min.js",
+	                   "<?=$this->basePath()?>/assets/js/jquery.easypiechart.min.js",
+	                   "<?=$this->basePath()?>/assets/js/date-time/bootstrap-datepicker.min.js",
+	                   "<?=$this->basePath()?>/assets/js/jquery.hotkeys.min.js",
+	                   "<?=$this->basePath()?>/assets/js/bootstrap-wysiwyg.min.js",
+	                   "<?=$this->basePath()?>/assets/js/select2.min.js",
+	                   "<?=$this->basePath()?>/assets/js/fuelux/fuelux.spinner.min.js",
+	                   "<?=$this->basePath()?>/assets/js/x-editable/bootstrap-editable.min.js",
+	                   "<?=$this->basePath()?>/assets/js/x-editable/ace-editable.min.js",	                   
+	                    null]
+	ace.load_ajax_scripts(scripts, function() {
+	  //inline scripts related to this page
+		 jQuery(function($) {
+	
+		//editables on first profile page
+		$.fn.editable.defaults.mode = 'inline';
+		$.fn.editableform.loading = "<div class='editableform-loading'><i class='ace-icon fa fa-spinner fa-spin fa-2x light-blue'></i></div>";
+	    $.fn.editableform.buttons = '<button type="submit" class="btn btn-info editable-submit"><i class="ace-icon fa fa-check"></i></button>'+
+	                                '<button type="button" class="btn editable-cancel"><i class="ace-icon fa fa-times"></i></button>';    
+		
+		//editables 
+		
+		//text editable
+	    // $('#display_name')
+		// .editable({
+			// type: 'text',
+			// name: 'display_name'
+	    // });
+	
+	
+		
+
+		
+		
+		// *** editable avatar *** //
+		try {//ie8 throws some harmless exceptions, so let's catch'em
+	
+			//first let's add a fake appendChild method for Image element for browsers that have a problem with this
+			//because editable plugin calls appendChild, and it causes errors on IE at unpredicted points
+			try {
+				document.createElement('IMG').appendChild(document.createElement('B'));
+			} catch(e) {
+				Image.prototype.appendChild = function(el){}
+			}
+	
+			var last_gritter
+			$('#avatar').editable({
+				type: 'image',
+				name: 'avatar',
+				value: null,
+				image: {
+					//specify ace file input plugin's options here
+					btn_choose: 'Change Avatar',
+					droppable: true,
+					maxSize: 110000,//~100Kb
+	
+					//and a few extra ones here
+					name: 'avatar',//put the field name here as well, will be used inside the custom plugin
+					on_error : function(error_type) {//on_error function will be called when the selected file has a problem
+						if(last_gritter) $.gritter.remove(last_gritter);
+						if(error_type == 1) {//file format error
+							last_gritter = $.gritter.add({
+								title: 'File is not an image!',
+								text: 'Please choose a jpg|gif|png image!',
+								class_name: 'gritter-error gritter-center'
+							});
+						} else if(error_type == 2) {//file size rror
+							last_gritter = $.gritter.add({
+								title: 'File too big!',
+								text: 'Image size should not exceed 100Kb!',
+								class_name: 'gritter-error gritter-center'
+							});
+						}
+						else {//other error
+						}
+					},
+					on_success : function() {
+						$.gritter.removeAll();
+					}
+				},
+			    url: function(params) {
+					// ***UPDATE AVATAR HERE*** //
+					//for a working upload example you can replace the contents of this function with 
+					//examples/profile-avatar-update.js
+	
+					var deferred = new $.Deferred
+	
+					var value = $('#avatar').next().find('input[type=hidden]:eq(0)').val();
+					if(!value || value.length == 0) {
+						deferred.resolve();
+						return deferred.promise();
+					}
+	
+	
+					//dummy upload
+					setTimeout(function(){
+						if("FileReader" in window) {
+							//for browsers that have a thumbnail of selected image
+							var thumb = $('#avatar').next().find('img').data('thumb');
+							if(thumb) $('#avatar').get(0).src = thumb;
+						}
+						
+						deferred.resolve({'status':'OK'});
+	
+						if(last_gritter) $.gritter.remove(last_gritter);
+						last_gritter = $.gritter.add({
+							title: 'Avatar Updated!',
+							text: 'Uploading to server can be easily implemented. A working example is included with the template.',
+							class_name: 'gritter-info gritter-center'
+						});
+						
+					 } , parseInt(Math.random() * 800 + 800))
+	
+					return deferred.promise();
+					
+					// ***END OF UPDATE AVATAR HERE*** //
+				},
+				
+				success: function(response, newValue) {
+				}
+			})
+		}catch(e) {}
+		
+				
+	
+		//////////////////////////////
+		$('#profile-feed-1').ace_scroll({
+			height: '250px',
+			mouseWheelLock: true,
+			alwaysVisible : true
+		});
+	
+		$('a[ data-original-title]').tooltip();
+	
+		
+		///////////////////////////////////////////
+	
+	
+		$('.input-mask-phone').mask('(999) 999-9999');
+	     console.log($('.input-mask-phone'));
+	
+	
+		////////////////////
+		//change profile
+		$('[data-toggle="buttons"] .btn').on('click', function(e){
+			var target = $(this).find('input[type=radio]');
+			var which = parseInt(target.val());
+			$('.user-profile').parent().addClass('hide');
+			$('#user-profile-'+which).parent().removeClass('hide');
+		});
+	});
+	
+	
+	});
+</script>

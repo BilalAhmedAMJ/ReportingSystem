@@ -1,0 +1,244 @@
+<!DOCTYPE html >
+<html lang="en">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+<meta charset="utf-8" />
+</head>
+
+<body style="margin: 0;">
+
+<div id="jpedal" style="overflow: hidden; position:relative; width: 935px; height: 1210px;">
+
+<!-- Begin shared CSS values -->
+<style type="text/css" >
+.t {
+	position: absolute;
+	-webkit-transform-origin: top left;
+	-moz-transform-origin: top left;
+	-o-transform-origin: top left;
+	-ms-transform-origin: top left;
+	-webkit-transform: scale(0.25);
+	-moz-transform: scale(0.25);
+	-o-transform: scale(0.25);
+	-ms-transform: scale(0.25);
+	z-index: 2;
+	position:absolute;
+	white-space:nowrap;
+	overflow:visible;
+}
+</style>
+<!-- End shared CSS values -->
+
+<!-- Begin shared JS -->
+<script type="text/javascript">
+
+// Ensure that we're not replacing any onload events
+function addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			if (oldonload) {
+				oldonload();
+			}
+			func();
+		}
+	}
+}
+addLoadEvent(function(){load16();});
+
+function adjustWordSpacing(widths) {
+    var i, allLinesDone = false;
+    var isDone = [];
+    var currentSpacing = [];
+    var elements = [];
+    
+    // Initialise arrays
+    for (i = 0; i < widths.length; i++) {
+        elements[i] = document.getElementById(widths[i][0]);
+        elements[i].style.wordSpacing = '0px';//Required if rerunning
+    }
+    for (i = 0; i < widths.length; i++) {
+        if (isIE) widths[i][1] = widths[i][1] * 4;
+        currentSpacing[i] = Math.floor((widths[i][1] - elements[i].offsetWidth) / elements[i].innerHTML.match(/\s.|&nbsp;./g).length);//min
+        if (isIE) currentSpacing[i] = Math.floor(currentSpacing[i] / 4);
+        isDone[i] = false;
+    }
+    
+    while (!allLinesDone) {
+        // Add each adjustment to the render queue without forcing a render
+        for (i = 0; i < widths.length; i++) {
+            if (!isDone[i]) {
+                elements[i].style.wordSpacing = currentSpacing[i] + 'px';
+            }            
+        }
+        
+        allLinesDone = true;
+        // If elements still need to be wider, add 1 to the word spacing
+        for (i = 0; i < widths.length; i++) {
+            if (!isDone[i] && currentSpacing[i] < 160) {
+                if (elements[i].offsetWidth >= widths[i][1]) {
+                    isDone[i] = true;
+                } else {
+                    currentSpacing[i]++;
+                    allLinesDone = false;
+                }
+            }
+        }
+    }
+    
+    for (i = 0; i < widths.length; i++) {
+        elements[i].style.wordSpacing = (currentSpacing[i] - 1) + 'px';
+    }
+}
+
+</script>
+<!-- End shared JS -->
+
+
+<!-- Begin inline CSS -->
+<style type="text/css" >
+
+#t1_16{left:103px;top:89px;}
+#t2_16{left:103px;top:875px;}
+#t3_16{left:103px;top:920px;}
+#t4_16{left:103px;top:946px;}
+#t5_16{left:103px;top:971px;}
+#t6_16{left:103px;top:1013px;}
+#t7_16{left:459px;top:1013px;}
+#t8_16{left:730px;top:1013px;}
+#t9_16{left:103px;top:1038px;}
+#ta_16{left:509px;top:334px;}
+#tb_16{left:593px;top:334px;}
+#tc_16{left:689px;top:334px;}
+#td_16{left:509px;top:358px;}
+#te_16{left:509px;top:381px;}
+#tf_16{left:394px;top:770px;}
+#tg_16{left:394px;top:794px;}
+#th_16{left:475px;top:794px;}
+#ti_16{left:529px;top:794px;}
+#tj_16{left:394px;top:818px;}
+#tk_16{left:513px;top:818px;}
+#tl_16{left:561px;top:818px;}
+#tm_16{left:394px;top:841px;}
+#tn_16{left:722px;top:556px;}
+#to_16{left:722px;top:579px;}
+#tp_16{left:722px;top:603px;}
+#tq_16{left:722px;top:627px;}
+#tr_16{left:722px;top:650px;}
+
+.s5_16{
+	FONT-SIZE: 67px;
+	FONT-FAMILY: ABCDEE-Calibri-Bold16;
+	color: rgb(0,0,0);
+}
+
+.s1_16{
+	FONT-SIZE: 85px;
+	FONT-FAMILY: ABCDEE-Calibri-Bold16;
+	color: rgb(0,0,0);
+}
+
+.s4_16{
+	FONT-SIZE: 67px;
+	FONT-FAMILY: ABCDEE-Calibri16;
+	color: rgb(0,0,0);
+}
+
+.s3_16{
+	FONT-SIZE: 73px;
+	FONT-FAMILY: ABCDEE-Calibri-Bold16;
+	color: rgb(0,0,0);
+}
+
+.s2_16{
+	FONT-SIZE: 73px;
+	FONT-FAMILY: ABCDEE-Calibri16;
+	color: rgb(0,0,0);
+}
+
+</style>
+<!-- End inline CSS -->
+
+<!-- Begin embedded font definitions -->
+<style id="fonts16" type="text/css" >
+
+@font-face {
+	font-family: ABCDEE-Calibri16;
+	src :url("16/fonts/ABCDEE-Calibri.woff") format("woff");
+}
+
+@font-face {
+	font-family: ABCDEE-Calibri-Bold16;
+	src :url("16/fonts/ABCDEE-Calibri-Bold.woff") format("woff");
+}
+
+</style>
+<!-- End embedded font definitions -->
+
+<!-- Begin text definitions (Positioned/styled in CSS) -->
+<div id="t1_16" class="t s1_16">Add New Branch User</div>
+<div id="t2_16" class="t s1_16">Conclusion </div>
+<div id="t3_16" class="t s2_16">Once understood properly, the report submission tool will make it easier to submit and manage </div>
+<div id="t4_16" class="t s2_16">reports online. Enhancements to this tool will be brought as required and the users will be updated </div>
+<div id="t5_16" class="t s2_16">about the enhancements. </div>
+<div id="t6_16" class="t s2_16">For any further information, please contact the </div>
+<div id="t7_16" class="t s3_16">National General Secretary’s Office</div>
+<div id="t8_16" class="t s2_16">at: </div>
+<div id="t9_16" class="t s2_16">905-303-4000 ext. 2243 </div>
+<div id="ta_16" class="t s4_16">Click on the </div>
+<div id="tb_16" class="t s5_16">New Request</div>
+<div id="tc_16" class="t s4_16">button in the </div>
+<div id="td_16" class="t s4_16">drop down list to enter the information </div>
+<div id="te_16" class="t s4_16">of the new Office Bearer.</div>
+<div id="tf_16" class="t s4_16">Once you all the required information is entered, </div>
+<div id="tg_16" class="t s4_16">click on the </div>
+<div id="th_16" class="t s5_16">Submit</div>
+<div id="ti_16" class="t s4_16">button. The status of the edited </div>
+<div id="tj_16" class="t s4_16">user will become </div>
+<div id="tk_16" class="t s5_16">Active</div>
+<div id="tl_16" class="t s4_16">once verified and approved </div>
+<div id="tm_16" class="t s4_16">by National Markaz.</div>
+<div id="tn_16" class="t s5_16">A reason for </div>
+<div id="to_16" class="t s5_16">the request to </div>
+<div id="tp_16" class="t s5_16">initiate the </div>
+<div id="tq_16" class="t s5_16">change needs </div>
+<div id="tr_16" class="t s5_16">to be provided </div>
+
+<!-- End text definitions -->
+
+<!-- Begin page background -->
+<div id="pg16Overlay" style="width:100%; height:100%; position:absolute; z-index:1; background-color:rgba(0,0,0,0); -webkit-user-select: none;"></div>
+<div id="pg16"><object width="935" height="1210" data="16/16.svg" type="image/svg+xml" id="pdf16" style="width:935px; height:1210px; background-color:white; -moz-transform:scale(1); z-index: 0;"></object></div>
+<!-- End page background -->
+
+<!-- Begin page loading JS -->
+<script id="ld16" type="text/javascript">
+
+var isIE = false;
+var f16 = [['t1_16',776],['t3_16',2849],['t4_16',2953],['t5_16',767],['t6_16',1402],['t7_16',1067],['t9_16',709],['ta_16',318],['tb_16',371],['tc_16',359],['td_16',1077],['te_16',687],['tf_16',1340],['tg_16',310],['ti_16',868],['tj_16',463],['tl_16',749],['tm_16',548],['tn_16',343],['to_16',397],['tp_16',307],['tq_16',381],['tr_16',409]];
+function load16(){
+	var timeout = 100;
+	if (navigator.userAgent.match(/iPhone|iPad|iPod|Android/i)) timeout = 500;
+	setTimeout(function() {adjustWordSpacing(f16);},timeout);
+}
+</script>
+<!--[if lt IE 9]><script type="text/javascript">
+isIE = true;
+
+var divCount = 28;
+for (var i = 1; i < divCount; i++) {
+    var div = document.getElementById("t" + i.toString(36) + "_16");
+    if (div !== null) {
+        div.style.top = (div.offsetTop * 4) + "px";
+        div.style.left = (div.offsetLeft * 4) + "px";
+        div.style.zoom = "25%";
+    }
+}
+</script><![endif]-->
+<!-- End page loading JS -->
+
+</div>
+</body>
+</html>

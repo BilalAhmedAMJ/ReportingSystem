@@ -1,0 +1,74 @@
+<?php include __DIR__.'/../../partial/grid_includes.phtml' ?>
+
+<h1>Manage User Roles</h1>
+
+<div class="row">
+<div class="col-xs-6">
+        
+
+<table id="roles_grid"></table>
+<div id="roles_pager"></div>
+
+<script>
+
+$(document).ready(function(){
+
+    SimpleDataGrid.create({'grid_selector':'#roles_grid','pager_selector':'#roles_pager',
+                          'url':'<?php echo $this->url("config/user-role") ?>/json',
+                          'editurl': '<?php echo $this->url("config/user-role") ?>/json', //"/dummy.html",//nothing is saved
+
+                          'gridTitle':'User Roles',
+                          'rowNum':25,
+                          'height':350,
+                          'dataRoot':'data',
+                          'editable':true,
+                          'colModel':[
+                            {index:'id',name:'id',label:'Id',sorttype:"int"},
+                            {index:'role_id',name:'role_id',label:'Role Name',editable:false,edittype:"text"},
+                            {index:'parent.role_id',name:'parent.role_id',label:'Parent',editable:false,
+                                }
+                          ]
+                          });
+
+});    
+</script>
+
+
+
+<?php 
+ $this->partial('partial/table.phtml',array(
+                        'class'=>'2table-striped ',
+                        'cols'=>array('id'=>array('title'=>'ID Num'),
+                                      'roleid'=>array('title'=>'Role ID'),
+                                      'parent'=>array('title'=>'Parent Role'),
+                                      'action'=>array('title'=>'Action','format'=>function($data,$row){
+                                                return '<button class="primary"><i class="fa icon fa-icon fa-pencil-o"/></button>';  
+                                        })
+                                      ),
+                        'data'=>array( array('id'=>'0','roleid'=>'guest','parent'=>null),
+                                       array('id'=>'1','roleid'=>'user','parent'=>0),
+                                       array('id'=>'2','roleid'=>'sys-admin','parent'=>1),  
+                                     )
+                        )
+              );?>
+
+        
+    </div>
+    
+</div>
+
+<?php 
+//DEMO 
+//include __DIR__.'/../ace_ajax/tables.html' 
+?>
+
+<!--    
+<pre>
+<?php
+foreach ($this->roles as $role) {
+	print_r($role);
+}
+
+?>
+</pre>
+-->
